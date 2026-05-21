@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <title>Bloque 07 — Preheader y accesibilidad · Remite</title>
+  <style>
+    :root {
+      --lavanda-claro: #f3f0fb;
+      --lavanda: #d8cef0;
+      --lavanda-fuerte: #8b76c4;
+      --lavanda-texto: #5a4a8a;
+      --melocoton-claro: #fdf0e7;
+      --melocoton: #f5cbb0;
+      --melocoton-fuerte: #e0916a;
+      --tinta: #3a3550;
+      --tinta-suave: #6b6580;
+      --fondo: #faf8fd;
+      --blanco: #ffffff;
+      --borde: #e7e2f2;
+      --codigo-fondo: #2e2a40;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--fondo);
+      color: var(--tinta);
+      line-height: 1.7;
+    }
+
+    a { color: var(--lavanda-fuerte); }
+
+    code {
+      font-family: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+      background: var(--lavanda-claro);
+      color: var(--lavanda-texto);
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-size: 0.88em;
+    }
+
+    /* ---------- Cabecera del bloque ---------- */
+    .cabecera-bloque {
+      background: linear-gradient(135deg, var(--lavanda-claro) 0%, var(--melocoton-claro) 100%);
+      border-bottom: 1px solid var(--borde);
+      padding: 40px 24px 44px;
+    }
+
+    .cabecera-bloque .interno {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .migas {
+      font-size: 14px;
+      color: var(--tinta-suave);
+      margin-bottom: 16px;
+    }
+
+    .migas a { text-decoration: none; }
+    .migas a:hover { text-decoration: underline; }
+
+    .cabecera-bloque .insignia {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: var(--blanco);
+      color: var(--lavanda-fuerte);
+      margin-bottom: 12px;
+    }
+
+    .cabecera-bloque h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .cabecera-bloque p {
+      margin: 0;
+      font-size: 17px;
+      color: var(--tinta-suave);
+    }
+
+    /* ---------- Contenido ---------- */
+    .contenedor {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 48px 24px 40px;
+    }
+
+    .contenedor h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 48px 0 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--lavanda-claro);
+    }
+
+    .contenedor h2:first-of-type { margin-top: 0; }
+
+    .contenedor h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 28px 0 8px;
+    }
+
+    .contenedor p { margin: 0 0 16px; }
+
+    .contenedor ul,
+    .contenedor ol { margin: 0 0 16px; padding-left: 22px; }
+    .contenedor li { margin-bottom: 6px; }
+
+    /* ---------- Cajas de aviso ---------- */
+    .aviso {
+      background: var(--melocoton-claro);
+      border-left: 4px solid var(--melocoton-fuerte);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 20px 0;
+      font-size: 15px;
+    }
+
+    .aviso strong { color: var(--melocoton-fuerte); }
+
+    .nota {
+      background: var(--lavanda-claro);
+      border-left: 4px solid var(--lavanda-fuerte);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 20px 0;
+      font-size: 15px;
+    }
+
+    .nota strong { color: var(--lavanda-fuerte); }
+
+    /* ---------- Bloque ejemplo + código ---------- */
+    .demo {
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 20px 0 28px;
+    }
+
+    .demo-titulo {
+      background: var(--blanco);
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--tinta-suave);
+      border-bottom: 1px solid var(--borde);
+    }
+
+    .demo-render {
+      background:
+        repeating-conic-gradient(#f0edf7 0% 25%, #faf8fd 0% 50%) 50% / 22px 22px;
+      padding: 28px 20px;
+    }
+
+    .demo-codigo {
+      margin: 0;
+      background: var(--codigo-fondo);
+      color: #e6e1f4;
+      padding: 18px 20px;
+      font-family: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+      font-size: 13px;
+      line-height: 1.65;
+      overflow-x: auto;
+    }
+
+    .demo-codigo code {
+      background: none;
+      color: inherit;
+      padding: 0;
+      font-size: inherit;
+    }
+
+    .tok-etiqueta { color: #c9a8f4; }
+    .tok-atributo { color: #f5cbb0; }
+    .tok-valor { color: #a8e0c4; }
+    .tok-comentario { color: #7a7490; font-style: italic; }
+    .tok-prop { color: #9ad0f0; }
+
+    /* ---------- Tabla comparativa ---------- */
+    .comparativa {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0 28px;
+      font-size: 15px;
+    }
+
+    .comparativa th,
+    .comparativa td {
+      border: 1px solid var(--borde);
+      padding: 10px 14px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .comparativa th {
+      background: var(--lavanda-claro);
+      color: var(--lavanda-texto);
+      font-weight: 700;
+    }
+
+    .comparativa tr:nth-child(even) td { background: var(--blanco); }
+
+    /* ---------- Maqueta de bandeja de entrada ---------- */
+    .bandeja {
+      background: var(--blanco);
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      overflow: hidden;
+      max-width: 460px;
+      margin: 0 auto;
+    }
+
+    .bandeja .fila-mail {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--lavanda-claro);
+    }
+
+    .bandeja .fila-mail:last-child { border-bottom: 0; }
+
+    .bandeja .remitente {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--tinta);
+    }
+
+    .bandeja .asunto {
+      font-size: 14px;
+      color: var(--tinta);
+      margin-top: 2px;
+    }
+
+    .bandeja .vista-previa {
+      font-size: 13px;
+      color: var(--tinta-suave);
+      margin-top: 1px;
+    }
+
+    .bandeja .vista-previa.mala {
+      color: #c98a8a;
+      font-style: italic;
+    }
+
+    /* ---------- Navegación inferior ---------- */
+    .nav-bloques {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 24px 24px 64px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .nav-bloques a {
+      flex: 1;
+      background: var(--blanco);
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+      padding: 16px 20px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+
+    .nav-bloques a:hover {
+      border-color: var(--lavanda);
+      transform: translateY(-2px);
+    }
+
+    .nav-bloques .direccion {
+      font-size: 13px;
+      color: var(--tinta-suave);
+      font-weight: 600;
+    }
+
+    .nav-bloques .titulo {
+      font-size: 16px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .nav-bloques .siguiente { text-align: right; }
+
+    .pie {
+      text-align: center;
+      padding: 28px 24px;
+      border-top: 1px solid var(--borde);
+      color: var(--tinta-suave);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="cabecera-bloque">
+    <div class="interno">
+      <p class="migas">
+        <a href="../index.html">← Índice</a> · Documentación
+      </p>
+      <span class="insignia">Bloque 07</span>
+      <h1>Preheader y accesibilidad</h1>
+      <p>
+        Dos remates que separan un email correcto de uno bien hecho: el texto
+        de vista previa que decide si tu correo se abre, y que el email lo
+        pueda leer cualquiera.
+      </p>
+    </div>
+  </header>
+
+  <main class="contenedor">
+
+    <!-- ====================================================== -->
+    <h2>1. Qué es el preheader</h2>
+
+    <p>
+      Cuando miras la bandeja de entrada, cada email muestra tres cosas: el
+      <strong>remitente</strong>, el <strong>asunto</strong> y, a
+      continuación, un fragmento de texto gris. Ese fragmento es el
+      <strong>preheader</strong> (o "texto de vista previa").
+    </p>
+
+    <div class="demo">
+      <div class="demo-titulo">El preheader en la bandeja de entrada</div>
+      <div class="demo-render">
+        <div class="bandeja">
+          <div class="fila-mail">
+            <div class="remitente">La Lavanda</div>
+            <div class="asunto">Tu pedido va de camino 📦</div>
+            <div class="vista-previa">Llega mañana entre las 9:00 y las 14:00. Aquí tienes el seguimiento.</div>
+          </div>
+        </div>
+        <p style="margin:14px 0 0; text-align:center; font-size:13px; color:#6b6580;">
+          ↑ La tercera línea, en gris, es el preheader.
+        </p>
+      </div>
+    </div>
+
+    <p>
+      El preheader <strong>no se ve dentro del email</strong> una vez abierto:
+      vive solo en esa vista de la bandeja. Es lo último que lee la persona
+      antes de decidir si abre tu correo o no — junto con el asunto, es lo que
+      vende el email.
+    </p>
+
+    <!-- ====================================================== -->
+    <h2>2. Qué pasa si no lo pones</h2>
+
+    <p>
+      El preheader no es opcional en la práctica: si tú no lo defines, el
+      cliente <strong>lo rellena solo</strong> con lo primero que encuentre en
+      el cuerpo del email. Y lo primero suele ser... cualquier cosa menos algo
+      útil.
+    </p>
+
+    <div class="demo">
+      <div class="demo-titulo">Sin preheader: el cliente improvisa</div>
+      <div class="demo-render">
+        <div class="bandeja">
+          <div class="fila-mail">
+            <div class="remitente">La Lavanda</div>
+            <div class="asunto">Tu pedido va de camino 📦</div>
+            <div class="vista-previa mala">Ver este email en el navegador. Imagen del logo. Hola,…</div>
+          </div>
+        </div>
+        <p style="margin:14px 0 0; text-align:center; font-size:13px; color:#6b6580;">
+          ↑ Sin preheader, se cuela el primer texto del email: el enlace de
+          arriba, el <code>alt</code> del logo…
+        </p>
+      </div>
+    </div>
+
+    <p>
+      Queda descuidado y desaprovecha el mejor sitio para convencer a alguien
+      de que abra. Por eso el preheader se pone siempre, a propósito.
+    </p>
+
+    <!-- ====================================================== -->
+    <h2>3. Cómo se escribe</h2>
+
+    <p>
+      El truco: poner el texto del preheader al <strong>principio del
+      <code>&lt;body&gt;</code></strong>, dentro de un <code>&lt;div&gt;</code>
+      <strong>oculto</strong>. El cliente lo lee para la vista previa de la
+      bandeja, pero como está oculto, no se ve dentro del email abierto.
+    </p>
+
+    <div class="demo">
+      <div class="demo-titulo">El div del preheader, oculto</div>
+      <div class="demo-render">
+        <p style="margin:0; text-align:center; font-size:14px; color:#6b6580;">
+          Va justo después de <code>&lt;body&gt;</code>, antes de la tabla
+          exterior. En el email abierto no se ve nada; en la bandeja, sí.
+        </p>
+      </div>
+      <pre class="demo-codigo"><code><span class="tok-etiqueta">&lt;body</span> <span class="tok-atributo">style</span>=<span class="tok-valor">"margin:0; padding:0;"</span><span class="tok-etiqueta">&gt;</span>
+
+  <span class="tok-comentario">&lt;!-- PREHEADER: texto de vista previa, oculto del cuerpo --&gt;</span>
+  <span class="tok-etiqueta">&lt;div</span> <span class="tok-atributo">style</span>=<span class="tok-valor">"display:none; max-height:0; overflow:hidden;
+              mso-hide:all; font-size:1px; line-height:1px;
+              color:#ffffff;"</span><span class="tok-etiqueta">&gt;</span>
+    Llega mañana entre las 9:00 y las 14:00. Aquí tienes el seguimiento.
+  <span class="tok-etiqueta">&lt;/div&gt;</span>
+
+  <span class="tok-comentario">&lt;!-- ...aquí empieza la tabla exterior del email... --&gt;</span>
+
+<span class="tok-etiqueta">&lt;/body&gt;</span></code></pre>
+    </div>
+
+    <h3>Qué hace cada propiedad de ese style</h3>
+    <ul>
+      <li>
+        <code>display:none</code> y <code>max-height:0</code> +
+        <code>overflow:hidden</code> — lo ocultan a la vista. Se usan varias
+        a la vez porque distintos clientes respetan unas u otras.
+      </li>
+      <li>
+        <code>mso-hide:all</code> — la versión de "ocultar" que entiende
+        Outlook.
+      </li>
+      <li>
+        <code>font-size:1px; line-height:1px</code> — por si algún cliente lo
+        muestra igual, que no ocupe ni una línea visible.
+      </li>
+      <li>
+        <code>color</code> igual al fondo — última red: aunque se colara,
+        sería invisible.
+      </li>
+    </ul>
+
+    <div class="aviso">
+      <strong>Cuidado con el "espacio fantasma".</strong> Si el preheader es
+      corto, algunos clientes rellenan la vista previa con lo que sigue (el
+      enlace de arriba, el <code>alt</code> del logo). Para evitarlo se añade
+      tras el texto una tira de espacios invisibles —
+      <code>&amp;nbsp;&amp;zwnj;</code> repetidos— que "empuja" ese contenido
+      fuera de la vista previa. Es opcional, pero deja el preheader más limpio.
+    </div>
+
+    <h3>Cómo escribir un buen preheader</h3>
+    <ul>
+      <li>
+        <strong>Que complemente al asunto, no lo repita.</strong> El asunto
+        engancha; el preheader amplía. Asunto: "Tu pedido va de camino" →
+        preheader: "Llega mañana entre las 9:00 y las 14:00".
+      </li>
+      <li>
+        <strong>Corto.</strong> Se ven unos 40-90 caracteres según el
+        cliente. Lo importante, al principio.
+      </li>
+      <li>
+        <strong>Sin "Ver este email en el navegador"</strong> de primero. Si
+        tienes ese enlace, ponlo después del preheader, no antes.
+      </li>
+    </ul>
+
+    <div class="nota">
+      Las plantillas <code>newsletter.html</code> y
+      <code>transaccional.html</code> de este proyecto ya llevan su
+      <code>&lt;div&gt;</code> de preheader al principio del
+      <code>&lt;body&gt;</code>. Ábrelas y búscalo: es lo primero después de
+      la etiqueta <code>&lt;body&gt;</code>.
+    </div>
+
+    <!-- ====================================================== -->
+    <h2>4. Accesibilidad: que lo pueda leer cualquiera</h2>
+
+    <p>
+      Un email accesible es el que también funciona para quien usa un
+      <strong>lector de pantalla</strong> (software que lee el correo en voz
+      alta), para quien necesita <strong>texto grande</strong> o tiene
+      <strong>poca visión</strong>. No es un extra: es parte de hacer bien el
+      email, y además casi todo lo que ayuda a la accesibilidad ayuda también
+      contra el spam y en clientes raros.
+    </p>
+
+    <p>
+      Buena parte ya ha salido en bloques anteriores. Aquí se reúne en un solo
+      sitio, como repaso:
+    </p>
+
+    <table class="comparativa">
+      <thead>
+        <tr>
+          <th>Práctica</th>
+          <th>Por qué ayuda</th>
+          <th>Dónde se vio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>lang="es"</code> en <code>&lt;html&gt;</code></td>
+          <td>El lector de pantalla usa la pronunciación correcta del idioma.</td>
+          <td>Bloque 01</td>
+        </tr>
+        <tr>
+          <td><code>role="presentation"</code> en las tablas de maquetar</td>
+          <td>El lector las salta en vez de leerlas como tablas de datos.</td>
+          <td>Bloque 02</td>
+        </tr>
+        <tr>
+          <td><code>alt</code> en todas las imágenes</td>
+          <td>El lector describe la imagen; sin <code>alt</code>, la ignora o lee la URL.</td>
+          <td>Bloque 04</td>
+        </tr>
+        <tr>
+          <td>Texto importante como texto HTML, no dentro de una imagen</td>
+          <td>Un lector no puede leer texto que es un dibujo.</td>
+          <td>Bloque 04</td>
+        </tr>
+        <tr>
+          <td>Buen contraste entre texto y fondo</td>
+          <td>Legible para quien tiene poca visión; también aguanta el dark mode.</td>
+          <td>Bloque 03 / 05</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Lo que aún no se había dicho</h3>
+
+    <ul>
+      <li>
+        <strong>Tamaño de fuente cómodo.</strong> 14-16px para el cuerpo como
+        mínimo (Bloque 03). Texto más pequeño es difícil de leer, sobre todo
+        en móvil.
+      </li>
+      <li>
+        <strong>Enlaces con texto descriptivo.</strong> El enlace debe decir
+        a dónde va. "Ver el artículo" sí; "haz clic aquí" no — un lector de
+        pantalla puede listar los enlaces sueltos, y "aquí, aquí, aquí" no
+        informa de nada.
+      </li>
+      <li>
+        <strong>Imágenes decorativas: <code>alt</code> vacío.</strong> Si una
+        imagen es solo un adorno (una línea, un separador) y no aporta
+        información, ponle <code>alt=""</code> — vacío, pero presente. Así el
+        lector la salta en vez de leer su nombre de archivo.
+      </li>
+      <li>
+        <strong>No depender solo del color.</strong> Si algo se entiende
+        únicamente por su color (p. ej. "lo verde está disponible"), quien no
+        distingue colores se pierde. Añade texto o un icono.
+      </li>
+    </ul>
+
+    <div class="demo">
+      <div class="demo-titulo">Enlace y alt: bien y mal</div>
+      <div class="demo-render">
+        <p style="margin:0 0 6px; font-size:14px; color:#6b6580;">❌ No informa:</p>
+        <p style="margin:0 0 16px; font-family:monospace; font-size:13px; background:#f0edf7; padding:8px 12px; border-radius:6px; color:#5a4a8a;">
+          Para leer el artículo, &lt;a&gt;haz clic aquí&lt;/a&gt;.
+        </p>
+        <p style="margin:0 0 6px; font-size:14px; color:#6b6580;">✅ El enlace dice a dónde va:</p>
+        <p style="margin:0; font-family:monospace; font-size:13px; background:#f0edf7; padding:8px 12px; border-radius:6px; color:#5a4a8a;">
+          &lt;a&gt;Leer el artículo completo&lt;/a&gt;.
+        </p>
+      </div>
+      <pre class="demo-codigo"><code><span class="tok-comentario">&lt;!-- ❌ "aquí" no dice nada fuera de contexto --&gt;</span>
+Para leerlo, <span class="tok-etiqueta">&lt;a</span> <span class="tok-atributo">href</span>=<span class="tok-valor">"..."</span><span class="tok-etiqueta">&gt;</span>haz clic aquí<span class="tok-etiqueta">&lt;/a&gt;</span>.
+
+<span class="tok-comentario">&lt;!-- ✅ El texto del enlace describe el destino --&gt;</span>
+<span class="tok-etiqueta">&lt;a</span> <span class="tok-atributo">href</span>=<span class="tok-valor">"..."</span><span class="tok-etiqueta">&gt;</span>Leer el artículo completo<span class="tok-etiqueta">&lt;/a&gt;</span>
+
+<span class="tok-comentario">&lt;!-- Imagen decorativa: alt vacío, pero presente --&gt;</span>
+<span class="tok-etiqueta">&lt;img</span> <span class="tok-atributo">src</span>=<span class="tok-valor">"separador.png"</span> <span class="tok-atributo">alt</span>=<span class="tok-valor">""</span> <span class="tok-etiqueta">/&gt;</span></code></pre>
+    </div>
+
+    <div class="nota">
+      <strong>Recapitulando:</strong> el preheader es el texto de vista previa
+      de la bandeja — ponlo siempre, en un <code>&lt;div&gt;</code> oculto al
+      principio del <code>&lt;body&gt;</code>, y que complemente al asunto. La
+      accesibilidad se construye con cosas pequeñas — <code>lang</code>,
+      <code>role="presentation"</code>, <code>alt</code> con sentido (o vacío
+      si es decorativa), enlaces descriptivos, buen contraste y fuente
+      cómoda — y casi todas ya las pedían los bloques anteriores.
+    </div>
+
+  </main>
+
+  <nav class="nav-bloques">
+    <a href="../06-testing/index.html">
+      <div class="direccion">← Bloque 06</div>
+      <div class="titulo">Testing y envío</div>
+    </a>
+    <a class="siguiente" href="../index.html">
+      <div class="direccion">Volver al →</div>
+      <div class="titulo">Índice</div>
+    </a>
+  </nav>
+
+  <footer class="pie">
+    Remite · Hecho en español
+  </footer>
+
+</body>
+</html>

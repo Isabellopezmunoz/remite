@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <title>Bloque 05 — Dark mode · Remite</title>
+  <style>
+    :root {
+      --lavanda-claro: #f3f0fb;
+      --lavanda: #d8cef0;
+      --lavanda-fuerte: #8b76c4;
+      --lavanda-texto: #5a4a8a;
+      --melocoton-claro: #fdf0e7;
+      --melocoton: #f5cbb0;
+      --melocoton-fuerte: #e0916a;
+      --tinta: #3a3550;
+      --tinta-suave: #6b6580;
+      --fondo: #faf8fd;
+      --blanco: #ffffff;
+      --borde: #e7e2f2;
+      --codigo-fondo: #2e2a40;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--fondo);
+      color: var(--tinta);
+      line-height: 1.7;
+    }
+
+    a { color: var(--lavanda-fuerte); }
+
+    code {
+      font-family: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+      background: var(--lavanda-claro);
+      color: var(--lavanda-texto);
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-size: 0.88em;
+    }
+
+    /* ---------- Cabecera del bloque ---------- */
+    .cabecera-bloque {
+      background: linear-gradient(135deg, var(--lavanda-claro) 0%, var(--melocoton-claro) 100%);
+      border-bottom: 1px solid var(--borde);
+      padding: 40px 24px 44px;
+    }
+
+    .cabecera-bloque .interno {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .migas {
+      font-size: 14px;
+      color: var(--tinta-suave);
+      margin-bottom: 16px;
+    }
+
+    .migas a { text-decoration: none; }
+    .migas a:hover { text-decoration: underline; }
+
+    .cabecera-bloque .insignia {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: var(--blanco);
+      color: var(--lavanda-fuerte);
+      margin-bottom: 12px;
+    }
+
+    .cabecera-bloque h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .cabecera-bloque p {
+      margin: 0;
+      font-size: 17px;
+      color: var(--tinta-suave);
+    }
+
+    /* ---------- Contenido ---------- */
+    .contenedor {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 48px 24px 40px;
+    }
+
+    .contenedor h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 48px 0 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--lavanda-claro);
+    }
+
+    .contenedor h2:first-of-type { margin-top: 0; }
+
+    .contenedor h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 28px 0 8px;
+    }
+
+    .contenedor p { margin: 0 0 16px; }
+
+    .contenedor ul,
+    .contenedor ol { margin: 0 0 16px; padding-left: 22px; }
+    .contenedor li { margin-bottom: 6px; }
+
+    /* ---------- Cajas de aviso ---------- */
+    .aviso {
+      background: var(--melocoton-claro);
+      border-left: 4px solid var(--melocoton-fuerte);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 20px 0;
+      font-size: 15px;
+    }
+
+    .aviso strong { color: var(--melocoton-fuerte); }
+
+    .nota {
+      background: var(--lavanda-claro);
+      border-left: 4px solid var(--lavanda-fuerte);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 20px 0;
+      font-size: 15px;
+    }
+
+    .nota strong { color: var(--lavanda-fuerte); }
+
+    /* ---------- Bloque ejemplo + código ---------- */
+    .demo {
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 20px 0 28px;
+    }
+
+    .demo-titulo {
+      background: var(--blanco);
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--tinta-suave);
+      border-bottom: 1px solid var(--borde);
+    }
+
+    .demo-render {
+      background:
+        repeating-conic-gradient(#f0edf7 0% 25%, #faf8fd 0% 50%) 50% / 22px 22px;
+      padding: 28px 20px;
+    }
+
+    .demo-codigo {
+      margin: 0;
+      background: var(--codigo-fondo);
+      color: #e6e1f4;
+      padding: 18px 20px;
+      font-family: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+      font-size: 13px;
+      line-height: 1.65;
+      overflow-x: auto;
+    }
+
+    .demo-codigo code {
+      background: none;
+      color: inherit;
+      padding: 0;
+      font-size: inherit;
+    }
+
+    .tok-etiqueta { color: #c9a8f4; }
+    .tok-atributo { color: #f5cbb0; }
+    .tok-valor { color: #a8e0c4; }
+    .tok-comentario { color: #7a7490; font-style: italic; }
+    .tok-prop { color: #9ad0f0; }
+
+    /* ---------- Tabla comparativa ---------- */
+    .comparativa {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0 28px;
+      font-size: 15px;
+    }
+
+    .comparativa th,
+    .comparativa td {
+      border: 1px solid var(--borde);
+      padding: 10px 14px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .comparativa th {
+      background: var(--lavanda-claro);
+      color: var(--lavanda-texto);
+      font-weight: 700;
+    }
+
+    .comparativa tr:nth-child(even) td { background: var(--blanco); }
+
+    /* ---------- Comparación claro / oscuro ---------- */
+    .comparacion-modos {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 20px 0 28px;
+    }
+
+    .modo {
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .modo .etiqueta-modo {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 8px 12px;
+    }
+
+    .modo.claro .etiqueta-modo { background: #f3f0fb; color: #5a4a8a; }
+    .modo.oscuro .etiqueta-modo { background: #2e2a40; color: #c9bdec; }
+
+    .modo .lienzo-mail {
+      padding: 18px;
+    }
+
+    .modo.claro .lienzo-mail { background: #d8cef0; }
+    .modo.oscuro .lienzo-mail { background: #16141f; }
+
+    .modo .tarjeta-mail {
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .modo.claro .tarjeta-mail {
+      background: #ffffff;
+      color: #3a3550;
+    }
+
+    .modo.oscuro .tarjeta-mail {
+      background: #262234;
+      color: #e6e1f4;
+    }
+
+    .comparacion-modos .mini-boton {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: bold;
+      background: #8b76c4;
+      color: #ffffff;
+    }
+
+    @media screen and (max-width: 560px) {
+      .comparacion-modos { grid-template-columns: 1fr; }
+    }
+
+    /* ---------- Navegación inferior ---------- */
+    .nav-bloques {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 24px 24px 64px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .nav-bloques a {
+      flex: 1;
+      background: var(--blanco);
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+      padding: 16px 20px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+
+    .nav-bloques a:hover {
+      border-color: var(--lavanda);
+      transform: translateY(-2px);
+    }
+
+    .nav-bloques .direccion {
+      font-size: 13px;
+      color: var(--tinta-suave);
+      font-weight: 600;
+    }
+
+    .nav-bloques .titulo {
+      font-size: 16px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .nav-bloques .siguiente { text-align: right; }
+
+    .nav-bloques a.desactivado {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .pie {
+      text-align: center;
+      padding: 28px 24px;
+      border-top: 1px solid var(--borde);
+      color: var(--tinta-suave);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="cabecera-bloque">
+    <div class="interno">
+      <p class="migas">
+        <a href="../index.html">← Índice</a> · Documentación
+      </p>
+      <span class="insignia">Bloque 05</span>
+      <h1>Dark mode</h1>
+      <p>
+        Cuando el destinatario tiene el correo en modo oscuro, el cliente
+        toca tus colores sin pedirte permiso. Aquí: qué hace cada cliente y
+        cómo evitar que tu email acabe ilegible.
+      </p>
+    </div>
+  </header>
+
+  <main class="contenedor">
+
+    <!-- ====================================================== -->
+    <h2>1. Qué pasa en modo oscuro</h2>
+
+    <p>
+      Cada vez más gente usa el móvil y el correo en <strong>modo
+      oscuro</strong>. Cuando eso ocurre, el cliente de correo no muestra tu
+      email tal cual: <strong>modifica tus colores</strong> para que encajen
+      con el fondo oscuro.
+    </p>
+
+    <p>
+      El problema es que cada cliente lo hace de forma distinta y, a veces,
+      mal. Un ejemplo típico que se rompe solo:
+    </p>
+
+    <div class="comparacion-modos">
+      <div class="modo claro">
+        <div class="etiqueta-modo">☀ Como lo diseñaste</div>
+        <div class="lienzo-mail">
+          <div class="tarjeta-mail">
+            <strong>Hola 👋</strong><br>
+            Texto oscuro sobre fondo blanco. Se lee bien.
+            <span class="mini-boton">Botón</span>
+          </div>
+        </div>
+      </div>
+      <div class="modo oscuro">
+        <div class="etiqueta-modo">🌙 Lo que ve el usuario</div>
+        <div class="lienzo-mail">
+          <div class="tarjeta-mail">
+            <strong>Hola 👋</strong><br>
+            El cliente oscureció el fondo... y el texto sigue casi
+            negro: ahora <span style="color:#5a5570;">apenas se ve</span>.
+            <span class="mini-boton">Botón</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p>
+      El texto era oscuro porque el fondo era blanco. El cliente oscureció el
+      fondo, pero no acertó con el texto — y queda casi ilegible. El dark mode
+      no se "activa" en tu email: te lo aplican por encima.
+    </p>
+
+    <!-- ====================================================== -->
+    <h2>2. Los tres comportamientos de los clientes</h2>
+
+    <p>
+      No hay un único "modo oscuro". Según el cliente, pasa una de estas tres
+      cosas:
+    </p>
+
+    <table class="comparativa">
+      <thead>
+        <tr>
+          <th>Comportamiento</th>
+          <th>Qué hace</th>
+          <th>Clientes (aprox.)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>No tocan nada</strong></td>
+          <td>
+            Muestran el email tal cual, aunque el sistema esté en oscuro.
+          </td>
+          <td>Apple Mail en muchos casos</td>
+        </tr>
+        <tr>
+          <td><strong>Inversión parcial</strong></td>
+          <td>
+            Cambian solo algunos colores (fondos muy claros, texto muy
+            oscuro). Es donde más cosas se rompen.
+          </td>
+          <td>Outlook, apps de Gmail</td>
+        </tr>
+        <tr>
+          <td><strong>Inversión total</strong></td>
+          <td>
+            Reescriben casi todos los colores del email a una paleta oscura.
+          </td>
+          <td>Algunas versiones de Outlook</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="aviso">
+      <strong>No puedes controlarlo del todo.</strong> No existe forma de
+      forzar a todos los clientes a respetar tus colores. El objetivo
+      realista no es "desactivar" el dark mode, sino que tu email
+      <strong>se vea bien tanto si lo tocan como si no</strong>.
+    </div>
+
+    <!-- ====================================================== -->
+    <h2>3. Defensa básica: diseñar a prueba de inversión</h2>
+
+    <p>
+      Antes de cualquier truco con CSS, lo que más ayuda son dos costumbres
+      al diseñar el email. Funcionan en todos los clientes porque no dependen
+      de nada especial.
+    </p>
+
+    <h3>Declara siempre el color de fondo Y el del texto juntos</h3>
+    <p>
+      Ya salió en el Bloque 03: cada celda con texto declara
+      <code>background-color</code> y <code>color</code>. Si solo pones uno,
+      el cliente rellena el otro a su manera — y ahí es donde aparece el texto
+      negro sobre fondo negro.
+    </p>
+
+    <div class="demo">
+      <div class="demo-titulo">Fondo y texto, siempre los dos</div>
+      <div class="demo-render">
+        <p style="margin:0; font-family:monospace; font-size:12.5px; background:#f0edf7; padding:12px 14px; border-radius:6px; color:#5a4a8a;">
+          background-color:#ffffff; &nbsp;+&nbsp; color:#3a3550;
+        </p>
+      </div>
+      <pre class="demo-codigo"><code><span class="tok-comentario">&lt;!-- ❌ Solo el texto: el cliente decide el fondo --&gt;</span>
+<span class="tok-etiqueta">&lt;td</span> <span class="tok-atributo">style</span>=<span class="tok-valor">"color:#3a3550;"</span><span class="tok-etiqueta">&gt;</span> ... <span class="tok-etiqueta">&lt;/td&gt;</span>
+
+<span class="tok-comentario">&lt;!-- ✅ Los dos: la pareja siempre tiene contraste --&gt;</span>
+<span class="tok-etiqueta">&lt;td</span> <span class="tok-atributo">style</span>=<span class="tok-valor">"background-color:#ffffff; color:#3a3550;"</span><span class="tok-etiqueta">&gt;</span>
+  ...
+<span class="tok-etiqueta">&lt;/td&gt;</span></code></pre>
+    </div>
+
+    <h3>Evita el blanco puro y el negro puro</h3>
+    <p>
+      Los clientes que hacen inversión detectan el <code>#ffffff</code> y el
+      <code>#000000</code> como "esto hay que cambiarlo sí o sí". Si usas
+      tonos ligeramente fuera del extremo — un blanco roto, un gris muy
+      oscuro en vez de negro — muchos clientes los dejan en paz.
+    </p>
+
+    <table class="comparativa">
+      <thead>
+        <tr>
+          <th>En vez de…</th>
+          <th>Usa…</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Blanco puro <code>#ffffff</code></td>
+          <td>Blanco roto <code>#fafafa</code> / <code>#f7f6fb</code></td>
+        </tr>
+        <tr>
+          <td>Negro puro <code>#000000</code></td>
+          <td>Gris muy oscuro <code>#1a1a1a</code> / <code>#3a3550</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="nota">
+      <strong>El logo, mejor con margen claro.</strong> Un logo oscuro sobre
+      fondo transparente desaparece si el cliente oscurece el fondo. Dale al
+      logo un pequeño fondo o "padding" claro propio, o usa una versión del
+      logo que se vea sobre ambos fondos.
+    </div>
+
+    <!-- ====================================================== -->
+    <h2>4. Defensa avanzada: el &lt;style&gt; para dark mode</h2>
+
+    <p>
+      Para los clientes que <em>sí</em> detectan el modo oscuro del sistema
+      hay una media query especial,
+      <code>prefers-color-scheme: dark</code>, que se escribe en un
+      <code>&lt;style&gt;</code> de la cabecera. Con ella puedes dar tus
+      <strong>propios</strong> colores oscuros, en vez de dejar que el cliente
+      improvise.
+    </p>
+
+    <div class="demo">
+      <div class="demo-titulo">&lt;style&gt; con colores oscuros propios</div>
+      <div class="demo-render">
+        <p style="margin:0; font-size:14px; color:#6b6580; text-align:center;">
+          En claro: tus colores normales.<br>
+          En oscuro: los colores que tú elijas, no los que invente el cliente.
+        </p>
+      </div>
+      <pre class="demo-codigo"><code><span class="tok-comentario">&lt;!-- En el &lt;head&gt; del email --&gt;</span>
+<span class="tok-etiqueta">&lt;style&gt;</span>
+  <span class="tok-atributo">@media</span> (prefers-color-scheme: dark) {
+    <span class="tok-comentario">/* clases-gancho, igual que con la media query de móvil */</span>
+    .mail-fondo   { background-color: #16141f <span class="tok-prop">!important</span>; }
+    .mail-tarjeta { background-color: #262234 <span class="tok-prop">!important</span>; }
+    .mail-texto   { color: #e6e1f4 <span class="tok-prop">!important</span>; }
+  }
+<span class="tok-etiqueta">&lt;/style&gt;</span>
+
+<span class="tok-comentario">&lt;!-- En el cuerpo: clase-gancho + estilo claro inline --&gt;</span>
+<span class="tok-etiqueta">&lt;td</span> <span class="tok-atributo">class</span>=<span class="tok-valor">"mail-tarjeta mail-texto"</span>
+    <span class="tok-atributo">style</span>=<span class="tok-valor">"background-color:#ffffff; color:#3a3550;"</span><span class="tok-etiqueta">&gt;</span>
+  Texto del email
+<span class="tok-etiqueta">&lt;/td&gt;</span></code></pre>
+    </div>
+
+    <div class="aviso">
+      <strong>Esto NO funciona en todos los clientes.</strong>
+      <code>prefers-color-scheme</code> solo lo respetan algunos (Apple Mail,
+      iOS Mail). Outlook y Gmail lo ignoran y siguen con su inversión. Por eso
+      es "defensa avanzada": una mejora encima de la defensa básica, nunca un
+      sustituto.
+    </div>
+
+    <div class="nota">
+      <strong>Mismo patrón que el responsive (Bloque 03).</strong> El estilo
+      claro va inline en la etiqueta; la clase es solo un gancho que el
+      <code>&lt;style&gt;</code> usa para sobrescribir en oscuro. Por eso
+      vuelve a aparecer <code>!important</code>: tiene que ganarle al inline.
+    </div>
+
+    <!-- ====================================================== -->
+    <h2>5. Probarlo de verdad</h2>
+
+    <p>
+      El dark mode no se puede revisar "a ojo" en tu editor. La única forma
+      fiable es verlo en clientes reales:
+    </p>
+
+    <ul>
+      <li>
+        <strong>En tu móvil:</strong> activa el modo oscuro del sistema y
+        ábrete el email en Gmail, Apple Mail y Outlook. Es lo más rápido y
+        gratis.
+      </li>
+      <li>
+        <strong>Outlook de escritorio:</strong> tiene su propio modo oscuro
+        independiente del de Windows — pruébalo aparte.
+      </li>
+      <li>
+        <strong>Herramientas de testing</strong> (Litmus, Email on Acid):
+        muestran el email en decenas de clientes, claro y oscuro, de una vez.
+        Es el tema del próximo bloque.
+      </li>
+    </ul>
+
+    <div class="nota">
+      <strong>Recapitulando:</strong> el dark mode te lo aplican, no lo
+      activas tú, y cada cliente lo hace distinto. La defensa base —
+      declarar fondo y texto juntos, huir del blanco y negro puros, cuidar el
+      logo— funciona en todos. La media query
+      <code>prefers-color-scheme</code> es una mejora opcional para los
+      clientes que la respetan. Y siempre: probarlo en clientes reales.
+    </div>
+
+  </main>
+
+  <nav class="nav-bloques">
+    <a href="../04-botones-imagenes/index.html">
+      <div class="direccion">← Bloque 04</div>
+      <div class="titulo">Botones e imágenes</div>
+    </a>
+    <a class="siguiente" href="../06-testing/index.html">
+      <div class="direccion">Bloque 06 →</div>
+      <div class="titulo">Testing y envío</div>
+    </a>
+  </nav>
+
+  <footer class="pie">
+    Remite · Hecho en español
+  </footer>
+
+</body>
+</html>

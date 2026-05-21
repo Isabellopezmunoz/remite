@@ -1,0 +1,532 @@
+/* ============================================================
+   Constructor de emails — estilos de la herramienta
+   (esto estiliza la APP, no los emails que genera)
+   ============================================================ */
+
+:root {
+  --lavanda-claro: #f3f0fb;
+  --lavanda: #d8cef0;
+  --lavanda-fuerte: #8b76c4;
+  --lavanda-texto: #5a4a8a;
+  --melocoton-claro: #fdf0e7;
+  --melocoton-fuerte: #e0916a;
+  --tinta: #3a3550;
+  --tinta-suave: #6b6580;
+  --fondo: #faf8fd;
+  --blanco: #ffffff;
+  --borde: #e7e2f2;
+  --codigo-fondo: #2e2a40;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  background: var(--fondo);
+  color: var(--tinta);
+  line-height: 1.6;
+}
+
+code {
+  font-family: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+  background: var(--lavanda-claro);
+  color: var(--lavanda-texto);
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-size: 0.88em;
+}
+
+/* ---------- Cabecera de la app ---------- */
+.cabecera-app {
+  background: linear-gradient(135deg, var(--lavanda-claro) 0%, var(--melocoton-claro) 100%);
+  border-bottom: 1px solid var(--borde);
+  padding: 24px 28px;
+}
+
+.cabecera-app-interno {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.migas {
+  font-size: 14px;
+  color: var(--tinta-suave);
+  margin: 0 0 6px;
+}
+
+.migas a {
+  color: var(--lavanda-fuerte);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.migas a:hover { text-decoration: underline; }
+
+.cabecera-app h1 {
+  margin: 0 0 4px;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.subtitulo {
+  margin: 0;
+  font-size: 15px;
+  color: var(--tinta-suave);
+  max-width: 520px;
+}
+
+/* ---------- Botones de la app ---------- */
+.boton-primario {
+  background: var(--lavanda-fuerte);
+  color: var(--blanco);
+  border: 0;
+  border-radius: 8px;
+  padding: 11px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+
+.boton-primario:hover { background: #7763b0; }
+
+.boton-texto {
+  background: none;
+  border: 0;
+  color: var(--melocoton-fuerte);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.boton-texto:hover { text-decoration: underline; }
+
+/* Botón secundario: contorno, para acciones tipo "Cancelar" */
+.boton-secundario {
+  background: var(--blanco);
+  color: var(--tinta);
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s ease;
+}
+
+.boton-secundario:hover { border-color: var(--lavanda-fuerte); }
+
+/* Botón de peligro: para acciones destructivas como vaciar */
+.boton-peligro {
+  background: #c96a6a;
+  color: var(--blanco);
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+
+.boton-peligro:hover { background: #b85858; }
+
+/* ---------- Espacio de trabajo: 3 columnas ---------- */
+.espacio-trabajo {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 24px 28px 56px;
+  display: grid;
+  grid-template-columns: 240px 1fr 300px;
+  gap: 20px;
+  align-items: start;
+}
+
+.panel {
+  background: var(--blanco);
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  padding: 18px;
+}
+
+/* Columna 3: apila el panel de ajustes y el editor de bloque */
+.columna-derecha {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.panel-titulo {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--lavanda-fuerte);
+}
+
+.panel-ayuda,
+.panel-editor .editor-sin-seleccion {
+  font-size: 13px;
+  color: var(--tinta-suave);
+  margin: 0 0 14px;
+}
+
+/* ---------- Columna 1: bloques disponibles ---------- */
+.lista-bloques-disponibles {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bloque-disponible {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  background: var(--lavanda-claro);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 11px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--tinta);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.bloque-disponible:hover {
+  border-color: var(--lavanda-fuerte);
+  background: #ece6f7;
+}
+
+.bloque-disponible .icono {
+  display: inline-flex;
+  align-items: center;
+  color: var(--lavanda-fuerte);
+  flex-shrink: 0;
+}
+
+/* ---------- Columna 2: el lienzo del email ---------- */
+.lienzo-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.lienzo-cabecera .panel-titulo { margin-bottom: 0; }
+
+.lienzo-mail {
+  background: var(--lavanda);
+  border-radius: 8px;
+  padding: 20px;
+  min-height: 120px;
+}
+
+.lienzo-vacio {
+  text-align: center;
+  color: var(--tinta-suave);
+  font-size: 14px;
+  padding: 24px 12px 8px;
+  margin: 0;
+}
+
+/* Cada bloque dentro del lienzo */
+.bloque-en-email {
+  position: relative;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.bloque-en-email:last-child { margin-bottom: 0; }
+
+.bloque-en-email:hover { border-color: var(--lavanda-fuerte); }
+
+.bloque-en-email.seleccionado {
+  border-color: var(--melocoton-fuerte);
+  box-shadow: 0 0 0 3px rgba(224, 145, 106, 0.18);
+}
+
+/* Vista previa del bloque separador: el separador real es casi de
+   altura cero, así que en el constructor se muestra con esta caja
+   clara que indica de qué se trata. */
+.vista-separador {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--tinta-suave);
+  background: repeating-linear-gradient(
+    45deg,
+    #f3f0fb,
+    #f3f0fb 8px,
+    #ece6f7 8px,
+    #ece6f7 16px
+  );
+  border-radius: 6px;
+}
+
+.linea-separador {
+  display: inline-block;
+  width: 40px;
+  border-top: 2px solid var(--lavanda-fuerte);
+}
+
+/* Barra de acciones de cada bloque (subir / bajar / borrar) */
+.bloque-acciones {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: flex;
+  gap: 3px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.bloque-en-email:hover .bloque-acciones,
+.bloque-en-email.seleccionado .bloque-acciones {
+  opacity: 1;
+}
+
+.bloque-accion {
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 5px;
+  background: var(--tinta);
+  color: var(--blanco);
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bloque-accion:hover { background: var(--lavanda-fuerte); }
+
+.bloque-accion.borrar:hover { background: #c96a6a; }
+
+.bloque-accion:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ---------- Columna 3: editor del bloque ---------- */
+.campo-editor {
+  margin-bottom: 14px;
+}
+
+.campo-editor label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tinta);
+  margin-bottom: 4px;
+}
+
+.campo-editor input[type="text"],
+.campo-editor input[type="url"],
+.campo-editor textarea,
+.campo-editor select {
+  width: 100%;
+  border: 1px solid var(--borde);
+  border-radius: 7px;
+  padding: 8px 10px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--tinta);
+}
+
+.campo-editor textarea {
+  resize: vertical;
+  min-height: 70px;
+}
+
+.campo-editor input:focus,
+.campo-editor textarea:focus,
+.campo-editor select:focus {
+  outline: 2px solid var(--lavanda-fuerte);
+  outline-offset: -1px;
+}
+
+.campo-editor input[type="color"] {
+  width: 48px;
+  height: 34px;
+  border: 1px solid var(--borde);
+  border-radius: 7px;
+  padding: 2px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* Selector de color + campo de hex editable, en fila */
+.campo-color {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Campo de texto para escribir el hex a mano */
+.hex-texto {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--borde);
+  border-radius: 7px;
+  padding: 8px 10px;
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 13px;
+  color: var(--tinta);
+  text-transform: lowercase;
+}
+
+.hex-texto:focus {
+  outline: 2px solid var(--lavanda-fuerte);
+  outline-offset: -1px;
+}
+
+/* Hex inválido: el campo se marca en rojo */
+.hex-texto.invalido {
+  border-color: #c96a6a;
+  color: #c96a6a;
+}
+
+.hex-texto.invalido:focus {
+  outline-color: #c96a6a;
+}
+
+/* ---------- Modal del código ---------- */
+.modal-fondo {
+  position: fixed;
+  inset: 0;
+  background: rgba(46, 42, 64, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  z-index: 50;
+}
+
+.modal-fondo[hidden] { display: none; }
+
+.modal {
+  background: var(--blanco);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 760px;
+  max-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 24px;
+}
+
+/* Modal pequeño: para confirmaciones, no para mostrar código */
+.modal.modal-pequeno {
+  max-width: 420px;
+}
+
+.modal-pequeno h2 {
+  margin: 0;
+  font-size: 19px;
+}
+
+.modal-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-cabecera h2 {
+  margin: 0;
+  font-size: 19px;
+}
+
+.boton-cerrar {
+  background: none;
+  border: 0;
+  font-size: 18px;
+  color: var(--tinta-suave);
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.boton-cerrar:hover { color: var(--tinta); }
+
+.modal-ayuda {
+  font-size: 14px;
+  color: var(--tinta-suave);
+  margin: 8px 0 14px;
+}
+
+.modal-acciones {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+/* Acciones alineadas a la derecha, sin margen inferior:
+   para los botones de un modal de confirmación. */
+.modal-acciones.modal-acciones-derecha {
+  justify-content: flex-end;
+  margin-bottom: 0;
+}
+
+.aviso-copiado {
+  color: #5a9e7a;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.aviso-copiado[hidden] { display: none; }
+
+.modal-codigo {
+  margin: 0;
+  background: var(--codigo-fondo);
+  color: #e6e1f4;
+  border-radius: 10px;
+  padding: 16px 18px;
+  font-family: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+  font-size: 12.5px;
+  line-height: 1.6;
+  overflow: auto;
+}
+
+.modal-codigo code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+  white-space: pre;
+}
+
+/* ---------- Adaptación a pantallas estrechas ---------- */
+@media (max-width: 1060px) {
+  .espacio-trabajo {
+    grid-template-columns: 1fr;
+  }
+  .cabecera-app-interno {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <title>Preview — Newsletter · Remite</title>
+  <!--
+    PÁGINA VISOR (no es el email).
+    Envuelve la plantilla newsletter.html en un iframe, le añade una
+    barra para volver y un botón "Ver el código" que abre un modal
+    para copiar el HTML de la plantilla. El email de verdad
+    (newsletter.html) queda limpio: este archivo no forma parte de él.
+
+    El estilo y la lógica son compartidos: visor.css y visor.js.
+    El atributo data-plantilla del <body> dice qué archivo leer.
+  -->
+  <link rel="stylesheet" href="visor.css">
+</head>
+<body data-plantilla="newsletter.html">
+
+  <header class="barra">
+    <nav class="migas">
+      <a href="../index.html#plantillas">Plantillas</a>
+      <span class="separador">/</span>
+      <span class="actual">Newsletter</span>
+    </nav>
+    <div class="acciones">
+      <a class="boton" href="newsletter.html" target="_blank" rel="noopener">Email a pantalla completa ↗</a>
+      <button type="button" class="boton primario" id="boton-ver-codigo">Ver el código &lt;/&gt;</button>
+    </div>
+  </header>
+
+  <div class="aviso-preview">
+    Vista aproximada en el navegador — un cliente de correo real (Gmail, Outlook…) puede mostrarlo distinto.
+  </div>
+
+  <main class="lienzo">
+    <iframe class="marco-email" src="newsletter.html" title="Plantilla de email: Newsletter"></iframe>
+  </main>
+
+  <!-- ============ Modal con el código de la plantilla ============ -->
+  <div class="modal-fondo" id="modal-fondo" hidden>
+    <div class="modal" role="dialog" aria-label="Código de la plantilla">
+      <div class="modal-cabecera">
+        <h2>Código de la plantilla</h2>
+        <button type="button" class="boton-cerrar" id="boton-cerrar-modal" aria-label="Cerrar">✕</button>
+      </div>
+      <p class="modal-ayuda">
+        Este es el HTML completo del email. Cópialo y pégalo en un archivo
+        <code>.html</code> o en tu herramienta de envío.
+      </p>
+      <div class="modal-acciones">
+        <button type="button" class="boton primario" id="boton-copiar">Copiar código</button>
+        <span class="aviso-copiado" id="aviso-copiado" hidden>✓ Copiado</span>
+      </div>
+      <pre class="modal-codigo"><code id="salida-codigo"></code></pre>
+    </div>
+  </div>
+
+  <script src="visor.js"></script>
+</body>
+</html>

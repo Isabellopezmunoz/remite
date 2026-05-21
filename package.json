@@ -1,0 +1,14 @@
+{
+  "name": "remite",
+  "version": "0.1.0",
+  "description": "Remite — guías, plantillas y constructor de emails HTML, en español.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0"
+  }
+}

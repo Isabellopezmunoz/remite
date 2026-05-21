@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <title>Bloque 06 — Testing y envío · Remite</title>
+  <style>
+    :root {
+      --lavanda-claro: #f3f0fb;
+      --lavanda: #d8cef0;
+      --lavanda-fuerte: #8b76c4;
+      --lavanda-texto: #5a4a8a;
+      --melocoton-claro: #fdf0e7;
+      --melocoton: #f5cbb0;
+      --melocoton-fuerte: #e0916a;
+      --tinta: #3a3550;
+      --tinta-suave: #6b6580;
+      --fondo: #faf8fd;
+      --blanco: #ffffff;
+      --borde: #e7e2f2;
+      --codigo-fondo: #2e2a40;
+      --verde: #5a9e7a;
+      --verde-claro: #e7f3ec;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--fondo);
+      color: var(--tinta);
+      line-height: 1.7;
+    }
+
+    a { color: var(--lavanda-fuerte); }
+
+    code {
+      font-family: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+      background: var(--lavanda-claro);
+      color: var(--lavanda-texto);
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-size: 0.88em;
+    }
+
+    /* ---------- Cabecera del bloque ---------- */
+    .cabecera-bloque {
+      background: linear-gradient(135deg, var(--lavanda-claro) 0%, var(--melocoton-claro) 100%);
+      border-bottom: 1px solid var(--borde);
+      padding: 40px 24px 44px;
+    }
+
+    .cabecera-bloque .interno {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .migas {
+      font-size: 14px;
+      color: var(--tinta-suave);
+      margin-bottom: 16px;
+    }
+
+    .migas a { text-decoration: none; }
+    .migas a:hover { text-decoration: underline; }
+
+    .cabecera-bloque .insignia {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: var(--blanco);
+      color: var(--lavanda-fuerte);
+      margin-bottom: 12px;
+    }
+
+    .cabecera-bloque h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .cabecera-bloque p {
+      margin: 0;
+      font-size: 17px;
+      color: var(--tinta-suave);
+    }
+
+    /* ---------- Contenido ---------- */
+    .contenedor {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 48px 24px 40px;
+    }
+
+    .contenedor h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 48px 0 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--lavanda-claro);
+    }
+
+    .contenedor h2:first-of-type { margin-top: 0; }
+
+    .contenedor h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 28px 0 8px;
+    }
+
+    .contenedor p { margin: 0 0 16px; }
+
+    .contenedor ul,
+    .contenedor ol { margin: 0 0 16px; padding-left: 22px; }
+    .contenedor li { margin-bottom: 6px; }
+
+    /* ---------- Cajas de aviso ---------- */
+    .aviso {
+      background: var(--melocoton-claro);
+      border-left: 4px solid var(--melocoton-fuerte);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 20px 0;
+      font-size: 15px;
+    }
+
+    .aviso strong { color: var(--melocoton-fuerte); }
+
+    .nota {
+      background: var(--lavanda-claro);
+      border-left: 4px solid var(--lavanda-fuerte);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 20px 0;
+      font-size: 15px;
+    }
+
+    .nota strong { color: var(--lavanda-fuerte); }
+
+    /* ---------- Tabla comparativa ---------- */
+    .comparativa {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0 28px;
+      font-size: 15px;
+    }
+
+    .comparativa th,
+    .comparativa td {
+      border: 1px solid var(--borde);
+      padding: 10px 14px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .comparativa th {
+      background: var(--lavanda-claro);
+      color: var(--lavanda-texto);
+      font-weight: 700;
+    }
+
+    .comparativa tr:nth-child(even) td { background: var(--blanco); }
+
+    /* ---------- Checklist ---------- */
+    .checklist {
+      background: var(--blanco);
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+      padding: 8px 24px;
+      margin: 20px 0 28px;
+    }
+
+    .checklist .grupo-titulo {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--lavanda-fuerte);
+      margin: 20px 0 6px;
+    }
+
+    .checklist label {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 7px 0;
+      font-size: 15px;
+      border-bottom: 1px solid var(--lavanda-claro);
+      cursor: pointer;
+    }
+
+    .checklist label:last-child { border-bottom: 0; }
+
+    .checklist input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      margin: 3px 0 0;
+      accent-color: var(--verde);
+      flex-shrink: 0;
+    }
+
+    .checklist input[type="checkbox"]:checked + span {
+      color: var(--tinta-suave);
+      text-decoration: line-through;
+    }
+
+    /* ---------- Pasos numerados ---------- */
+    .pasos {
+      counter-reset: paso;
+      list-style: none;
+      padding: 0;
+      margin: 20px 0 28px;
+    }
+
+    .pasos li {
+      position: relative;
+      padding: 0 0 16px 48px;
+      margin: 0;
+    }
+
+    .pasos li::before {
+      counter-increment: paso;
+      content: counter(paso);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 32px;
+      height: 32px;
+      background: var(--lavanda-fuerte);
+      color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .pasos li strong { display: block; margin-bottom: 2px; }
+
+    /* ---------- Navegación inferior ---------- */
+    .nav-bloques {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 24px 24px 64px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .nav-bloques a {
+      flex: 1;
+      background: var(--blanco);
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+      padding: 16px 20px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+
+    .nav-bloques a:hover {
+      border-color: var(--lavanda);
+      transform: translateY(-2px);
+    }
+
+    .nav-bloques .direccion {
+      font-size: 13px;
+      color: var(--tinta-suave);
+      font-weight: 600;
+    }
+
+    .nav-bloques .titulo {
+      font-size: 16px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .nav-bloques .siguiente { text-align: right; }
+
+    .pie {
+      text-align: center;
+      padding: 28px 24px;
+      border-top: 1px solid var(--borde);
+      color: var(--tinta-suave);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="cabecera-bloque">
+    <div class="interno">
+      <p class="migas">
+        <a href="../index.html">← Índice</a> · Documentación
+      </p>
+      <span class="insignia">Bloque 06</span>
+      <h1>Testing y envío</h1>
+      <p>
+        Un email enviado no se puede corregir. Antes de darle a "enviar":
+        cómo comprobar que se ve bien en cada cliente, qué herramientas hay y
+        un checklist para no olvidarte de nada.
+      </p>
+    </div>
+  </header>
+
+  <main class="contenedor">
+
+    <!-- ====================================================== -->
+    <h2>1. Por qué el testing no es opcional</h2>
+
+    <p>
+      Una web la corriges y recargas. Un email <strong>no</strong>: una vez
+      que sale hacia 5.000 bandejas de entrada, ahí se queda — con la imagen
+      rota, el botón descuadrado o la falta de ortografía incluidas. No hay
+      "volver a desplegar".
+    </p>
+
+    <p>
+      Y recuerda el problema de fondo de todo el proyecto: tu email lo
+      renderizan <strong>decenas de clientes distintos</strong>, cada uno a su
+      manera. Que se vea perfecto en tu pantalla no dice nada de cómo se ve en
+      el Outlook de tu destinatario. El testing es la única forma de saberlo.
+    </p>
+
+    <div class="aviso">
+      <strong>El testing es la última red de seguridad.</strong> Es el
+      momento de cazar lo que se rompió de verdad en cada cliente, antes de
+      que sea irreversible. Cinco minutos de prueba evitan un error que verán
+      miles de personas.
+    </div>
+
+    <!-- ====================================================== -->
+    <h2>2. Testing gratis: enviarte el email a ti</h2>
+
+    <p>
+      No hace falta pagar nada para empezar. El método más simple y honesto
+      es <strong>enviarte el email a tus propias cuentas</strong> y abrirlo
+      como lo abriría un destinatario real.
+    </p>
+
+    <ol class="pasos">
+      <li>
+        <strong>Crea cuentas de prueba</strong>
+        Una de Gmail y una de Outlook (outlook.com) como mínimo — son los dos
+        clientes más usados y los que más difieren entre sí.
+      </li>
+      <li>
+        <strong>Envíate el email a esas cuentas</strong>
+        Desde tu herramienta de envío, o incluso pegando el HTML en un correo.
+        Pruébalo como envío real, no solo la vista previa de la herramienta.
+      </li>
+      <li>
+        <strong>Ábrelo en escritorio y en móvil</strong>
+        En el ordenador y en la app del móvil. Y prueba el modo claro y el
+        oscuro (Bloque 05): son cuatro vistas, no una.
+      </li>
+      <li>
+        <strong>Revisa con el checklist</strong>
+        El de la sección 4 de este bloque. Ve marcando; lo que falle, se
+        corrige y se vuelve a enviar.
+      </li>
+    </ol>
+
+    <div class="nota">
+      <strong>Cubre lo más común con poco.</strong> Gmail + Outlook + Apple
+      Mail, en escritorio y móvil, ya representan a la gran mayoría de tus
+      destinatarios. Para muchos emails, este testing manual es suficiente.
+    </div>
+
+    <!-- ====================================================== -->
+    <h2>3. Herramientas de testing</h2>
+
+    <p>
+      Cuando el email es importante, o tu público usa clientes que tú no
+      tienes a mano, existen servicios especializados. Los dos más conocidos
+      son <strong>Litmus</strong> y <strong>Email on Acid</strong>.
+    </p>
+
+    <p>
+      Funcionan igual en lo básico: subes tu email (o lo conectas a tu
+      herramienta de envío) y el servicio te devuelve <strong>capturas
+      reales</strong> de cómo se ve en decenas de clientes distintos —
+      Outlook 2016, Gmail en Android, Apple Mail, Yahoo...— en claro y en
+      oscuro, todo de una vez.
+    </p>
+
+    <table class="comparativa">
+      <thead>
+        <tr>
+          <th>Testing manual (gratis)</th>
+          <th>Litmus / Email on Acid (de pago)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Solo los clientes que tengas tú</td>
+          <td>50-90 combinaciones de cliente y dispositivo</td>
+        </tr>
+        <tr>
+          <td>Lo abres y miras a mano, uno a uno</td>
+          <td>Capturas de todos a la vez, en una pantalla</td>
+        </tr>
+        <tr>
+          <td>Gratis</td>
+          <td>Suscripción mensual</td>
+        </tr>
+        <tr>
+          <td>Suficiente para emails sencillos</td>
+          <td>Vale la pena para campañas grandes o diseños complejos</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      Estas herramientas suelen incluir también un <strong>análisis de
+      spam</strong> (te avisan si algo de tu email puede mandarlo a la carpeta
+      de correo no deseado) y comprobación de los enlaces.
+    </p>
+
+    <div class="aviso">
+      <strong>Son servicios externos, no se "instalan".</strong> Litmus y
+      Email on Acid son webs de pago independientes de este proyecto. Aquí se
+      explican para que sepas que existen y cuándo compensan; no son algo que
+      forme parte del código de tus emails.
+    </div>
+
+    <!-- ====================================================== -->
+    <h2>4. Checklist antes de enviar</h2>
+
+    <p>
+      Repasa esto con cada email antes de darle a enviar. Puedes ir marcando
+      las casillas (es solo para esta sesión, no se guarda).
+    </p>
+
+    <div class="checklist">
+
+      <p class="grupo-titulo">Contenido</p>
+      <label><input type="checkbox" /><span>El asunto es correcto y no está vacío.</span></label>
+      <label><input type="checkbox" /><span>El preheader (texto de vista previa) dice algo útil.</span></label>
+      <label><input type="checkbox" /><span>No hay faltas de ortografía ni textos de relleno ("Lorem ipsum", "ejemplo.com").</span></label>
+      <label><input type="checkbox" /><span>El nombre y la dirección del remitente son los correctos.</span></label>
+
+      <p class="grupo-titulo">Enlaces y botones</p>
+      <label><input type="checkbox" /><span>Todos los enlaces llevan a la URL correcta y funcionan.</span></label>
+      <label><input type="checkbox" /><span>Los botones se ven bien y son clicables (también en Outlook).</span></label>
+      <label><input type="checkbox" /><span>El enlace de baja existe y funciona (obligatorio en marketing).</span></label>
+
+      <p class="grupo-titulo">Imágenes</p>
+      <label><input type="checkbox" /><span>Todas las imágenes usan URL absoluta y cargan.</span></label>
+      <label><input type="checkbox" /><span>Todas tienen un <code>alt</code> con sentido.</span></label>
+      <label><input type="checkbox" /><span>El email se entiende con las imágenes desactivadas.</span></label>
+
+      <p class="grupo-titulo">Renderizado</p>
+      <label><input type="checkbox" /><span>Se ve bien en Gmail, Outlook y Apple Mail.</span></label>
+      <label><input type="checkbox" /><span>Se ve bien en móvil (columnas apiladas, texto legible).</span></label>
+      <label><input type="checkbox" /><span>Se ve bien en modo claro y en modo oscuro.</span></label>
+
+      <p class="grupo-titulo">Entregabilidad</p>
+      <label><input type="checkbox" /><span>El email no cae en la carpeta de spam en las pruebas.</span></label>
+      <label><input type="checkbox" /><span>Hay bastante texto real, no es casi todo imágenes.</span></label>
+      <label><input type="checkbox" /><span>El peso del email no se dispara (Gmail recorta a ~102 KB).</span></label>
+
+    </div>
+
+    <!-- ====================================================== -->
+    <h2>5. Anti-spam: que el email llegue a la bandeja</h2>
+
+    <p>
+      De nada sirve un email perfecto si acaba en la carpeta de spam. No lo
+      controlas del todo, pero hay costumbres que ayudan a que los filtros
+      confíen en tu correo:
+    </p>
+
+    <ul>
+      <li>
+        <strong>Equilibra texto e imágenes.</strong> Un email que es casi
+        todo una imagen grande es sospechoso. Que haya texto HTML de verdad
+        (lo vimos en el Bloque 04).
+      </li>
+      <li>
+        <strong>Cuida las palabras del asunto.</strong> "GRATIS!!!", "GANA
+        DINERO", mayúsculas y signos de exclamación a montones disparan los
+        filtros. Asunto claro y normal.
+      </li>
+      <li>
+        <strong>Incluye el enlace de baja</strong> y la dirección física del
+        remitente. Además de ser obligatorio en muchos sitios, su ausencia es
+        señal de spam.
+      </li>
+      <li>
+        <strong>Envía desde un dominio propio bien configurado.</strong> Los
+        registros SPF, DKIM y DMARC del dominio le dicen a los servidores que
+        el envío es legítimo. Esto suele configurarlo tu herramienta de envío
+        o quien gestione el dominio.
+      </li>
+      <li>
+        <strong>No compres listas de correos.</strong> Enviar a gente que no
+        te dio su permiso genera quejas, y las quejas hunden tu reputación de
+        remitente para todos los envíos siguientes.
+      </li>
+    </ul>
+
+    <div class="nota">
+      <strong>Recapitulando:</strong> un email enviado no se corrige, así que
+      el testing es obligatorio. Empieza gratis enviándotelo a Gmail y
+      Outlook, en escritorio y móvil, claro y oscuro; para campañas serias,
+      Litmus o Email on Acid renderizan en decenas de clientes a la vez. Pasa
+      el checklist antes de cada envío y cuida lo anti-spam para que el correo
+      llegue de verdad a la bandeja.
+    </div>
+
+  </main>
+
+  <nav class="nav-bloques">
+    <a href="../05-dark-mode/index.html">
+      <div class="direccion">← Bloque 05</div>
+      <div class="titulo">Dark mode</div>
+    </a>
+    <a class="siguiente" href="../07-preheader-accesibilidad/index.html">
+      <div class="direccion">Bloque 07 →</div>
+      <div class="titulo">Preheader y accesibilidad</div>
+    </a>
+  </nav>
+
+  <footer class="pie">
+    Remite · Hecho en español
+  </footer>
+
+</body>
+</html>

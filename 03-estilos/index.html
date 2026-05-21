@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <title>Bloque 03 — Estilos · Remite</title>
+  <style>
+    :root {
+      --lavanda-claro: #f3f0fb;
+      --lavanda: #d8cef0;
+      --lavanda-fuerte: #8b76c4;
+      --lavanda-texto: #5a4a8a;
+      --melocoton-claro: #fdf0e7;
+      --melocoton: #f5cbb0;
+      --melocoton-fuerte: #e0916a;
+      --tinta: #3a3550;
+      --tinta-suave: #6b6580;
+      --fondo: #faf8fd;
+      --blanco: #ffffff;
+      --borde: #e7e2f2;
+      --codigo-fondo: #2e2a40;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--fondo);
+      color: var(--tinta);
+      line-height: 1.7;
+    }
+
+    a { color: var(--lavanda-fuerte); }
+
+    code {
+      font-family: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+      background: var(--lavanda-claro);
+      color: var(--lavanda-texto);
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-size: 0.88em;
+    }
+
+    /* ---------- Cabecera del bloque ---------- */
+    .cabecera-bloque {
+      background: linear-gradient(135deg, var(--lavanda-claro) 0%, var(--melocoton-claro) 100%);
+      border-bottom: 1px solid var(--borde);
+      padding: 40px 24px 44px;
+    }
+
+    .cabecera-bloque .interno {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .migas {
+      font-size: 14px;
+      color: var(--tinta-suave);
+      margin-bottom: 16px;
+    }
+
+    .migas a { text-decoration: none; }
+    .migas a:hover { text-decoration: underline; }
+
+    .cabecera-bloque .insignia {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: var(--blanco);
+      color: var(--lavanda-fuerte);
+      margin-bottom: 12px;
+    }
+
+    .cabecera-bloque h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .cabecera-bloque p {
+      margin: 0;
+      font-size: 17px;
+      color: var(--tinta-suave);
+    }
+
+    /* ---------- Contenido ---------- */
+    .contenedor {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 48px 24px 40px;
+    }
+
+    .contenedor h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 48px 0 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--lavanda-claro);
+    }
+
+    .contenedor h2:first-of-type { margin-top: 0; }
+
+    .contenedor h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 28px 0 8px;
+    }
+
+    .contenedor p { margin: 0 0 16px; }
+
+    .contenedor ul,
+    .contenedor ol { margin: 0 0 16px; padding-left: 22px; }
+    .contenedor li { margin-bottom: 6px; }
+
+    /* ---------- Cajas de aviso ---------- */
+    .aviso {
+      background: var(--melocoton-claro);
+      border-left: 4px solid var(--melocoton-fuerte);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 20px 0;
+      font-size: 15px;
+    }
+
+    .aviso strong { color: var(--melocoton-fuerte); }
+
+    .nota {
+      background: var(--lavanda-claro);
+      border-left: 4px solid var(--lavanda-fuerte);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 20px 0;
+      font-size: 15px;
+    }
+
+    .nota strong { color: var(--lavanda-fuerte); }
+
+    /* ---------- Bloque ejemplo + código ---------- */
+    .demo {
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 20px 0 28px;
+    }
+
+    .demo-titulo {
+      background: var(--blanco);
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--tinta-suave);
+      border-bottom: 1px solid var(--borde);
+    }
+
+    .demo-render {
+      background:
+        repeating-conic-gradient(#f0edf7 0% 25%, #faf8fd 0% 50%) 50% / 22px 22px;
+      padding: 28px 20px;
+    }
+
+    .demo-codigo {
+      margin: 0;
+      background: var(--codigo-fondo);
+      color: #e6e1f4;
+      padding: 18px 20px;
+      font-family: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+      font-size: 13px;
+      line-height: 1.65;
+      overflow-x: auto;
+    }
+
+    .demo-codigo code {
+      background: none;
+      color: inherit;
+      padding: 0;
+      font-size: inherit;
+    }
+
+    .tok-etiqueta { color: #c9a8f4; }
+    .tok-atributo { color: #f5cbb0; }
+    .tok-valor { color: #a8e0c4; }
+    .tok-comentario { color: #7a7490; font-style: italic; }
+    .tok-prop { color: #9ad0f0; }
+
+    /* ---------- Tabla comparativa ---------- */
+    .comparativa {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0 28px;
+      font-size: 15px;
+    }
+
+    .comparativa th,
+    .comparativa td {
+      border: 1px solid var(--borde);
+      padding: 10px 14px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .comparativa th {
+      background: var(--lavanda-claro);
+      color: var(--lavanda-texto);
+      font-weight: 700;
+    }
+
+    .comparativa tr:nth-child(even) td { background: var(--blanco); }
+
+    /* ---------- Muestras de color y fuente ---------- */
+    .muestras {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 12px;
+      margin: 20px 0 28px;
+    }
+
+    .muestra-color {
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      overflow: hidden;
+      font-size: 13px;
+    }
+
+    .muestra-color .franja {
+      height: 56px;
+    }
+
+    .muestra-color .dato {
+      padding: 8px 10px;
+      background: var(--blanco);
+    }
+
+    .muestra-color .dato strong { display: block; }
+    .muestra-color .dato span {
+      color: var(--tinta-suave);
+      font-family: "SF Mono", Menlo, Consolas, monospace;
+      font-size: 12px;
+    }
+
+    .muestra-fuente {
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      padding: 14px 16px;
+      background: var(--blanco);
+    }
+
+    .muestra-fuente .nombre {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--tinta-suave);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 6px;
+    }
+
+    .muestra-fuente .ejemplo {
+      font-size: 19px;
+      color: var(--tinta);
+    }
+
+    /* ---------- Navegación inferior ---------- */
+    .nav-bloques {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 24px 24px 64px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .nav-bloques a {
+      flex: 1;
+      background: var(--blanco);
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+      padding: 16px 20px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+
+    .nav-bloques a:hover {
+      border-color: var(--lavanda);
+      transform: translateY(-2px);
+    }
+
+    .nav-bloques .direccion {
+      font-size: 13px;
+      color: var(--tinta-suave);
+      font-weight: 600;
+    }
+
+    .nav-bloques .titulo {
+      font-size: 16px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .nav-bloques .siguiente { text-align: right; }
+
+    .nav-bloques a.desactivado {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .pie {
+      text-align: center;
+      padding: 28px 24px;
+      border-top: 1px solid var(--borde);
+      color: var(--tinta-suave);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="cabecera-bloque">
+    <div class="interno">
+      <p class="migas">
+        <a href="../index.html">← Índice</a> · Documentación
+      </p>
+      <span class="insignia">Bloque 03</span>
+      <h1>Estilos</h1>
+      <p>
+        Cómo se da estilo a un email: CSS inline en cada etiqueta, por qué no
+        se usan clases, qué fuentes son seguras, cómo elegir colores y dónde
+        poner el padding.
+      </p>
+    </div>
+  </header>
+
+  <main class="contenedor">
+
+    <!-- ====================================================== -->
+    <h2>1. Todo el CSS va inline</h2>
+
+    <p>
+      Lo vimos de pasada en el Bloque 01: en un email el estilo va en el
+      atributo <code>style=""</code> de cada etiqueta. Ahora el detalle de
+      <em>por qué</em>, y de qué se pierde al hacerlo así.
+    </p>
+
+    <p>
+      Una web tiene tres formas de aplicar CSS: hoja externa, bloque
+      <code>&lt;style&gt;</code> e inline. En email solo la última es de fiar:
+    </p>
+
+    <table class="comparativa">
+      <thead>
+        <tr>
+          <th>Forma de poner CSS</th>
+          <th>¿Funciona en email?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Hoja externa <code>&lt;link rel="stylesheet"&gt;</code></td>
+          <td>❌ No. Los clientes no descargan CSS externo.</td>
+        </tr>
+        <tr>
+          <td>Bloque <code>&lt;style&gt;</code> en el <code>&lt;head&gt;</code></td>
+          <td>⚠️ A veces. Muchos lo eliminan o lo ignoran (Gmail histórico, apps).</td>
+        </tr>
+        <tr>
+          <td>Inline, <code>style=""</code> en la etiqueta</td>
+          <td>✅ Sí. Es lo único que funciona en todos lados.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="nota">
+      <strong>El <code>&lt;style&gt;</code> no es inútil del todo.</strong>
+      Se usa para lo que <em>no se puede</em> hacer inline: media queries
+      (responsive), <code>:hover</code>, o estilos de dark mode. Pero como
+      cualquier cliente puede ignorarlo, el email tiene que verse bien
+      <strong>sin</strong> él. El <code>&lt;style&gt;</code> es una mejora,
+      nunca la base.
+    </div>
+
+    <!-- ====================================================== -->
+    <h2>2. Por qué no se usan clases</h2>
+
+    <p>
+      Si los clientes eliminan el <code>&lt;style&gt;</code>, una clase como
+      <code>class="destacado"</code> se queda <strong>sin definición</strong>:
+      apunta a reglas que ya no existen. La etiqueta pierde su estilo entero.
+    </p>
+
+    <div class="demo">
+      <div class="demo-titulo">Clase vs. inline cuando el cliente borra el &lt;style&gt;</div>
+      <div class="demo-render">
+        <p style="margin:0 0 6px;font-size:13px;color:#6b6580;">Con clase — el cliente borró el &lt;style&gt;:</p>
+        <p style="margin:0 0 16px;font-size:16px;color:#3a3550;">Texto sin estilo (la clase no apunta a nada)</p>
+        <p style="margin:0 0 6px;font-size:13px;color:#6b6580;">Con inline — el estilo viaja pegado:</p>
+        <p style="margin:0;font-size:16px;color:#8b76c4;font-weight:700;">Texto con su color y peso intactos</p>
+      </div>
+      <pre class="demo-codigo"><code><span class="tok-comentario">&lt;!-- ❌ Si se borra el &lt;style&gt;, esto queda sin estilo --&gt;</span>
+<span class="tok-etiqueta">&lt;p</span> <span class="tok-atributo">class</span>=<span class="tok-valor">"destacado"</span><span class="tok-etiqueta">&gt;</span>Texto<span class="tok-etiqueta">&lt;/p&gt;</span>
+
+<span class="tok-comentario">&lt;!-- ✅ El estilo está en la etiqueta: no depende de nada --&gt;</span>
+<span class="tok-etiqueta">&lt;p</span> <span class="tok-atributo">style</span>=<span class="tok-valor">"color:#8b76c4; font-weight:700; margin:0;"</span><span class="tok-etiqueta">&gt;</span>
+  Texto
+<span class="tok-etiqueta">&lt;/p&gt;</span></code></pre>
+    </div>
+
+    <p>
+      El precio es repetir estilos: si quince celdas llevan el mismo color de
+      texto, escribes ese color quince veces. Es tedioso — por eso existen los
+      <em>inliners</em> — pero es el motivo de que en este proyecto se haga a
+      mano primero: para entender qué problema resuelven esas herramientas.
+    </p>
+
+    <!-- ====================================================== -->
+    <h2>3. Fuentes: solo las web-safe</h2>
+
+    <p>
+      Las fuentes personalizadas (Google Fonts, <code>@font-face</code>) no
+      cargan de forma fiable en email — Outlook directamente las ignora. Se
+      usan <strong>fuentes web-safe</strong>: las que ya vienen instaladas en
+      casi cualquier ordenador y móvil.
+    </p>
+
+    <div class="muestras">
+      <div class="muestra-fuente">
+        <div class="nombre">Arial / Helvetica</div>
+        <div class="ejemplo" style="font-family:Arial,Helvetica,sans-serif;">Hola, este es el texto</div>
+      </div>
+      <div class="muestra-fuente">
+        <div class="nombre">Georgia (con serifa)</div>
+        <div class="ejemplo" style="font-family:Georgia,'Times New Roman',serif;">Hola, este es el texto</div>
+      </div>
+      <div class="muestra-fuente">
+        <div class="nombre">Verdana</div>
+        <div class="ejemplo" style="font-family:Verdana,Geneva,sans-serif;">Hola, este es el texto</div>
+      </div>
+      <div class="muestra-fuente">
+        <div class="nombre">Tahoma / Trebuchet</div>
+        <div class="ejemplo" style="font-family:'Trebuchet MS',Tahoma,sans-serif;">Hola, este es el texto</div>
+      </div>
+    </div>
+
+    <h3>Siempre con "fallback"</h3>
+    <p>
+      La <code>font-family</code> se escribe como una <strong>lista</strong>:
+      la fuente que quieres primero y, detrás, alternativas cada vez más
+      genéricas. Si el cliente no tiene la primera, baja a la siguiente. La
+      última siempre es una familia genérica (<code>sans-serif</code> o
+      <code>serif</code>).
+    </p>
+
+    <div class="demo">
+      <div class="demo-titulo">font-family con fallback</div>
+      <div class="demo-render">
+        <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:16px;color:#3a3550;">
+          Este párrafo intenta Arial → Helvetica → cualquier sans-serif.
+        </p>
+      </div>
+      <pre class="demo-codigo"><code><span class="tok-etiqueta">&lt;td</span> <span class="tok-atributo">style</span>=<span class="tok-valor">"font-family:Arial, Helvetica, sans-serif;
+            font-size:16px; color:#3a3550;"</span><span class="tok-etiqueta">&gt;</span>
+  Texto del email
+<span class="tok-etiqueta">&lt;/td&gt;</span></code></pre>
+    </div>
+
+    <div class="aviso">
+      <strong>La fuente se repite en cada celda de texto.</strong> No se hereda
+      de forma fiable de una tabla a otra en email, así que la
+      <code>font-family</code> y el <code>font-size</code> se ponen en cada
+      <code>&lt;td&gt;</code> que tenga texto. Otra vez: repetición a propósito.
+    </div>
+
+    <!-- ====================================================== -->
+    <h2>4. Colores</h2>
+
+    <p>
+      Los colores se escriben en hexadecimal de <strong>6 dígitos</strong> —
+      <code>#8b76c4</code>, no <code>#87c</code> abreviado — porque algunos
+      clientes no entienden la versión corta. Nada de <code>rgba()</code> ni
+      colores con nombre para cosas importantes: hex de 6 dígitos y a lo seguro.
+    </p>
+
+    <p>Esta es la paleta pastel que usa este proyecto, como referencia:</p>
+
+    <div class="muestras">
+      <div class="muestra-color">
+        <div class="franja" style="background:#8b76c4;"></div>
+        <div class="dato"><strong>Lavanda fuerte</strong><span>#8b76c4</span></div>
+      </div>
+      <div class="muestra-color">
+        <div class="franja" style="background:#d8cef0;"></div>
+        <div class="dato"><strong>Lavanda</strong><span>#d8cef0</span></div>
+      </div>
+      <div class="muestra-color">
+        <div class="franja" style="background:#f3f0fb;"></div>
+        <div class="dato"><strong>Lavanda claro</strong><span>#f3f0fb</span></div>
+      </div>
+      <div class="muestra-color">
+        <div class="franja" style="background:#e0916a;"></div>
+        <div class="dato"><strong>Melocotón fuerte</strong><span>#e0916a</span></div>
+      </div>
+      <div class="muestra-color">
+        <div class="franja" style="background:#f5cbb0;"></div>
+        <div class="dato"><strong>Melocotón</strong><span>#f5cbb0</span></div>
+      </div>
+      <div class="muestra-color">
+        <div class="franja" style="background:#3a3550;"></div>
+        <div class="dato"><strong>Tinta</strong><span>#3a3550</span></div>
+      </div>
+    </div>
+
+    <div class="aviso">
+      <strong>Pon siempre el color de fondo, aunque sea blanco.</strong> Con
+      el dark mode, algunos clientes invierten los colores: si una celda no
+      declara <code>background-color</code>, puede acabar con un fondo oscuro
+      y el texto ilegible. Declarar <code>#ffffff</code> de forma explícita lo
+      evita en parte.
+    </div>
+
+    <!-- ====================================================== -->
+    <h2>5. Espaciado: padding en las celdas</h2>
+
+    <p>
+      Esta es la regla de oro del espaciado en email: <strong>el espacio se
+      crea con <code>padding</code> dentro de los <code>&lt;td&gt;</code></strong>,
+      no con <code>margin</code>. El <code>margin</code> es poco fiable —
+      Outlook lo ignora en muchos casos — mientras que el <code>padding</code>
+      de una celda se respeta en todas partes.
+    </p>
+
+    <div class="demo">
+      <div class="demo-titulo">El aire alrededor del texto = padding del td</div>
+      <div class="demo-render">
+        <div style="max-width:320px;margin:0 auto;background:#fff;border:1px dashed #e0916a;">
+          <div style="padding:28px;background:#fdf0e7;color:#5a4a8a;font-size:14px;text-align:center;">
+            El padding de 28px es este aire de alrededor
+          </div>
+        </div>
+      </div>
+      <pre class="demo-codigo"><code><span class="tok-comentario">&lt;!-- El padding va en el td, no margin en lo de dentro --&gt;</span>
+<span class="tok-etiqueta">&lt;td</span> <span class="tok-atributo">style</span>=<span class="tok-valor">"padding:28px; background-color:#fdf0e7;"</span><span class="tok-etiqueta">&gt;</span>
+  El contenido respira gracias al padding de la celda
+<span class="tok-etiqueta">&lt;/td&gt;</span>
+
+<span class="tok-comentario">&lt;!-- padding también admite la forma de 4 valores: --&gt;</span>
+<span class="tok-comentario">&lt;!-- arriba  derecha  abajo  izquierda --&gt;</span>
+<span class="tok-etiqueta">&lt;td</span> <span class="tok-atributo">style</span>=<span class="tok-valor">"padding:20px 24px 32px 24px;"</span><span class="tok-etiqueta">&gt;</span> ... <span class="tok-etiqueta">&lt;/td&gt;</span></code></pre>
+    </div>
+
+    <h3>¿Y el espacio entre dos bloques?</h3>
+    <p>
+      Para separar dos secciones (p. ej. el cuerpo del pie) hay dos vías
+      fiables: dar <code>padding</code> generoso a las celdas que se tocan, o
+      meter una <strong>fila espaciadora</strong> — un <code>&lt;tr&gt;</code>
+      vacío con una altura fija. La fila espaciadora es muy de email:
+    </p>
+
+    <div class="demo">
+      <div class="demo-titulo">Fila espaciadora entre bloques</div>
+      <div class="demo-render">
+        <div style="max-width:320px;margin:0 auto;font-size:13px;text-align:center;">
+          <div style="background:#f3f0fb;padding:14px;color:#5a4a8a;">Bloque de arriba</div>
+          <div style="height:24px;"></div>
+          <div style="background:#fdf0e7;padding:14px;color:#e0916a;">Bloque de abajo</div>
+        </div>
+      </div>
+      <pre class="demo-codigo"><code><span class="tok-etiqueta">&lt;tr&gt;</span>
+  <span class="tok-etiqueta">&lt;td</span> <span class="tok-atributo">style</span>=<span class="tok-valor">"background-color:#f3f0fb; padding:14px;"</span><span class="tok-etiqueta">&gt;</span>
+    Bloque de arriba
+  <span class="tok-etiqueta">&lt;/td&gt;</span>
+<span class="tok-etiqueta">&lt;/tr&gt;</span>
+
+<span class="tok-comentario">&lt;!-- Fila espaciadora: una celda vacía con altura fija --&gt;</span>
+<span class="tok-etiqueta">&lt;tr&gt;</span>
+  <span class="tok-etiqueta">&lt;td</span> <span class="tok-atributo">height</span>=<span class="tok-valor">"24"</span> <span class="tok-atributo">style</span>=<span class="tok-valor">"height:24px; line-height:24px;
+            font-size:0;"</span><span class="tok-etiqueta">&gt;</span>&amp;nbsp;<span class="tok-etiqueta">&lt;/td&gt;</span>
+<span class="tok-etiqueta">&lt;/tr&gt;</span>
+
+<span class="tok-etiqueta">&lt;tr&gt;</span>
+  <span class="tok-etiqueta">&lt;td</span> <span class="tok-atributo">style</span>=<span class="tok-valor">"background-color:#fdf0e7; padding:14px;"</span><span class="tok-etiqueta">&gt;</span>
+    Bloque de abajo
+  <span class="tok-etiqueta">&lt;/td&gt;</span>
+<span class="tok-etiqueta">&lt;/tr&gt;</span></code></pre>
+    </div>
+
+    <div class="nota">
+      <strong>Por qué <code>font-size:0</code> y el <code>&amp;nbsp;</code>:</strong>
+      la celda vacía lleva un espacio (<code>&amp;nbsp;</code>) para que
+      Outlook no la colapse, y <code>font-size:0</code> + <code>line-height</code>
+      igual a la altura para que ese espacio no añada altura de más. Trucos
+      pequeños, pero hacen que la separación sea exacta en todos los clientes.
+    </div>
+
+    <!-- ====================================================== -->
+    <h2>6. Texto legible</h2>
+
+    <p>
+      Para que el texto del email se lea bien y de forma consistente, cada
+      <code>&lt;td&gt;</code> con texto suele declarar estas cuatro cosas:
+    </p>
+
+    <ul>
+      <li><strong><code>font-family</code></strong> — la lista web-safe con fallback.</li>
+      <li><strong><code>font-size</code></strong> — 14–16px para cuerpo; menos de 14 se lee mal en móvil.</li>
+      <li><strong><code>line-height</code></strong> — alto de línea, ~1.5 del tamaño de fuente, para que respire.</li>
+      <li><strong><code>color</code></strong> — hex de 6 dígitos.</li>
+    </ul>
+
+    <div class="demo">
+      <div class="demo-titulo">Una celda de texto bien estilada</div>
+      <div class="demo-render">
+        <div style="max-width:380px;margin:0 auto;background:#fff;border:1px solid #e7e2f2;border-radius:6px;">
+          <div style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:24px;color:#3a3550;padding:20px;">
+            Un párrafo con su fuente, su tamaño, su alto de línea y su color.
+            Así se lee cómodo en cualquier cliente de correo.
+          </div>
+        </div>
+      </div>
+      <pre class="demo-codigo"><code><span class="tok-etiqueta">&lt;td</span> <span class="tok-atributo">style</span>=<span class="tok-valor">"font-family:Arial, Helvetica, sans-serif;
+            font-size:16px;
+            line-height:24px;
+            color:#3a3550;
+            padding:20px;"</span><span class="tok-etiqueta">&gt;</span>
+  Un párrafo con su fuente, tamaño, alto de línea y color.
+<span class="tok-etiqueta">&lt;/td&gt;</span></code></pre>
+    </div>
+
+    <div class="aviso">
+      <strong>El <code>line-height</code>, mejor en píxeles.</strong> Outlook
+      se comporta de forma rara con <code>line-height</code> sin unidad o en
+      porcentaje. Ponerlo en píxeles (<code>line-height:24px</code>) es lo más
+      predecible.
+    </div>
+
+    <!-- ====================================================== -->
+    <h2>7. La media query: la excepción del &lt;style&gt;</h2>
+
+    <p>
+      Quedó pendiente del Bloque 02: para que dos columnas se apilen en el
+      móvil hace falta una <em>media query</em>, y eso solo se puede escribir
+      en un <code>&lt;style&gt;</code> de la cabecera — inline no admite media
+      queries.
+    </p>
+
+    <p>
+      La clave es que sea una <strong>mejora opcional</strong>: el email se ve
+      correcto sin la media query (las columnas quedan estrechas pero
+      funcionan); con ella, además, se ven mejor en móvil. Si un cliente
+      ignora el <code>&lt;style&gt;</code>, no se rompe nada.
+    </p>
+
+    <div class="demo">
+      <div class="demo-titulo">&lt;style&gt; con media query para apilar columnas</div>
+      <div class="demo-render">
+        <p style="margin:0;font-size:14px;color:#6b6580;text-align:center;">
+          En escritorio: columnas lado a lado.<br>
+          En móvil (&lt; 600px): cada columna al 100%, apiladas.
+        </p>
+      </div>
+      <pre class="demo-codigo"><code><span class="tok-comentario">&lt;!-- En el &lt;head&gt; del email --&gt;</span>
+<span class="tok-etiqueta">&lt;style&gt;</span>
+  <span class="tok-atributo">@media</span> screen <span class="tok-prop">and</span> (max-width: 600px) {
+    <span class="tok-comentario">/* la clase solo se usa aquí, como gancho */</span>
+    .columna-movil {
+      width: 100% <span class="tok-prop">!important</span>;
+      display: block <span class="tok-prop">!important</span>;
+    }
+  }
+<span class="tok-etiqueta">&lt;/style&gt;</span>
+
+<span class="tok-comentario">&lt;!-- En el cuerpo: la celda lleva clase Y estilo inline --&gt;</span>
+<span class="tok-etiqueta">&lt;td</span> <span class="tok-atributo">class</span>=<span class="tok-valor">"columna-movil"</span> <span class="tok-atributo">width</span>=<span class="tok-valor">"300"</span>
+    <span class="tok-atributo">style</span>=<span class="tok-valor">"width:300px; padding:20px;"</span><span class="tok-etiqueta">&gt;</span>
+  Columna
+<span class="tok-etiqueta">&lt;/td&gt;</span></code></pre>
+    </div>
+
+    <div class="nota">
+      <strong>Aquí sí se usa una clase</strong> — pero solo como "gancho" para
+      la media query, nunca para el estilo base. El estilo base sigue inline
+      (<code>width:300px</code>); la clase solo lo <em>sobrescribe</em> en
+      móvil. Por eso lleva <code>!important</code>: tiene que ganarle al inline.
+    </div>
+
+    <div class="nota">
+      <strong>Recapitulando:</strong> CSS inline siempre, clases solo como
+      gancho de media queries, fuentes web-safe con fallback, hex de 6
+      dígitos, fondos siempre declarados y espaciado con <code>padding</code>
+      en celdas o filas espaciadoras. Con los tres bloques hechos, ya tienes
+      la base — lo siguiente son las <strong>plantillas</strong> reales.
+    </div>
+
+  </main>
+
+  <nav class="nav-bloques">
+    <a href="../02-estructura/index.html">
+      <div class="direccion">← Bloque 02</div>
+      <div class="titulo">Estructura con tablas</div>
+    </a>
+    <a class="siguiente" href="../04-botones-imagenes/index.html">
+      <div class="direccion">Bloque 04 →</div>
+      <div class="titulo">Botones e imágenes</div>
+    </a>
+  </nav>
+
+  <footer class="pie">
+    Remite · Hecho en español
+  </footer>
+
+</body>
+</html>

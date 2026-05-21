@@ -1,0 +1,212 @@
+/* ============================================================
+   Visor de plantillas — estilos compartidos
+   ------------------------------------------------------------
+   Lo usan newsletter-preview.html y transaccional-preview.html.
+   Estiliza el VISOR (barra, modal de código), no el email.
+   ============================================================ */
+
+:root {
+  --lavanda-claro: #f3f0fb;
+  --lavanda: #d8cef0;
+  --lavanda-fuerte: #8b76c4;
+  --lavanda-texto: #5a4a8a;
+  --melocoton-claro: #fdf0e7;
+  --melocoton-fuerte: #e0916a;
+  --tinta: #3a3550;
+  --tinta-suave: #6b6580;
+  --blanco: #ffffff;
+  --borde: #e7e2f2;
+  --codigo-fondo: #2e2a40;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  background: var(--lavanda);
+  color: var(--tinta);
+  display: flex;
+  flex-direction: column;
+}
+
+code {
+  font-family: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+}
+
+/* ---------- Barra superior ---------- */
+.barra {
+  background: var(--blanco);
+  border-bottom: 1px solid var(--borde);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.migas {
+  font-size: 14px;
+  color: var(--tinta-suave);
+}
+
+.migas a {
+  color: var(--lavanda-fuerte);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.migas a:hover { text-decoration: underline; }
+
+.migas .separador { margin: 0 8px; color: var(--borde); }
+
+.migas .actual { color: var(--tinta); font-weight: 700; }
+
+.acciones {
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.boton {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  border: 1px solid var(--borde);
+  color: var(--tinta);
+  background: var(--blanco);
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.boton:hover { border-color: var(--lavanda-fuerte); }
+
+.boton.primario {
+  background: var(--lavanda-fuerte);
+  border-color: var(--lavanda-fuerte);
+  color: var(--blanco);
+}
+
+.boton.primario:hover { background: #7763b0; }
+
+/* ---------- Aviso de preview ---------- */
+.aviso-preview {
+  background: var(--melocoton-claro);
+  border-bottom: 1px solid #f0d9c8;
+  padding: 8px 20px;
+  font-size: 13px;
+  color: var(--melocoton-fuerte);
+  text-align: center;
+}
+
+/* ---------- Marco del email ---------- */
+.lienzo {
+  flex: 1;
+  overflow: auto;
+  padding: 0;
+}
+
+.marco-email {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+/* ---------- Modal del código ---------- */
+.modal-fondo {
+  position: fixed;
+  inset: 0;
+  background: rgba(46, 42, 64, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  z-index: 50;
+}
+
+.modal-fondo[hidden] { display: none; }
+
+.modal {
+  background: var(--blanco);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 760px;
+  max-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 24px;
+}
+
+.modal-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-cabecera h2 {
+  margin: 0;
+  font-size: 19px;
+}
+
+.boton-cerrar {
+  background: none;
+  border: 0;
+  font-size: 18px;
+  color: var(--tinta-suave);
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.boton-cerrar:hover { color: var(--tinta); }
+
+.modal-ayuda {
+  font-size: 14px;
+  color: var(--tinta-suave);
+  margin: 8px 0 14px;
+}
+
+.modal-ayuda code {
+  background: var(--lavanda-claro);
+  color: var(--lavanda-texto);
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-size: 0.88em;
+}
+
+.modal-acciones {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.aviso-copiado {
+  color: #5a9e7a;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.aviso-copiado[hidden] { display: none; }
+
+.modal-codigo {
+  margin: 0;
+  background: var(--codigo-fondo);
+  color: #e6e1f4;
+  border-radius: 10px;
+  padding: 16px 18px;
+  font-size: 12.5px;
+  line-height: 1.6;
+  overflow: auto;
+}
+
+.modal-codigo code {
+  white-space: pre;
+}

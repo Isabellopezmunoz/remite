@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <title>Remite — Emails HTML</title>
+  <style>
+    :root {
+   
+      --lavanda-claro: #f3f0fb;
+      --lavanda: #d8cef0;
+      --lavanda-fuerte: #8b76c4;
+      --lavanda-texto: #5a4a8a;
+      --melocoton-claro: #fdf0e7;
+      --melocoton: #f5cbb0;
+      --melocoton-fuerte: #e0916a;
+      --tinta: #3a3550;
+      --tinta-suave: #6b6580;
+      --fondo: #faf8fd;
+      --blanco: #ffffff;
+      --borde: #e7e2f2;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--fondo);
+      color: var(--tinta);
+      line-height: 1.6;
+    }
+
+    a { color: var(--lavanda-fuerte); }
+
+    /* Header fijo arriba */
+    .cabecera {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(250, 248, 253, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--borde);
+      padding: 20px 0;
+    }
+
+    .cabecera-interno {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .logo-icono {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .logo-texto {
+      font-size: 23px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    /* Navegación de la derecha del header */
+    .cabecera-nav {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cabecera-nav a {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--tinta-suave);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .cabecera-nav a:hover {
+      background: var(--lavanda-claro);
+      color: var(--lavanda-fuerte);
+    }
+
+    /* El enlace destacado del header (Constructor) */
+    .cabecera-nav a.nav-destacado {
+      background: var(--lavanda-fuerte);
+      color: #ffffff;
+    }
+
+    .cabecera-nav a.nav-destacado:hover {
+      background: #7763b0;
+      color: #ffffff;
+    }
+
+    @media (max-width: 620px) {
+      .cabecera-nav a.nav-normal { display: none; }
+    }
+
+    /* Las secciones con ancla dejan hueco para el header fijo
+       al saltar a ellas desde la navegación. */
+    #documentacion,
+    #plantillas {
+      scroll-margin-top: 90px;
+    }
+
+    /* Bloque de bienvenida (antes era el hero, ahora va en el contenido) */
+    .bienvenida {
+      margin-bottom: 40px;
+    }
+
+    .bienvenida h1 {
+      margin: 0 0 10px;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      line-height: 1.25;
+      max-width: 620px;
+    }
+
+    .bienvenida p {
+      margin: 0;
+      font-size: 16px;
+      color: var(--tinta-suave);
+      max-width: 540px;
+    }
+
+    .contenedor {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 0 72px;
+    }
+
+    .seccion-titulo {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--lavanda-fuerte);
+      margin: 0 0 4px;
+    }
+
+    .seccion-intro {
+      margin: 0 0 28px;
+      color: var(--tinta-suave);
+      font-size: 15px;
+    }
+
+    .rejilla {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .tarjeta {
+      display: block;
+      background: var(--blanco);
+      border: 1px solid var(--borde);
+      border-radius: 14px;
+      padding: 26px 24px;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .tarjeta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(139, 118, 196, 0.16);
+      border-color: var(--lavanda);
+    }
+
+    .tarjeta .insignia {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: var(--lavanda-claro);
+      color: var(--lavanda-texto);
+      margin-bottom: 14px;
+    }
+
+    .tarjeta.melocoton .insignia {
+      background: var(--melocoton-claro);
+      color: var(--melocoton-fuerte);
+    }
+
+    .tarjeta h3 {
+      margin: 0 0 8px;
+      font-size: 19px;
+      font-weight: 700;
+    }
+
+    .tarjeta p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--tinta-suave);
+    }
+
+    .tarjeta .flecha {
+      display: inline-block;
+      margin-top: 14px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--lavanda-fuerte);
+    }
+
+    .tarjeta.melocoton .flecha { color: var(--melocoton-fuerte); }
+
+    .bloque-plantillas {
+      margin-top: 56px;
+    }
+
+    .pie {
+      text-align: center;
+      padding: 32px 24px;
+      border-top: 1px solid var(--borde);
+      color: var(--tinta-suave);
+      font-size: 14px;
+    }
+
+    .tarjeta.proximamente {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    /* Tarjeta destacada del constructor */
+    .destacado {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      background: linear-gradient(135deg, var(--lavanda-fuerte) 0%, var(--melocoton-fuerte) 100%);
+      border-radius: 16px;
+      padding: 32px 36px;
+      text-decoration: none;
+      color: #ffffff;
+      margin-bottom: 56px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .destacado:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(139, 118, 196, 0.3);
+    }
+
+    .destacado .insignia-destacado {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      background: rgba(255, 255, 255, 0.22);
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+
+    .destacado h2 {
+      margin: 0 0 6px;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .destacado p {
+      margin: 0;
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.92);
+      max-width: 460px;
+    }
+
+    .destacado .accion-destacado {
+      background: #ffffff;
+      color: var(--lavanda-texto);
+      font-size: 15px;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="cabecera">
+    <div class="cabecera-interno">
+      <a class="logo" href="index.html">
+        <span class="logo-icono">
+          <!-- Sobre estilizado: silueta de trazo grueso con la solapa
+               marcada. Degradado lavanda → melocotón. -->
+          <svg width="40" height="40" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="logo-grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#8b76c4"/>
+                <stop offset="1" stop-color="#e0916a"/>
+              </linearGradient>
+            </defs>
+            <rect x="3" y="6" width="26" height="20" rx="5"
+                  stroke="url(#logo-grad)" stroke-width="4"/>
+            <path d="M5 9l11 8 11-8" fill="none"
+                  stroke="url(#logo-grad)" stroke-width="4"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="logo-texto">Remite</span>
+      </a>
+      <nav class="cabecera-nav">
+        <a class="nav-normal" href="#documentacion">Documentación</a>
+        <a class="nav-normal" href="#plantillas">Plantillas</a>
+        <a class="nav-destacado" href="constructor/index.html">Constructor</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="contenedor">
+
+    <!-- ============ BIENVENIDA ============ -->
+    <section class="bienvenida">
+      <h1>Maqueta emails HTML que funcionan en todas partes</h1>
+      <p>
+        Guías, plantillas y un constructor visual. Todo en español.
+      </p>
+    </section>
+
+    <!-- ============ CONSTRUCTOR (destacado) ============ -->
+    <a class="destacado" href="constructor/index.html">
+      <div>
+        <span class="insignia-destacado">Herramienta</span>
+        <h2>Constructor de emails</h2>
+        <p>
+          Monta tu email añadiendo bloques, edítalos a tu gusto y copia el
+          HTML listo para usar. Sin escribir una tabla a mano.
+        </p>
+      </div>
+      <span class="accion-destacado">Abrir constructor →</span>
+    </a>
+
+    <!-- ============ DOCUMENTACIÓN ============ -->
+    <section id="documentacion">
+      <p class="seccion-titulo">Documentación</p>
+      <p class="seccion-intro">
+        Bloques cortos y visuales. Cada concepto se ve renderizado y con su
+        código al lado.
+      </p>
+
+      <div class="rejilla">
+
+        <a class="tarjeta" href="01-fundamentos/index.html">
+          <span class="insignia">Bloque 01</span>
+          <h3>Fundamentos</h3>
+          <p>
+            Por qué un email no es una web normal: el doctype de email, la
+            estructura mínima y los clientes de correo.
+          </p>
+          <span class="flecha">Empezar aquí →</span>
+        </a>
+
+        <a class="tarjeta" href="02-estructura/index.html">
+          <span class="insignia">Bloque 02</span>
+          <h3>Estructura con tablas</h3>
+          <p>
+            Maquetar con <code>&lt;table&gt;</code> anidadas: la tabla
+            exterior, el ancho de 600px y las celdas.
+          </p>
+          <span class="flecha">Ver bloque →</span>
+        </a>
+
+        <a class="tarjeta" href="03-estilos/index.html">
+          <span class="insignia">Bloque 03</span>
+          <h3>Estilos</h3>
+          <p>
+            CSS inline, por qué no se usan clases, fuentes web-safe, colores
+            y padding en celdas.
+          </p>
+          <span class="flecha">Ver bloque →</span>
+        </a>
+
+        <a class="tarjeta" href="04-botones-imagenes/index.html">
+          <span class="insignia">Bloque 04</span>
+          <h3>Botones e imágenes</h3>
+          <p>
+            Botones "bulletproof" que funcionan en Outlook, e imágenes con
+            ruta absoluta, <code>alt</code> y adaptables.
+          </p>
+          <span class="flecha">Ver bloque →</span>
+        </a>
+
+        <a class="tarjeta" href="05-dark-mode/index.html">
+          <span class="insignia">Bloque 05</span>
+          <h3>Dark mode</h3>
+          <p>
+            Qué hace cada cliente con tus colores en modo oscuro y cómo
+            evitar que el email acabe ilegible.
+          </p>
+          <span class="flecha">Ver bloque →</span>
+        </a>
+
+        <a class="tarjeta" href="06-testing/index.html">
+          <span class="insignia">Bloque 06</span>
+          <h3>Testing y envío</h3>
+          <p>
+            Comprobar el email en cada cliente, las herramientas que hay y
+            un checklist antes de darle a enviar.
+          </p>
+          <span class="flecha">Ver bloque →</span>
+        </a>
+
+        <a class="tarjeta" href="07-preheader-accesibilidad/index.html">
+          <span class="insignia">Bloque 07</span>
+          <h3>Preheader y accesibilidad</h3>
+          <p>
+            El texto de vista previa de la bandeja y cómo hacer que el email
+            lo pueda leer cualquiera.
+          </p>
+          <span class="flecha">Ver bloque →</span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ============ PLANTILLAS ============ -->
+    <section class="bloque-plantillas" id="plantillas">
+      <p class="seccion-titulo">Plantillas reutilizables</p>
+      <p class="seccion-intro">
+        Emails reales ya montados. Ábrelos, copia el HTML y adáptalo a tu
+        contenido.
+      </p>
+
+      <div class="rejilla">
+
+        <a class="tarjeta melocoton" href="plantillas/newsletter-preview.html">
+          <span class="insignia">Plantilla</span>
+          <h3>Newsletter</h3>
+          <p>
+            Email de marketing: cabecera, artículos, botón de llamada a la
+            acción y pie con baja.
+          </p>
+          <span class="flecha">Ver preview →</span>
+        </a>
+
+        <a class="tarjeta melocoton" href="plantillas/transaccional-preview.html">
+          <span class="insignia">Plantilla</span>
+          <h3>Transaccional</h3>
+          <p>
+            Email de sistema: confirmación, recuperar contraseña o factura.
+            Sobrio y directo.
+          </p>
+          <span class="flecha">Ver preview →</span>
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="pie">
+    Remite · Hecho en español
+  </footer>
+
+</body>
+</html>

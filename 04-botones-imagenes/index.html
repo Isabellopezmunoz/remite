@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <title>Bloque 04 — Botones e imágenes · Remite</title>
+  <style>
+    :root {
+      --lavanda-claro: #f3f0fb;
+      --lavanda: #d8cef0;
+      --lavanda-fuerte: #8b76c4;
+      --lavanda-texto: #5a4a8a;
+      --melocoton-claro: #fdf0e7;
+      --melocoton: #f5cbb0;
+      --melocoton-fuerte: #e0916a;
+      --tinta: #3a3550;
+      --tinta-suave: #6b6580;
+      --fondo: #faf8fd;
+      --blanco: #ffffff;
+      --borde: #e7e2f2;
+      --codigo-fondo: #2e2a40;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--fondo);
+      color: var(--tinta);
+      line-height: 1.7;
+    }
+
+    a { color: var(--lavanda-fuerte); }
+
+    code {
+      font-family: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+      background: var(--lavanda-claro);
+      color: var(--lavanda-texto);
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-size: 0.88em;
+    }
+
+    /* ---------- Cabecera del bloque ---------- */
+    .cabecera-bloque {
+      background: linear-gradient(135deg, var(--lavanda-claro) 0%, var(--melocoton-claro) 100%);
+      border-bottom: 1px solid var(--borde);
+      padding: 40px 24px 44px;
+    }
+
+    .cabecera-bloque .interno {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .migas {
+      font-size: 14px;
+      color: var(--tinta-suave);
+      margin-bottom: 16px;
+    }
+
+    .migas a { text-decoration: none; }
+    .migas a:hover { text-decoration: underline; }
+
+    .cabecera-bloque .insignia {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: var(--blanco);
+      color: var(--lavanda-fuerte);
+      margin-bottom: 12px;
+    }
+
+    .cabecera-bloque h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .cabecera-bloque p {
+      margin: 0;
+      font-size: 17px;
+      color: var(--tinta-suave);
+    }
+
+    /* ---------- Contenido ---------- */
+    .contenedor {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 48px 24px 40px;
+    }
+
+    .contenedor h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 48px 0 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--lavanda-claro);
+    }
+
+    .contenedor h2:first-of-type { margin-top: 0; }
+
+    .contenedor h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 28px 0 8px;
+    }
+
+    .contenedor p { margin: 0 0 16px; }
+
+    .contenedor ul,
+    .contenedor ol { margin: 0 0 16px; padding-left: 22px; }
+    .contenedor li { margin-bottom: 6px; }
+
+    /* ---------- Cajas de aviso ---------- */
+    .aviso {
+      background: var(--melocoton-claro);
+      border-left: 4px solid var(--melocoton-fuerte);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 20px 0;
+      font-size: 15px;
+    }
+
+    .aviso strong { color: var(--melocoton-fuerte); }
+
+    .nota {
+      background: var(--lavanda-claro);
+      border-left: 4px solid var(--lavanda-fuerte);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 20px 0;
+      font-size: 15px;
+    }
+
+    .nota strong { color: var(--lavanda-fuerte); }
+
+    /* ---------- Bloque ejemplo + código ---------- */
+    .demo {
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 20px 0 28px;
+    }
+
+    .demo-titulo {
+      background: var(--blanco);
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--tinta-suave);
+      border-bottom: 1px solid var(--borde);
+    }
+
+    .demo-render {
+      background:
+        repeating-conic-gradient(#f0edf7 0% 25%, #faf8fd 0% 50%) 50% / 22px 22px;
+      padding: 28px 20px;
+    }
+
+    .demo-codigo {
+      margin: 0;
+      background: var(--codigo-fondo);
+      color: #e6e1f4;
+      padding: 18px 20px;
+      font-family: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+      font-size: 13px;
+      line-height: 1.65;
+      overflow-x: auto;
+    }
+
+    .demo-codigo code {
+      background: none;
+      color: inherit;
+      padding: 0;
+      font-size: inherit;
+    }
+
+    .tok-etiqueta { color: #c9a8f4; }
+    .tok-atributo { color: #f5cbb0; }
+    .tok-valor { color: #a8e0c4; }
+    .tok-comentario { color: #7a7490; font-style: italic; }
+    .tok-prop { color: #9ad0f0; }
+
+    /* ---------- Tabla comparativa ---------- */
+    .comparativa {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0 28px;
+      font-size: 15px;
+    }
+
+    .comparativa th,
+    .comparativa td {
+      border: 1px solid var(--borde);
+      padding: 10px 14px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .comparativa th {
+      background: var(--lavanda-claro);
+      color: var(--lavanda-texto);
+      font-weight: 700;
+    }
+
+    .comparativa tr:nth-child(even) td { background: var(--blanco); }
+
+    /* ---------- Botón de ejemplo (solo para la demo visual) ---------- */
+    .boton-demo {
+      display: inline-block;
+      padding: 14px 32px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 15px;
+      font-weight: bold;
+      color: #ffffff;
+      text-decoration: none;
+      background-color: #8b76c4;
+      border-radius: 8px;
+    }
+
+    /* ---------- Navegación inferior ---------- */
+    .nav-bloques {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 24px 24px 64px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .nav-bloques a {
+      flex: 1;
+      background: var(--blanco);
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+      padding: 16px 20px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+
+    .nav-bloques a:hover {
+      border-color: var(--lavanda);
+      transform: translateY(-2px);
+    }
+
+    .nav-bloques .direccion {
+      font-size: 13px;
+      color: var(--tinta-suave);
+      font-weight: 600;
+    }
+
+    .nav-bloques .titulo {
+      font-size: 16px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .nav-bloques .siguiente { text-align: right; }
+
+    .nav-bloques a.desactivado {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .pie {
+      text-align: center;
+      padding: 28px 24px;
+      border-top: 1px solid var(--borde);
+      color: var(--tinta-suave);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="cabecera-bloque">
+    <div class="interno">
+      <p class="migas">
+        <a href="../index.html">← Índice</a> · Documentación
+      </p>
+      <span class="insignia">Bloque 04</span>
+      <h1>Botones e imágenes</h1>
+      <p>
+        Los dos elementos que más se usan y los que más se rompen: cómo hacer
+        un botón que funcione hasta en Outlook y cómo poner imágenes que se
+        vean (y que aguanten si no se ven).
+      </p>
+    </div>
+  </header>
+
+  <main class="contenedor">
+
+    <!-- ====================================================== -->
+    <h2>1. El problema del botón en email</h2>
+
+    <p>
+      En una web, un botón es fácil: un <code>&lt;a&gt;</code> con
+      <code>padding</code>, color de fondo y <code>border-radius</code>.
+      En email casi funciona... salvo en Outlook.
+    </p>
+
+    <p>
+      Outlook renderiza con el motor de Word (lo vimos en el Bloque 01) y
+      tiene dos manías con los botones:
+    </p>
+
+    <ul>
+      <li>
+        <strong>Ignora el <code>padding</code> de un enlace.</strong> El
+        relleno que le da tamaño al botón desaparece: queda un texto pelado.
+      </li>
+      <li>
+        <strong>Solo es clicable el texto.</strong> Aunque pintara el fondo,
+        únicamente las letras responderían al clic, no toda el área.
+      </li>
+    </ul>
+
+    <p>
+      La solución se llama <strong>botón "bulletproof"</strong>: a prueba de
+      balas. La idea es dar a Outlook su propia versión del botón, y al resto
+      de clientes la versión normal.
+    </p>
+
+    <!-- ====================================================== -->
+    <h2>2. Botón nivel 1: el más simple</h2>
+
+    <p>
+      Si tu público no usa apenas Outlook de escritorio, hay una versión
+      sencilla que aguanta bastante bien: un enlace dentro de un
+      <code>&lt;td&gt;</code> que pinta el fondo. La clave es poner el
+      <code>padding</code> <strong>en la celda</strong>, no en el enlace — así
+      Outlook sí lo respeta —, y que el enlace sea <code>display:block</code>
+      para que toda la celda sea clicable.
+    </p>
+
+    <div class="demo">
+      <div class="demo-titulo">Botón simple — padding en el td</div>
+      <div class="demo-render">
+        <a class="boton-demo" href="#">Ver la oferta</a>
+      </div>
+      <pre class="demo-codigo"><code><span class="tok-comentario">&lt;!-- El td pinta el fondo y da el padding (Outlook lo respeta) --&gt;</span>
+<span class="tok-etiqueta">&lt;table</span> <span class="tok-atributo">role</span>=<span class="tok-valor">"presentation"</span> <span class="tok-atributo">cellpadding</span>=<span class="tok-valor">"0"</span> <span class="tok-atributo">cellspacing</span>=<span class="tok-valor">"0"</span> <span class="tok-atributo">border</span>=<span class="tok-valor">"0"</span><span class="tok-etiqueta">&gt;</span>
+  <span class="tok-etiqueta">&lt;tr&gt;</span>
+    <span class="tok-etiqueta">&lt;td</span> <span class="tok-atributo">bgcolor</span>=<span class="tok-valor">"#8b76c4"</span> <span class="tok-atributo">style</span>=<span class="tok-valor">"border-radius:8px;"</span><span class="tok-etiqueta">&gt;</span>
+      <span class="tok-etiqueta">&lt;a</span> <span class="tok-atributo">href</span>=<span class="tok-valor">"https://ejemplo.com/oferta"</span>
+         <span class="tok-atributo">style</span>=<span class="tok-valor">"display:block; padding:14px 32px;
+                font-family:Arial, sans-serif; font-size:15px;
+                font-weight:bold; color:#ffffff;
+                text-decoration:none;"</span><span class="tok-etiqueta">&gt;</span>
+        Ver la oferta
+      <span class="tok-etiqueta">&lt;/a&gt;</span>
+    <span class="tok-etiqueta">&lt;/td&gt;</span>
+  <span class="tok-etiqueta">&lt;/tr&gt;</span>
+<span class="tok-etiqueta">&lt;/table&gt;</span></code></pre>
+    </div>
+
+    <div class="aviso">
+      <strong>El <code>bgcolor</code> va como atributo, además del CSS.</strong>
+      Igual que con las tablas (Bloque 02), el atributo HTML antiguo
+      <code>bgcolor</code> es más fiable en Outlook que el
+      <code>background-color</code> de CSS. Se ponen los dos.
+    </div>
+
+    <!-- ====================================================== -->
+    <h2>3. Botón nivel 2: el bulletproof completo</h2>
+
+    <p>
+      Para que el botón sea perfecto también en Outlook de escritorio se usa
+      la versión completa. Tiene dos partes, y la magia está en los
+      <strong>comentarios condicionales</strong> que vimos en el Bloque 01:
+    </p>
+
+    <ul>
+      <li>
+        <code>&lt;!--[if mso]&gt; ... &lt;![endif]--&gt;</code> — Outlook lee
+        lo de dentro; los demás clientes lo tratan como un comentario y lo
+        ignoran.
+      </li>
+      <li>
+        <code>&lt;!--[if !mso]&gt;&lt;!--&gt; ... &lt;!--&lt;![endif]--&gt;</code>
+        — al revés: esto lo ven <em>todos menos</em> Outlook.
+      </li>
+    </ul>
+
+    <p>
+      Dentro del bloque <code>[if mso]</code> va una etiqueta especial de
+      Word, <code>&lt;v:roundrect&gt;</code>, que dibuja el rectángulo
+      redondeado clicable que Outlook sí entiende. Fuera, el enlace normal
+      para el resto.
+    </p>
+
+    <div class="demo">
+      <div class="demo-titulo">Botón bulletproof — versión completa</div>
+      <div class="demo-render">
+        <a class="boton-demo" href="#">Confirmar mi cuenta</a>
+      </div>
+      <pre class="demo-codigo"><code><span class="tok-etiqueta">&lt;table</span> <span class="tok-atributo">role</span>=<span class="tok-valor">"presentation"</span> <span class="tok-atributo">cellpadding</span>=<span class="tok-valor">"0"</span> <span class="tok-atributo">cellspacing</span>=<span class="tok-valor">"0"</span> <span class="tok-atributo">border</span>=<span class="tok-valor">"0"</span> <span class="tok-atributo">align</span>=<span class="tok-valor">"center"</span><span class="tok-etiqueta">&gt;</span>
+  <span class="tok-etiqueta">&lt;tr&gt;</span>
+    <span class="tok-etiqueta">&lt;td</span> <span class="tok-atributo">align</span>=<span class="tok-valor">"center"</span> <span class="tok-atributo">bgcolor</span>=<span class="tok-valor">"#8b76c4"</span> <span class="tok-atributo">style</span>=<span class="tok-valor">"border-radius:8px;"</span><span class="tok-etiqueta">&gt;</span>
+
+      <span class="tok-comentario">&lt;!-- SOLO Outlook: rectángulo redondeado de Word --&gt;</span>
+      <span class="tok-comentario">&lt;!--[if mso]&gt;</span>
+      <span class="tok-comentario">&lt;v:roundrect xmlns:v="urn:schemas-microsoft-com:vml"</span>
+      <span class="tok-comentario">  href="https://ejemplo.com/confirmar" arcsize="17%"</span>
+      <span class="tok-comentario">  style="height:48px; width:240px; v-text-anchor:middle;"</span>
+      <span class="tok-comentario">  stroke="f" fillcolor="#8b76c4"&gt;</span>
+      <span class="tok-comentario">  &lt;center style="color:#ffffff; font-family:Arial,sans-serif;</span>
+      <span class="tok-comentario">                  font-size:16px; font-weight:bold;"&gt;</span>
+      <span class="tok-comentario">    Confirmar mi cuenta</span>
+      <span class="tok-comentario">  &lt;/center&gt;</span>
+      <span class="tok-comentario">&lt;/v:roundrect&gt;</span>
+      <span class="tok-comentario">&lt;![endif]--&gt;</span>
+
+      <span class="tok-comentario">&lt;!-- TODOS menos Outlook: el enlace normal --&gt;</span>
+      <span class="tok-comentario">&lt;!--[if !mso]&gt;&lt;!--&gt;</span>
+      <span class="tok-etiqueta">&lt;a</span> <span class="tok-atributo">href</span>=<span class="tok-valor">"https://ejemplo.com/confirmar"</span>
+         <span class="tok-atributo">style</span>=<span class="tok-valor">"display:inline-block; padding:14px 32px;
+                font-family:Arial, sans-serif; font-size:16px;
+                font-weight:bold; color:#ffffff;
+                text-decoration:none; border-radius:8px;"</span><span class="tok-etiqueta">&gt;</span>
+        Confirmar mi cuenta
+      <span class="tok-etiqueta">&lt;/a&gt;</span>
+      <span class="tok-comentario">&lt;!--&lt;![endif]--&gt;</span>
+
+    <span class="tok-etiqueta">&lt;/td&gt;</span>
+  <span class="tok-etiqueta">&lt;/tr&gt;</span>
+<span class="tok-etiqueta">&lt;/table&gt;</span></code></pre>
+    </div>
+
+    <div class="aviso">
+      <strong>La URL y el texto van DOS veces.</strong> Una en el
+      <code>&lt;v:roundrect&gt;</code> (Outlook) y otra en el
+      <code>&lt;a&gt;</code> (el resto). Si cambias el enlace o el texto del
+      botón, acuérdate de tocarlo en los dos sitios — es justo lo que hacen
+      las plantillas <code>newsletter.html</code> y
+      <code>transaccional.html</code> de este proyecto.
+    </div>
+
+    <div class="nota">
+      <strong>¿Cuál uso?</strong> Si tus destinatarios usan Outlook de
+      escritorio (típico en entornos de empresa), usa el bulletproof
+      completo. Si es público general en Gmail/móvil, el nivel 1 suele
+      bastar. Ante la duda, el completo: nunca se ve peor.
+    </div>
+
+    <!-- ====================================================== -->
+    <h2>4. Imágenes: lo básico que no puede faltar</h2>
+
+    <p>
+      Las imágenes en email tienen cuatro reglas que, si fallas, se notan
+      enseguida:
+    </p>
+
+    <h3>Rutas absolutas, siempre</h3>
+    <p>
+      Un email no tiene "carpeta del proyecto": se abre en el correo del
+      destinatario, lejos de tu servidor. Una ruta como
+      <code>img/logo.png</code> no apunta a ningún sitio. La imagen tiene que
+      estar subida a un servidor público y enlazarse con su
+      <strong>URL completa</strong>: <code>https://...</code>.
+    </p>
+
+    <h3>Siempre <code>alt</code></h3>
+    <p>
+      Muchos clientes <strong>no cargan las imágenes</strong> hasta que el
+      usuario lo permite. Hasta entonces se ve el texto del atributo
+      <code>alt</code>. Un <code>alt</code> bueno hace que el email se
+      entienda incluso sin imágenes — y ayuda a los lectores de pantalla.
+    </p>
+
+    <h3>Ancho y alto, y <code>display:block</code></h3>
+    <p>
+      Indica el <code>width</code> como atributo y en el <code>style</code>.
+      Y pon <code>display:block</code>: sin él, algunos clientes dejan un
+      pequeño hueco fantasma bajo la imagen (la tratan como si fuera texto).
+    </p>
+
+    <div class="demo">
+      <div class="demo-titulo">Una imagen bien puesta</div>
+      <div class="demo-render">
+        <img src="https://placehold.co/520x180/8b76c4/ffffff?text=Imagen+del+email" width="520" alt="Imagen de ejemplo del email" style="display:block; width:100%; max-width:520px; height:auto; border-radius:8px;" />
+      </div>
+      <pre class="demo-codigo"><code><span class="tok-etiqueta">&lt;img</span> <span class="tok-atributo">src</span>=<span class="tok-valor">"https://ejemplo.com/img/cabecera.png"</span>
+     <span class="tok-atributo">width</span>=<span class="tok-valor">"520"</span>
+     <span class="tok-atributo">alt</span>=<span class="tok-valor">"Rebajas de primavera, hasta -40%"</span>
+     <span class="tok-atributo">style</span>=<span class="tok-valor">"display:block; width:100%; max-width:520px;
+            height:auto; border:0;"</span> <span class="tok-etiqueta">/&gt;</span></code></pre>
+    </div>
+
+    <div class="aviso">
+      <strong>El <code>width</code> debe ir también como atributo.</strong>
+      Outlook ignora el <code>width</code> del CSS en imágenes y, sin el
+      atributo, las muestra a su tamaño real — puede desbordar los 600px y
+      romper el email. Atributo <code>width</code> + CSS, los dos.
+    </div>
+
+    <h3>Formato: PNG, JPG o GIF — nunca SVG</h3>
+    <p>
+      En email solo se usan tres formatos de imagen:
+      <strong>PNG</strong> (logos, gráficos, transparencias),
+      <strong>JPG</strong> (fotos) y <strong>GIF</strong> (animaciones
+      sencillas). El <strong>SVG no se usa</strong>, y por dos motivos serios:
+    </p>
+
+    <ul>
+      <li>
+        <strong>Casi ningún cliente lo renderiza.</strong> Gmail, Outlook y
+        la mayoría de apps no muestran SVG: la imagen sale rota o no aparece.
+      </li>
+      <li>
+        <strong>Lo tratan como sospechoso.</strong> Un SVG puede contener
+        código (scripts), así que muchos clientes lo bloquean por seguridad y
+        su presencia puede <strong>subir la puntuación de spam</strong> del
+        email.
+      </li>
+    </ul>
+
+    <p>
+      Si tu logo o tus iconos están en SVG, hay que
+      <strong>exportarlos a PNG</strong> antes de usarlos en el email.
+    </p>
+
+    <div class="aviso">
+      <strong>Regla corta:</strong> ¿la imagen es <code>.svg</code>? No va al
+      email. Conviértela a <code>.png</code>. Para email, los formatos
+      seguros son PNG, JPG y GIF — y nada más.
+    </div>
+
+    <!-- ====================================================== -->
+    <h2>5. Imágenes que se adaptan al móvil</h2>
+
+    <p>
+      El truco del Bloque 02 también vale aquí: <code>width</code> como
+      atributo para fijar el tamaño en escritorio, y en el CSS
+      <code>width:100%</code> + <code>max-width</code> + <code>height:auto</code>
+      para que en el móvil se encoja sin deformarse.
+    </p>
+
+    <table class="comparativa">
+      <thead>
+        <tr>
+          <th>Propiedad</th>
+          <th>Para qué</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>width="520"</code> (atributo)</td>
+          <td>Tamaño en escritorio y en Outlook.</td>
+        </tr>
+        <tr>
+          <td><code>width:100%</code> (CSS)</td>
+          <td>En móvil, ocupa el ancho disponible.</td>
+        </tr>
+        <tr>
+          <td><code>max-width:520px</code> (CSS)</td>
+          <td>Que no crezca más de su tamaño real.</td>
+        </tr>
+        <tr>
+          <td><code>height:auto</code> (CSS)</td>
+          <td>Mantiene la proporción al encogerse: no se aplasta.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ====================================================== -->
+    <h2>6. Cuidado con el texto dentro de imágenes</h2>
+
+    <p>
+      Es tentador hacer toda la cabecera del email como una imagen bonita con
+      el texto incrustado. Es mala idea:
+    </p>
+
+    <ul>
+      <li>
+        Si el cliente no carga imágenes, <strong>el mensaje desaparece
+        entero</strong>: solo queda el <code>alt</code>.
+      </li>
+      <li>
+        Un lector de pantalla no puede leer texto que es un dibujo.
+      </li>
+      <li>
+        Demasiada imagen y poco texto real es una <strong>señal de spam</strong>
+        para los filtros de correo.
+      </li>
+    </ul>
+
+    <div class="nota">
+      <strong>Regla práctica:</strong> el texto importante — títulos,
+      el mensaje, el botón — va como <strong>texto HTML de verdad</strong>.
+      Las imágenes son para fotos, ilustraciones y el logo. Si el email se
+      entiende con todas las imágenes desactivadas, vas bien.
+    </div>
+
+    <div class="nota">
+      <strong>Recapitulando:</strong> botones con <code>padding</code> en el
+      <code>&lt;td&gt;</code> (y bulletproof con <code>[if mso]</code> si hay
+      Outlook), URL y texto duplicados en el botón completo; imágenes con
+      ruta absoluta, <code>alt</code> siempre, <code>width</code> en atributo
+      y CSS, <code>display:block</code>, en formato PNG/JPG/GIF (nunca SVG), y
+      nunca meter el texto importante dentro de una imagen.
+    </div>
+
+  </main>
+
+  <nav class="nav-bloques">
+    <a href="../03-estilos/index.html">
+      <div class="direccion">← Bloque 03</div>
+      <div class="titulo">Estilos</div>
+    </a>
+    <a class="siguiente" href="../05-dark-mode/index.html">
+      <div class="direccion">Bloque 05 →</div>
+      <div class="titulo">Dark mode</div>
+    </a>
+  </nav>
+
+  <footer class="pie">
+    Remite · Hecho en español
+  </footer>
+
+</body>
+</html>

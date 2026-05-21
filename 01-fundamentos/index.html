@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <title>Bloque 01 — Fundamentos · Remite</title>
+  <style>
+    :root {
+      --lavanda-claro: #f3f0fb;
+      --lavanda: #d8cef0;
+      --lavanda-fuerte: #8b76c4;
+      --lavanda-texto: #5a4a8a;
+      --melocoton-claro: #fdf0e7;
+      --melocoton: #f5cbb0;
+      --melocoton-fuerte: #e0916a;
+      --tinta: #3a3550;
+      --tinta-suave: #6b6580;
+      --fondo: #faf8fd;
+      --blanco: #ffffff;
+      --borde: #e7e2f2;
+      --codigo-fondo: #2e2a40;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--fondo);
+      color: var(--tinta);
+      line-height: 1.7;
+    }
+
+    a { color: var(--lavanda-fuerte); }
+
+    code {
+      font-family: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+      background: var(--lavanda-claro);
+      color: var(--lavanda-texto);
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-size: 0.88em;
+    }
+
+    /* ---------- Cabecera del bloque ---------- */
+    .cabecera-bloque {
+      background: linear-gradient(135deg, var(--lavanda-claro) 0%, var(--melocoton-claro) 100%);
+      border-bottom: 1px solid var(--borde);
+      padding: 40px 24px 44px;
+    }
+
+    .cabecera-bloque .interno {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .migas {
+      font-size: 14px;
+      color: var(--tinta-suave);
+      margin-bottom: 16px;
+    }
+
+    .migas a { text-decoration: none; }
+    .migas a:hover { text-decoration: underline; }
+
+    .cabecera-bloque .insignia {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: var(--blanco);
+      color: var(--lavanda-fuerte);
+      margin-bottom: 12px;
+    }
+
+    .cabecera-bloque h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .cabecera-bloque p {
+      margin: 0;
+      font-size: 17px;
+      color: var(--tinta-suave);
+    }
+
+    /* ---------- Contenido ---------- */
+    .contenedor {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 48px 24px 40px;
+    }
+
+    .contenedor h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 48px 0 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--lavanda-claro);
+    }
+
+    .contenedor h2:first-of-type { margin-top: 0; }
+
+    .contenedor h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 28px 0 8px;
+    }
+
+    .contenedor p { margin: 0 0 16px; }
+
+    .contenedor ul { margin: 0 0 16px; padding-left: 22px; }
+    .contenedor li { margin-bottom: 6px; }
+
+    /* ---------- Caja de aviso ---------- */
+    .aviso {
+      background: var(--melocoton-claro);
+      border-left: 4px solid var(--melocoton-fuerte);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 20px 0;
+      font-size: 15px;
+    }
+
+    .aviso strong { color: var(--melocoton-fuerte); }
+
+    .nota {
+      background: var(--lavanda-claro);
+      border-left: 4px solid var(--lavanda-fuerte);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 20px 0;
+      font-size: 15px;
+    }
+
+    .nota strong { color: var(--lavanda-fuerte); }
+
+    /* ---------- Bloque ejemplo + código ---------- */
+    .demo {
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 20px 0 28px;
+    }
+
+    .demo-titulo {
+      background: var(--blanco);
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--tinta-suave);
+      border-bottom: 1px solid var(--borde);
+    }
+
+    .demo-render {
+      background:
+        repeating-conic-gradient(#f0edf7 0% 25%, #faf8fd 0% 50%) 50% / 22px 22px;
+      padding: 28px 20px;
+    }
+
+    .demo-codigo {
+      margin: 0;
+      background: var(--codigo-fondo);
+      color: #e6e1f4;
+      padding: 18px 20px;
+      font-family: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+      font-size: 13px;
+      line-height: 1.65;
+      overflow-x: auto;
+    }
+
+    .demo-codigo code {
+      background: none;
+      color: inherit;
+      padding: 0;
+      font-size: inherit;
+    }
+
+    /* tokens de color para el código */
+    .tok-etiqueta { color: #c9a8f4; }
+    .tok-atributo { color: #f5cbb0; }
+    .tok-valor { color: #a8e0c4; }
+    .tok-comentario { color: #7a7490; font-style: italic; }
+
+    /* ---------- Tabla comparativa ---------- */
+    .comparativa {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0 28px;
+      font-size: 15px;
+    }
+
+    .comparativa th,
+    .comparativa td {
+      border: 1px solid var(--borde);
+      padding: 10px 14px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .comparativa th {
+      background: var(--lavanda-claro);
+      color: var(--lavanda-texto);
+      font-weight: 700;
+    }
+
+    .comparativa tr:nth-child(even) td { background: var(--blanco); }
+
+    /* ---------- Navegación inferior ---------- */
+    .nav-bloques {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 24px 24px 64px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .nav-bloques a {
+      flex: 1;
+      background: var(--blanco);
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+      padding: 16px 20px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+
+    .nav-bloques a:hover {
+      border-color: var(--lavanda);
+      transform: translateY(-2px);
+    }
+
+    .nav-bloques .direccion {
+      font-size: 13px;
+      color: var(--tinta-suave);
+      font-weight: 600;
+    }
+
+    .nav-bloques .titulo {
+      font-size: 16px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .nav-bloques .siguiente { text-align: right; }
+
+    .nav-bloques a.desactivado {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .pie {
+      text-align: center;
+      padding: 28px 24px;
+      border-top: 1px solid var(--borde);
+      color: var(--tinta-suave);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="cabecera-bloque">
+    <div class="interno">
+      <p class="migas">
+        <a href="../index.html">← Índice</a> · Documentación
+      </p>
+      <span class="insignia">Bloque 01</span>
+      <h1>Fundamentos</h1>
+      <p>
+        Antes de tocar una sola tabla: por qué un email HTML no es una web
+        normal, qué clientes lo van a renderizar y cuál es la estructura
+        mínima que necesita.
+      </p>
+    </div>
+  </header>
+
+  <main class="contenedor">
+
+    <!-- ====================================================== -->
+    <h2>1. Un email no es una página web</h2>
+
+    <p>
+      Sabes hacer una web: HTML moderno, flexbox, grid, una hoja de estilos
+      enlazada, JavaScript. Para un email, <strong>olvida casi todo eso</strong>.
+      Un email HTML se parece más a una web de 2003 que a una de hoy.
+    </p>
+
+    <p>
+      El motivo es simple: una web la renderiza <em>un</em> navegador moderno
+      (Chrome, Firefox, Safari). Un email lo renderizan <em>decenas</em> de
+      programas de correo distintos — Gmail, Outlook, Apple Mail, Yahoo,
+      apps de móvil... — y cada uno interpreta el HTML a su manera, muchos
+      con motores viejos y limitados.
+    </p>
+
+    <table class="comparativa">
+      <thead>
+        <tr>
+          <th>Página web</th>
+          <th>Email HTML</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Layout con <code>flexbox</code> / <code>grid</code></td>
+          <td>Layout con <code>&lt;table&gt;</code> anidadas</td>
+        </tr>
+        <tr>
+          <td>CSS en hoja externa o <code>&lt;style&gt;</code></td>
+          <td>CSS <strong>inline</strong>, en cada etiqueta</td>
+        </tr>
+        <tr>
+          <td>Ancho fluido, responsive libre</td>
+          <td>Ancho fijo típico de <strong>600px</strong></td>
+        </tr>
+        <tr>
+          <td><code>margin</code>, <code>position</code>, JS...</td>
+          <td>Casi solo <code>padding</code> en celdas, sin JS</td>
+        </tr>
+        <tr>
+          <td>Un navegador moderno</td>
+          <td>Decenas de clientes de correo distintos</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="aviso">
+      <strong>El peor caso es Outlook (Windows).</strong> Las versiones de
+      escritorio renderizan el correo con el motor de <em>Microsoft Word</em>,
+      no con un navegador. Por eso a veces hace falta código especial solo
+      para él — lo verás más abajo.
+    </div>
+
+    <!-- ====================================================== -->
+    <h2>2. Las reglas raras, una por una</h2>
+
+    <h3>Se maqueta con tablas</h3>
+    <p>
+      Flexbox y grid no son fiables en muchos clientes. La estructura — filas,
+      columnas, el bloque centrado — se monta con <code>&lt;table&gt;</code>,
+      <code>&lt;tr&gt;</code> y <code>&lt;td&gt;</code> anidadas. Es la técnica
+      de hace 20 años, pero es la que funciona en todos lados. Lo verás a
+      fondo en el Bloque 02.
+    </p>
+
+    <h3>El CSS va inline</h3>
+    <p>
+      Muchos clientes (Gmail entre ellos, históricamente) ignoran o eliminan
+      los <code>&lt;style&gt;</code> y las hojas externas. La forma segura es
+      poner el estilo en el atributo <code>style=""</code> de cada etiqueta:
+    </p>
+
+    <div class="demo">
+      <div class="demo-titulo">Estilos: en una web vs. en un email</div>
+      <div class="demo-render">
+        <p style="margin:0 0 8px;font-size:14px;color:#6b6580;">
+          🌐 Web — el estilo vive en otro sitio:
+        </p>
+        <p style="margin:0 0 16px;font-family:monospace;font-size:13px;background:#f0edf7;padding:8px 12px;border-radius:6px;">
+          &lt;p class="destacado"&gt;Hola&lt;/p&gt;
+        </p>
+        <p style="margin:0 0 8px;font-size:14px;color:#6b6580;">
+          ✉️ Email — el estilo viaja pegado a la etiqueta:
+        </p>
+        <p style="margin:0;font-family:monospace;font-size:13px;background:#f0edf7;padding:8px 12px;border-radius:6px;">
+          &lt;p style="color:#8b76c4;font-size:16px;"&gt;Hola&lt;/p&gt;
+        </p>
+      </div>
+      <pre class="demo-codigo"><code><span class="tok-comentario">&lt;!-- ❌ Como en una web: la clase puede perderse --&gt;</span>
+<span class="tok-etiqueta">&lt;p</span> <span class="tok-atributo">class</span>=<span class="tok-valor">"destacado"</span><span class="tok-etiqueta">&gt;</span>Hola<span class="tok-etiqueta">&lt;/p&gt;</span>
+
+<span class="tok-comentario">&lt;!-- ✅ En un email: el estilo va inline --&gt;</span>
+<span class="tok-etiqueta">&lt;p</span> <span class="tok-atributo">style</span>=<span class="tok-valor">"color:#8b76c4;font-size:16px;margin:0;"</span><span class="tok-etiqueta">&gt;</span>Hola<span class="tok-etiqueta">&lt;/p&gt;</span></code></pre>
+    </div>
+
+    <div class="nota">
+      <strong>Más adelante:</strong> existen herramientas que escriben el CSS
+      en un <code>&lt;style&gt;</code> normal y luego lo "inyectan" inline
+      automáticamente (<em>inliners</em>). En este proyecto lo haremos a mano
+      primero, para entender qué hace esa herramienta por dentro.
+    </div>
+
+    <h3>Ancho fijo de ~600px</h3>
+    <p>
+      600px es el ancho que cabe bien en el panel de lectura de la mayoría de
+      clientes de escritorio sin cortarse. El contenido se mete en una tabla
+      de 600px centrada; los móviles se ajustan luego con un poco de CSS
+      responsive (Bloque 02 y 03).
+    </p>
+
+    <h3>Nada de JavaScript</h3>
+    <p>
+      Los clientes de correo eliminan el JavaScript por seguridad. Un email
+      es HTML y CSS, y punto. Cualquier interacción real (un botón) es en
+      realidad un enlace <code>&lt;a&gt;</code> que lleva a una web.
+    </p>
+
+    <!-- ====================================================== -->
+    <h2>3. El doctype de un email</h2>
+
+    <p>
+      Una web moderna usa <code>&lt;!DOCTYPE html&gt;</code>. En email se
+      recomienda el doctype <strong>XHTML 1.0 Transitional</strong>. No es
+      capricho: ese doctype hace que clientes antiguos — sobre todo Outlook —
+      rendericen las tablas de forma más predecible y respeten mejor anchos
+      y altos.
+    </p>
+
+    <div class="demo">
+      <div class="demo-titulo">Doctype recomendado para email</div>
+      <div class="demo-render">
+        <p style="margin:0;font-family:monospace;font-size:12.5px;background:#f0edf7;padding:12px 14px;border-radius:6px;color:#5a4a8a;word-break:break-all;">
+          &lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+        </p>
+      </div>
+      <pre class="demo-codigo"><code><span class="tok-etiqueta">&lt;!DOCTYPE</span> html PUBLIC <span class="tok-valor">"-//W3C//DTD XHTML 1.0 Transitional//EN"</span>
+  <span class="tok-valor">"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"</span><span class="tok-etiqueta">&gt;</span></code></pre>
+    </div>
+
+    <div class="aviso">
+      <strong>Ojo a la herencia XHTML:</strong> con este doctype conviene
+      cerrar las etiquetas vacías con barra — <code>&lt;br /&gt;</code>,
+      <code>&lt;img ... /&gt;</code> — y escribir los atributos siempre entre
+      comillas. Es buena costumbre y evita sorpresas.
+    </div>
+
+    <!-- ====================================================== -->
+    <h2>4. La estructura HTML mínima</h2>
+
+    <p>
+      Con las reglas claras, este es el esqueleto más pequeño posible de un
+      email: el doctype correcto, la cabecera con el <code>charset</code> y el
+      <code>viewport</code>, y un <code>&lt;body&gt;</code> sin márgenes que
+      contendrá las tablas. Todavía no hay layout — eso es el Bloque 02 —,
+      solo el envoltorio.
+    </p>
+
+    <div class="demo">
+      <div class="demo-titulo">Esqueleto mínimo de un email HTML</div>
+      <div class="demo-render">
+        <div style="max-width:480px;margin:0 auto;background:#fff;border:1px solid #e7e2f2;border-radius:8px;font-family:monospace;font-size:12.5px;color:#5a4a8a;">
+          <div style="background:#f3f0fb;padding:8px 14px;border-bottom:1px solid #e7e2f2;border-radius:8px 8px 0 0;font-weight:700;">
+            email.html
+          </div>
+          <div style="padding:14px;line-height:1.8;">
+            ┌─ doctype XHTML<br>
+            └─ &lt;html&gt;<br>
+            &nbsp;&nbsp;&nbsp;├─ &lt;head&gt; · charset · viewport · título<br>
+            &nbsp;&nbsp;&nbsp;└─ &lt;body&gt; · sin márgenes<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ (aquí irán las tablas)
+          </div>
+        </div>
+      </div>
+      <pre class="demo-codigo"><code><span class="tok-etiqueta">&lt;!DOCTYPE</span> html PUBLIC <span class="tok-valor">"-//W3C//DTD XHTML 1.0 Transitional//EN"</span>
+  <span class="tok-valor">"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"</span><span class="tok-etiqueta">&gt;</span>
+<span class="tok-etiqueta">&lt;html</span> <span class="tok-atributo">lang</span>=<span class="tok-valor">"es"</span> <span class="tok-atributo">xmlns</span>=<span class="tok-valor">"http://www.w3.org/1999/xhtml"</span><span class="tok-etiqueta">&gt;</span>
+<span class="tok-etiqueta">&lt;head&gt;</span>
+  <span class="tok-comentario">&lt;!-- charset: imprescindible para tildes y ñ --&gt;</span>
+  <span class="tok-etiqueta">&lt;meta</span> <span class="tok-atributo">charset</span>=<span class="tok-valor">"UTF-8"</span> <span class="tok-etiqueta">/&gt;</span>
+  <span class="tok-comentario">&lt;!-- viewport: que se vea bien en móvil --&gt;</span>
+  <span class="tok-etiqueta">&lt;meta</span> <span class="tok-atributo">name</span>=<span class="tok-valor">"viewport"</span>
+        <span class="tok-atributo">content</span>=<span class="tok-valor">"width=device-width, initial-scale=1.0"</span> <span class="tok-etiqueta">/&gt;</span>
+  <span class="tok-comentario">&lt;!-- el título no se ve en el email, pero es buena práctica --&gt;</span>
+  <span class="tok-etiqueta">&lt;title&gt;</span>Asunto del email<span class="tok-etiqueta">&lt;/title&gt;</span>
+<span class="tok-etiqueta">&lt;/head&gt;</span>
+<span class="tok-comentario">&lt;!-- body sin margen ni padding: las tablas controlan el espacio --&gt;</span>
+<span class="tok-etiqueta">&lt;body</span> <span class="tok-atributo">style</span>=<span class="tok-valor">"margin:0; padding:0;"</span><span class="tok-etiqueta">&gt;</span>
+
+  <span class="tok-comentario">&lt;!-- Aquí dentro irán las tablas (Bloque 02) --&gt;</span>
+
+<span class="tok-etiqueta">&lt;/body&gt;</span>
+<span class="tok-etiqueta">&lt;/html&gt;</span></code></pre>
+    </div>
+
+    <h3>Qué hace cada pieza</h3>
+    <ul>
+      <li>
+        <strong>El doctype</strong> — fuerza el modo de renderizado
+        predecible para tablas, sobre todo en Outlook.
+      </li>
+      <li>
+        <strong><code>&lt;meta charset="UTF-8"&gt;</code></strong> — sin esto,
+        las tildes, las <code>ñ</code> y los símbolos salen como caracteres
+        rotos.
+      </li>
+      <li>
+        <strong><code>&lt;meta name="viewport"&gt;</code></strong> — le dice
+        al móvil que use su ancho real, no que finja ser un escritorio.
+      </li>
+      <li>
+        <strong><code>style="margin:0; padding:0;"</code> en el body</strong> —
+        quita el margen que algunos clientes ponen por defecto; el espaciado
+        lo controlan las tablas.
+      </li>
+    </ul>
+
+    <div class="nota">
+      <strong>Recapitulando:</strong> un email es HTML antiguo a propósito —
+      tablas, CSS inline, 600px de ancho, sin JS — porque tiene que sobrevivir
+      a decenas de clientes de correo, y Outlook lo renderiza con Word. En el
+      <strong>Bloque 02</strong> empezamos a montar la estructura real con
+      tablas anidadas.
+    </div>
+
+  </main>
+
+  <nav class="nav-bloques">
+    <a href="../index.html">
+      <div class="direccion">←</div>
+      <div class="titulo">Índice</div>
+    </a>
+    <a class="siguiente" href="../02-estructura/index.html">
+      <div class="direccion">Bloque 02 →</div>
+      <div class="titulo">Estructura con tablas</div>
+    </a>
+  </nav>
+
+  <footer class="pie">
+    Remite · Hecho en español
+  </footer>
+
+</body>
+</html>

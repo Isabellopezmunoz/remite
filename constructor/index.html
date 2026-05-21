@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <title>Constructor de emails · Remite</title>
+  <link rel="stylesheet" href="constructor.css">
+</head>
+<body>
+
+  <!-- ============ Cabecera ============ -->
+  <header class="cabecera-app">
+    <div class="cabecera-app-interno">
+      <div>
+        <p class="migas">
+          <a href="../index.html">← Índice</a>
+        </p>
+        <h1>Constructor de emails</h1>
+        <p class="subtitulo">
+          Añade bloques, edítalos y copia el HTML del email para pegarlo
+          donde lo necesites.
+        </p>
+      </div>
+      <button type="button" class="boton-primario" id="boton-ver-codigo">
+        Ver el código &lt;/&gt;
+      </button>
+    </div>
+  </header>
+
+  <!-- ============ Espacio de trabajo: 3 columnas ============ -->
+  <main class="espacio-trabajo">
+
+    <!-- ---- Columna 1: bloques disponibles ---- -->
+    <aside class="panel panel-bloques">
+      <h2 class="panel-titulo">Bloques</h2>
+      <p class="panel-ayuda">Pulsa para añadirlos al email.</p>
+      <div id="lista-bloques-disponibles" class="lista-bloques-disponibles">
+        <!-- los botones de bloque se generan por JavaScript -->
+      </div>
+    </aside>
+
+    <!-- ---- Columna 2: el email montado ---- -->
+    <section class="panel panel-lienzo">
+      <div class="lienzo-cabecera">
+        <h2 class="panel-titulo">Tu email</h2>
+        <button type="button" class="boton-texto" id="boton-vaciar">Vaciar todo</button>
+      </div>
+      <div class="lienzo-mail" id="lienzo-mail">
+        <!-- vista previa del email; se rellena por JavaScript -->
+      </div>
+      <p class="lienzo-vacio" id="lienzo-vacio">
+        Tu email está vacío. Añade un bloque desde la izquierda para empezar.
+      </p>
+    </section>
+
+    <!-- ---- Columna 3: ajustes del email + editor del bloque ---- -->
+    <div class="columna-derecha">
+
+      <aside class="panel panel-ajustes">
+        <h2 class="panel-titulo">Ajustes del email</h2>
+        <div class="campo-editor">
+          <label for="ajuste-marco">Color del marco exterior</label>
+          <div class="campo-color">
+            <input type="color" id="ajuste-marco" value="#d8cef0">
+            <input type="text" class="hex-texto" id="hex-marco" value="#d8cef0"
+                   maxlength="7" spellcheck="false" aria-label="Hex del marco exterior">
+          </div>
+        </div>
+        <div class="campo-editor">
+          <label for="ajuste-fondo">Color de fondo del email</label>
+          <div class="campo-color">
+            <input type="color" id="ajuste-fondo" value="#ffffff">
+            <input type="text" class="hex-texto" id="hex-fondo" value="#ffffff"
+                   maxlength="7" spellcheck="false" aria-label="Hex del fondo del email">
+          </div>
+        </div>
+      </aside>
+
+      <aside class="panel panel-editor">
+        <h2 class="panel-titulo">Editar bloque</h2>
+        <div id="editor-bloque" class="editor-bloque">
+          <p class="editor-sin-seleccion" id="editor-sin-seleccion">
+            Selecciona un bloque del email para editar su contenido.
+          </p>
+          <!-- los campos del editor se generan por JavaScript -->
+        </div>
+      </aside>
+
+    </div>
+
+  </main>
+
+  <!-- ============ Modal con el código generado ============ -->
+  <div class="modal-fondo" id="modal-fondo" hidden>
+    <div class="modal" role="dialog" aria-label="Código del email">
+      <div class="modal-cabecera">
+        <h2>Código del email</h2>
+        <button type="button" class="boton-cerrar" id="boton-cerrar-modal" aria-label="Cerrar">✕</button>
+      </div>
+      <p class="modal-ayuda">
+        Este es el HTML completo del email. Cópialo y pégalo en un archivo
+        <code>.html</code> o en tu herramienta de envío.
+      </p>
+      <div class="modal-acciones">
+        <button type="button" class="boton-primario" id="boton-copiar">Copiar código</button>
+        <span class="aviso-copiado" id="aviso-copiado" hidden>✓ Copiado</span>
+      </div>
+      <pre class="modal-codigo"><code id="salida-codigo"></code></pre>
+    </div>
+  </div>
+
+  <!-- ============ Modal de confirmación al vaciar ============ -->
+  <div class="modal-fondo" id="modal-confirmar" hidden>
+    <div class="modal modal-pequeno" role="alertdialog" aria-labelledby="confirmar-titulo">
+      <h2 id="confirmar-titulo">¿Vaciar el email?</h2>
+      <p class="modal-ayuda">
+        Se quitarán todos los bloques y empezarás de cero. Esta acción no se
+        puede deshacer.
+      </p>
+      <div class="modal-acciones modal-acciones-derecha">
+        <button type="button" class="boton-secundario" id="boton-cancelar-vaciar">Cancelar</button>
+        <button type="button" class="boton-peligro" id="boton-confirmar-vaciar">Sí, vaciar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="constructor.js"></script>
+</body>
+</html>
