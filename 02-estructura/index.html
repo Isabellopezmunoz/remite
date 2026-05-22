@@ -84,34 +84,47 @@
       letter-spacing: -0.3px;
     }
 
+    /* Navegación de la derecha del header (Documentación, Plantillas,
+       Constructor). Los enlaces apuntan a la portada. */
+    .cabecera-nav {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cabecera-nav a {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--tinta-suave);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .cabecera-nav a:hover {
+      background: var(--lavanda-claro);
+      color: var(--lavanda-fuerte);
+    }
+
+    .cabecera-nav a.nav-destacado {
+      background: var(--lavanda-fuerte);
+      color: #ffffff;
+    }
+
+    .cabecera-nav a.nav-destacado:hover {
+      background: #7763b0;
+      color: #ffffff;
+    }
+
+    @media (max-width: 620px) {
+      .cabecera-nav a.nav-normal { display: none; }
+    }
+
     /* ---------- Título del bloque (ahora dentro del main) ---------- */
     .titulo-bloque {
       margin-bottom: 40px;
-    }
-
-    .migas {
-      font-size: 14px;
-      color: var(--tinta-suave);
-      margin-bottom: 16px;
-    }
-
-    .migas a {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      text-decoration: none;
-    }
-    .migas a:hover { text-decoration: underline; }
-
-    /* Flecha de la miga: SVG pequeño que hereda el color del
-       enlace. .izquierda voltea la flecha para que apunte atrás. */
-    .icono-miga {
-      flex-shrink: 0;
-      transition: transform 0.15s ease;
-    }
-    .icono-miga.izquierda { transform: scaleX(-1); }
-    .migas a:hover .icono-miga.izquierda {
-      transform: scaleX(-1) translateX(-3px);
     }
 
     .titulo-bloque .insignia {
@@ -352,14 +365,11 @@
 </head>
 <body>
 
-  <!--#include partials/header-bloque.html-->
+  <!--#include partials/header-portada.html-->
 
   <main class="contenedor">
 
     <div class="titulo-bloque">
-      <p class="migas">
-        <a href="../index.html"><svg class="icono-miga izquierda" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>Índice</a> · Documentación
-      </p>
       <span class="insignia">Bloque 02</span>
       <h1>Estructura con tablas</h1>
       <p class="descripcion">

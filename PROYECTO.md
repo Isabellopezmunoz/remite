@@ -104,8 +104,8 @@ emails/
 ├── 06-testing/            ← testing en clientes, checklist, anti-spam (HECHO)
 ├── 07-preheader-accesibilidad/  ← preheader y accesibilidad en email (HECHO)
 ├── partials/              ← fragmentos HTML reutilizables (header, footer)
-│   ├── header-portada.html ← cabecera con navbar (solo la portada)
-│   ├── header-bloque.html  ← cabecera solo con logo (bloques y constructor)
+│   ├── header-portada.html ← cabecera con navbar (portada y bloques de doc)
+│   ├── header-bloque.html  ← cabecera solo con logo (solo el constructor)
 │   └── footer.html         ← pie del sitio
 ├── constructor/           ← herramienta visual para montar emails (HECHO)
 │   ├── index.html         ← interfaz del constructor
