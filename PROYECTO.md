@@ -103,10 +103,15 @@ emails/
 ├── 05-dark-mode/          ← dark mode en email, prefers-color-scheme (HECHO)
 ├── 06-testing/            ← testing en clientes, checklist, anti-spam (HECHO)
 ├── 07-preheader-accesibilidad/  ← preheader y accesibilidad en email (HECHO)
+├── partials/              ← fragmentos HTML reutilizables (header, footer)
+│   ├── header-portada.html ← cabecera con navbar (solo la portada)
+│   ├── header-bloque.html  ← cabecera solo con logo (bloques y constructor)
+│   └── footer.html         ← pie del sitio
 ├── constructor/           ← herramienta visual para montar emails (HECHO)
 │   ├── index.html         ← interfaz del constructor
 │   ├── constructor.css    ← estilos de la herramienta
-│   └── constructor.js     ← lógica: bloques, editor, generar HTML
+│   ├── constructor.js     ← lógica: bloques, editor, generar HTML
+│   └── icons/index.js     ← iconos SVG inline de la interfaz del constructor
 └── plantillas/            ← emails reales listos para adaptar
     ├── newsletter.html              ← email de marketing (HECHO)
     ├── newsletter-preview.html      ← visor del email (barra + iframe)
@@ -115,6 +120,13 @@ emails/
     ├── visor.css                    ← estilos compartidos de los visores
     └── visor.js                     ← lógica compartida de los visores
 ```
+
+El header y el footer se escriben una sola vez en `partials/` y se insertan
+en cada página con un marcador `<!--#include partials/footer.html-->`. Un
+plugin propio de Vite (`htmlIncludes` en `vite.config.js`) lo sustituye por
+el contenido real, en dev y en build. Dentro de los fragmentos, el marcador
+`{{base}}` se reemplaza por la ruta relativa a la raíz según la profundidad
+de la página. Así un mismo fragmento sirve para la portada y las subpáginas.
 
 Los `*-preview.html` son **páginas visor**, no emails: envuelven la plantilla
 en un `<iframe>` y le añaden una barra con breadcrumb para volver al índice.
@@ -155,9 +167,22 @@ El plan inicial está terminado. Para referencia:
 
 ## El constructor de emails
 
-`constructor/` es una herramienta visual: la usuaria añade bloques
-(cabecera, texto, botón, imagen, dos columnas, separador, pie), los edita
-en un panel y la herramienta genera el HTML del email para copiar y pegar.
+`constructor/` es una herramienta visual: la usuaria añade bloques, los
+edita en un panel y la herramienta genera el HTML del email para copiar y
+pegar.
+
+Bloques disponibles (10): cabecera con logo, texto, lista, cita destacada,
+botón, imagen, tarjeta de artículo, dos columnas, separador y pie. Cada
+tipo se define en `blockTypes` (constructor.js): sus campos editables, sus
+valores por defecto y una función `dibujar()` que devuelve el HTML del
+bloque para el email final.
+
+El panel "Ajustes del email" tiene controles globales que afectan a todo
+el email: color del marco exterior, color de fondo, **fuente** y **texto
+de vista previa (preheader)**. La fuente se elige de un selector con
+tipografías web-safe y se aplica a todo el texto del email. El preheader
+es el texto que se ve en la bandeja de entrada junto al asunto: la usuaria
+lo escribe en un campo y se inserta oculto en el HTML generado.
 
 Decisiones de diseño:
 
@@ -167,6 +192,16 @@ Decisiones de diseño:
 - El HTML generado aplica todo lo de la documentación: doctype XHTML,
   tablas anidadas, CSS inline, botón bulletproof con `[if mso]`, preheader,
   media query de móvil.
+- Los iconos de la interfaz (botones de bloque, acciones subir/bajar/borrar)
+  son SVG inline definidos en `constructor/icons/index.js`. Son solo para la
+  herramienta — nunca van dentro del email generado.
+- El selector de fuente solo ofrece tipografías **web-safe** (Arial,
+  Georgia, Verdana, Tahoma, Times New Roman, Trebuchet MS, Courier New),
+  definidas en el objeto `fuentes` de `constructor.js`. Son las que vienen
+  preinstaladas en la mayoría de sistemas, así que se ven igual en todos
+  los clientes de correo. Cada una lleva un "stack" con fuentes de reserva.
+  NO se ofrecen fuentes personalizadas (Google Fonts, etc.): no cargan en
+  Outlook y muchos clientes, romperían el diseño (ver Bloque 03).
 - Estado por fases: **Fase 1 (hecha)** = añadir, editar y reordenar bloques
   con botones ↑↓ + generar código. **Fase 2 (pendiente)** = drag & drop
   para reordenar arrastrando con el ratón.

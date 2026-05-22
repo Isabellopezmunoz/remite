@@ -29,6 +29,12 @@ export const icons = {
   separador: wrapIcon('<path d="M4 12h16"/>'),
   // pie: una franja inferior sobre un panel
   pie: wrapIcon('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 15h18"/>'),
+  // lista: tres viñetas con sus líneas
+  lista: wrapIcon('<circle cx="5" cy="7" r="1.4"/><circle cx="5" cy="12" r="1.4"/><circle cx="5" cy="17" r="1.4"/><path d="M10 7h10"/><path d="M10 12h10"/><path d="M10 17h10"/>'),
+  // tarjeta: marco con una franja de imagen arriba y líneas de texto
+  tarjeta: wrapIcon('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 11h18"/><path d="M7 15h7"/>'),
+  // cita: comillas grandes
+  cita: wrapIcon('<path d="M7 7C5 8 4 10 4 13v4h6v-7H6"/><path d="M17 7c-2 1-3 3-3 6v4h6v-7h-4"/>'),
 };
 
 // Iconos de los botones de acción de cada bloque (subir, bajar,

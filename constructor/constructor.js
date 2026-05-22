@@ -91,6 +91,60 @@ const colors = {
   blanco: "#ffffff",
 };
 
+/* ------------------------------------------------------------
+   Fuentes seguras para email. Solo se ofrecen tipografías
+   "web-safe": las que vienen instaladas en la mayoría de
+   sistemas. Las fuentes personalizadas (Google Fonts, etc.) no
+   cargan en muchos clientes como Outlook (ver Bloque 03 de la
+   doc), así que NO se ofrecen.
+
+   Cada entrada tiene una etiqueta visible y un "stack" completo
+   con fuentes de reserva: si la principal no está, el cliente
+   usa la siguiente. La usuaria elige una en Ajustes del email y
+   se aplica a todos los bloques de texto.
+   ------------------------------------------------------------ */
+const fuentes = {
+  arial: {
+    etiqueta: "Arial (sans-serif)",
+    stack: "Arial, Helvetica, sans-serif",
+  },
+  georgia: {
+    etiqueta: "Georgia (serif)",
+    stack: "Georgia, 'Times New Roman', serif",
+  },
+  verdana: {
+    etiqueta: "Verdana (sans-serif)",
+    stack: "Verdana, Geneva, sans-serif",
+  },
+  tahoma: {
+    etiqueta: "Tahoma (sans-serif)",
+    stack: "Tahoma, Verdana, Segoe, sans-serif",
+  },
+  times: {
+    etiqueta: "Times New Roman (serif)",
+    stack: "'Times New Roman', Times, serif",
+  },
+  trebuchet: {
+    etiqueta: "Trebuchet MS (sans-serif)",
+    stack: "'Trebuchet MS', Tahoma, sans-serif",
+  },
+  courier: {
+    etiqueta: "Courier New (monoespaciada)",
+    stack: "'Courier New', Courier, monospace",
+  },
+};
+
+/* El orden en que se muestran las fuentes en el selector. */
+const ordenFuentes = ["arial", "georgia", "verdana", "tahoma", "times", "trebuchet", "courier"];
+
+/* Devuelve el stack de fuente elegido en Ajustes del email. Los
+   bloques lo usan al dibujarse para que todo el email comparta la
+   misma tipografía. Si la clave guardada no existe, cae en Arial. */
+function fuenteActual() {
+  const fuente = fuentes[emailSettings.fuente] || fuentes.arial;
+  return fuente.stack;
+}
+
 /* ============================================================
    DEFINICIÓN DE LOS 7 TIPOS DE BLOQUE
    ------------------------------------------------------------
@@ -120,7 +174,7 @@ const blockTypes = {
     dibujar(contenido) {
       return `      <tr>
         <td align="center" style="background-color:${contenido.colorFondo}; padding:26px 32px;">
-          <span style="font-family:Georgia, 'Times New Roman', serif; font-size:24px; font-weight:bold; color:${contenido.colorTexto};">
+          <span style="font-family:${fuenteActual()}; font-size:24px; font-weight:bold; color:${contenido.colorTexto};">
             ${escapeHtml(contenido.titulo)}
           </span>
         </td>
@@ -156,7 +210,7 @@ const blockTypes = {
       };
       const estilo = medidas[contenido.tamano] || medidas.normal;
       return `      <tr>
-        <td style="padding:16px 32px; font-family:Arial, Helvetica, sans-serif; color:${contenido.colorTexto}; ${estilo}">
+        <td style="padding:16px 32px; font-family:${fuenteActual()}; color:${contenido.colorTexto}; ${estilo}">
           ${escapeHtml(contenido.contenido)}
         </td>
       </tr>`;
@@ -189,11 +243,11 @@ const blockTypes = {
               <td align="center" bgcolor="${contenido.colorFondo}" style="border-radius:8px;">
                 <!--[if mso]>
                 <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="${enlace}" arcsize="17%" style="height:46px;width:220px;v-text-anchor:middle;" stroke="f" fillcolor="${contenido.colorFondo}">
-                <center style="color:${contenido.colorTexto};font-family:Arial,sans-serif;font-size:15px;font-weight:bold;">${texto}</center>
+                <center style="color:${contenido.colorTexto};font-family:${fuenteActual()};font-size:15px;font-weight:bold;">${texto}</center>
                 </v:roundrect>
                 <![endif]-->
                 <!--[if !mso]><!-->
-                <a href="${enlace}" style="display:inline-block; padding:14px 32px; font-family:Arial, Helvetica, sans-serif; font-size:15px; font-weight:bold; color:${contenido.colorTexto}; text-decoration:none; border-radius:8px;">
+                <a href="${enlace}" style="display:inline-block; padding:14px 32px; font-family:${fuenteActual()}; font-size:15px; font-weight:bold; color:${contenido.colorTexto}; text-decoration:none; border-radius:8px;">
                   ${texto}
                 </a>
                 <!--<![endif]-->
@@ -247,11 +301,11 @@ const blockTypes = {
         <td style="padding:16px 32px;">
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
             <tr>
-              <td class="columna-movil" width="260" valign="top" style="width:260px; font-family:Arial, Helvetica, sans-serif; font-size:15px; line-height:23px; color:${contenido.colorTexto};">
+              <td class="columna-movil" width="260" valign="top" style="width:260px; font-family:${fuenteActual()}; font-size:15px; line-height:23px; color:${contenido.colorTexto};">
                 ${escapeHtml(contenido.textoIzquierda)}
               </td>
               <td width="16" style="width:16px; font-size:0; line-height:0;">&nbsp;</td>
-              <td class="columna-movil" width="260" valign="top" style="width:260px; font-family:Arial, Helvetica, sans-serif; font-size:15px; line-height:23px; color:${contenido.colorTexto};">
+              <td class="columna-movil" width="260" valign="top" style="width:260px; font-family:${fuenteActual()}; font-size:15px; line-height:23px; color:${contenido.colorTexto};">
                 ${escapeHtml(contenido.textoDerecha)}
               </td>
             </tr>
@@ -319,12 +373,127 @@ const blockTypes = {
     dibujar(contenido) {
       return `      <tr>
         <td align="center" style="background-color:${colors.lavandaClaro}; padding:26px 32px;">
-          <p style="margin:0 0 10px 0; font-family:Arial, Helvetica, sans-serif; font-size:13px; line-height:20px; color:${colors.tintaSuave};">
+          <p style="margin:0 0 10px 0; font-family:${fuenteActual()}; font-size:13px; line-height:20px; color:${colors.tintaSuave};">
             ${escapeHtml(contenido.datos)}
           </p>
-          <p style="margin:0; font-family:Arial, Helvetica, sans-serif; font-size:13px; line-height:20px;">
+          <p style="margin:0; font-family:${fuenteActual()}; font-size:13px; line-height:20px;">
             <a href="${escapeHtml(contenido.enlaceBaja)}" style="color:${colors.lavandaFuerte}; text-decoration:underline;">${escapeHtml(contenido.textoBaja)}</a>
           </p>
+        </td>
+      </tr>`;
+    },
+  },
+
+  lista: {
+    etiqueta: "Lista",
+    icono: icons.lista,
+    campos: [
+      { clave: "items", etiqueta: "Puntos (uno por línea)", tipo: "textarea" },
+      {
+        clave: "estilo", etiqueta: "Tipo", tipo: "select",
+        opciones: [
+          { valor: "vinetas", etiqueta: "Viñetas" },
+          { valor: "numerada", etiqueta: "Numerada" },
+        ],
+      },
+      { clave: "colorTexto", etiqueta: "Color del texto", tipo: "color" },
+    ],
+    porDefecto: {
+      items: "Primer punto de la lista.\nSegundo punto de la lista.\nTercer punto de la lista.",
+      estilo: "vinetas",
+      colorTexto: colors.tinta,
+    },
+    dibujar(contenido) {
+      // El textarea trae un punto por línea: se parten en líneas y se
+      // descartan las vacías. La lista se monta como <ul> o <ol>.
+      const lineas = contenido.items
+        .split("\n")
+        .map((linea) => linea.trim())
+        .filter((linea) => linea.length > 0);
+      const filas = lineas
+        .map((linea) => `            <li style="margin:0 0 6px 0;">${escapeHtml(linea)}</li>`)
+        .join("\n");
+      const etiquetaLista = contenido.estilo === "numerada" ? "ol" : "ul";
+      return `      <tr>
+        <td style="padding:16px 32px; font-family:${fuenteActual()}; font-size:16px; line-height:25px; color:${contenido.colorTexto};">
+          <${etiquetaLista} style="margin:0; padding-left:22px;">
+${filas}
+          </${etiquetaLista}>
+        </td>
+      </tr>`;
+    },
+  },
+
+  tarjeta: {
+    etiqueta: "Tarjeta de artículo",
+    icono: icons.tarjeta,
+    campos: [
+      { clave: "imagen", etiqueta: "URL de la imagen", tipo: "url" },
+      { clave: "titulo", etiqueta: "Título", tipo: "text" },
+      { clave: "texto", etiqueta: "Texto", tipo: "textarea" },
+      { clave: "textoEnlace", etiqueta: "Texto del enlace", tipo: "text" },
+      { clave: "enlace", etiqueta: "Enlace (URL)", tipo: "url" },
+      { clave: "colorEnlace", etiqueta: "Color del enlace", tipo: "color" },
+    ],
+    porDefecto: {
+      imagen: "https://placehold.co/536x240/d8cef0/8b76c4?text=Imagen",
+      titulo: "Título del artículo",
+      texto: "Un resumen corto del artículo para enganchar a quien lo lee.",
+      textoEnlace: "Leer más",
+      enlace: "https://ejemplo.com/articulo",
+      colorEnlace: colors.lavandaFuerte,
+    },
+    dibujar(contenido) {
+      return `      <tr>
+        <td style="padding:16px 32px;">
+          <img src="${escapeHtml(contenido.imagen)}" width="536" alt="${escapeHtml(contenido.titulo)}" style="display:block; width:100%; max-width:536px; height:auto; border:0; border-radius:8px;" />
+          <p style="margin:14px 0 6px 0; font-family:${fuenteActual()}; font-size:20px; line-height:27px; font-weight:bold; color:${colors.tinta};">
+            ${escapeHtml(contenido.titulo)}
+          </p>
+          <p style="margin:0 0 10px 0; font-family:${fuenteActual()}; font-size:15px; line-height:23px; color:${colors.tintaSuave};">
+            ${escapeHtml(contenido.texto)}
+          </p>
+          <p style="margin:0; font-family:${fuenteActual()}; font-size:15px; line-height:23px;">
+            <a href="${escapeHtml(contenido.enlace)}" style="color:${contenido.colorEnlace}; font-weight:bold; text-decoration:none;">${escapeHtml(contenido.textoEnlace)} &rarr;</a>
+          </p>
+        </td>
+      </tr>`;
+    },
+  },
+
+  cita: {
+    etiqueta: "Cita destacada",
+    icono: icons.cita,
+    campos: [
+      { clave: "texto", etiqueta: "Texto de la cita", tipo: "textarea" },
+      { clave: "autor", etiqueta: "Autor (opcional)", tipo: "text" },
+      { clave: "colorBorde", etiqueta: "Color del borde", tipo: "color" },
+    ],
+    porDefecto: {
+      texto: "Una frase que merece destacarse del resto del email.",
+      autor: "Nombre del autor",
+      colorBorde: colors.lavandaFuerte,
+    },
+    dibujar(contenido) {
+      // El autor solo se dibuja si la usuaria escribió algo.
+      const autor = contenido.autor.trim();
+      const filaAutor = autor
+        ? `          <p style="margin:8px 0 0 0; font-family:${fuenteActual()}; font-size:14px; line-height:21px; color:${colors.tintaSuave};">
+            — ${escapeHtml(autor)}
+          </p>`
+        : "";
+      return `      <tr>
+        <td style="padding:16px 32px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:${colors.lavandaClaro}; border-radius:8px;">
+            <tr>
+              <td style="border-left:4px solid ${contenido.colorBorde}; border-radius:8px; padding:16px 20px;">
+                <p style="margin:0; font-family:${fuenteActual()}; font-size:18px; line-height:27px; font-style:italic; color:${colors.tinta};">
+                  ${escapeHtml(contenido.texto)}
+                </p>
+${filaAutor}
+              </td>
+            </tr>
+          </table>
         </td>
       </tr>`;
     },
@@ -333,7 +502,7 @@ const blockTypes = {
 };
 
 /* El orden en que se muestran los bloques en la columna izquierda. */
-const blockOrder = ["cabecera", "texto", "boton", "imagen", "columnas", "separador", "pie"];
+const blockOrder = ["cabecera", "texto", "lista", "cita", "boton", "imagen", "tarjeta", "columnas", "separador", "pie"];
 
 /* ============================================================
    ESTADO DE LA APP
@@ -348,11 +517,26 @@ let emailBlocks = [];
 let selectedId = null;
 let idCounter = 0;
 
+/* Valores por defecto de los ajustes del email. Se guardan aparte
+   para poder restaurarlos al vaciar el email (ver resetEmailSettings).
+   Object.freeze evita que se modifiquen sin querer. */
+const AJUSTES_POR_DEFECTO = Object.freeze({
+  colorMarco: "#d8cef0",
+  colorFondo: "#ffffff",
+  fuente: "arial",
+  preheader: "Texto de vista previa del email.",
+});
+
 const emailSettings = {
   // color del marco exterior (lo que rodea al email de 600px)
   colorMarco: "#d8cef0",
   // color de fondo del email en sí (la zona de 600px con el contenido)
   colorFondo: "#ffffff",
+  // tipo de letra del email: una clave de `fuentes` (ver arriba)
+  fuente: "arial",
+  // preheader: el texto de vista previa que se ve en la bandeja de
+  // entrada, junto al asunto, antes de abrir el email.
+  preheader: "Texto de vista previa del email.",
 };
 
 /* Referencias a los elementos del DOM que se usan a menudo. */
@@ -426,9 +610,33 @@ function requestClearEmail() {
   confirmModal.hidden = false;
 }
 
+/* Restaura los ajustes del email a sus valores por defecto y
+   sincroniza los campos del panel (color, hex, fuente, preheader)
+   para que el DOM refleje los valores restaurados. */
+function resetEmailSettings() {
+  Object.assign(emailSettings, AJUSTES_POR_DEFECTO);
+
+  // color del marco: selector de color + campo de hex
+  document.getElementById("ajuste-marco").value = emailSettings.colorMarco;
+  const hexMarco = document.getElementById("hex-marco");
+  hexMarco.value = emailSettings.colorMarco;
+  hexMarco.classList.remove("invalido");
+
+  // color de fondo: selector de color + campo de hex
+  document.getElementById("ajuste-fondo").value = emailSettings.colorFondo;
+  const hexFondo = document.getElementById("hex-fondo");
+  hexFondo.value = emailSettings.colorFondo;
+  hexFondo.classList.remove("invalido");
+
+  // fuente y preheader
+  document.getElementById("ajuste-fuente").value = emailSettings.fuente;
+  document.getElementById("ajuste-preheader").value = emailSettings.preheader;
+}
+
 function confirmClear() {
   emailBlocks = [];
   selectedId = null;
+  resetEmailSettings();
   confirmModal.hidden = true;
   renderEmail();
   renderEditor();
@@ -611,6 +819,8 @@ function generateEmailHtml() {
   // colores del email elegidos en el panel de ajustes
   const marco = emailSettings.colorMarco;
   const fondo = emailSettings.colorFondo;
+  // texto de vista previa (preheader) escrito en los ajustes
+  const preheader = escapeHtml(emailSettings.preheader);
 
   return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml">
@@ -628,10 +838,9 @@ function generateEmailHtml() {
 </head>
 <body style="margin:0; padding:0; background-color:${marco};">
 
-  <!-- PREHEADER: cambia este texto por la vista previa de tu email.
-       El color va igual al marco para que el texto quede oculto. -->
+  <!-- Preheader -->
   <div style="display:none; max-height:0; overflow:hidden; mso-hide:all; font-size:1px; line-height:1px; color:${marco};">
-    Texto de vista previa del email.
+    ${preheader}
   </div>
 
   <!-- Tabla exterior: centra y pinta el fondo -->
@@ -689,7 +898,7 @@ function copyCode() {
 }
 
 /* ============================================================
-   PANEL DE AJUSTES DEL EMAIL — colores de marco y fondo
+   PANEL DE AJUSTES DEL EMAIL — colores de marco y fondo, fuente
    ============================================================ */
 function connectEmailSettings() {
   connectColorField(
@@ -708,6 +917,29 @@ function connectEmailSettings() {
       renderEmail();
     }
   );
+
+  // selector de fuente: se rellena con las fuentes seguras y, al
+  // cambiar, actualiza emailSettings y redibuja el email.
+  const selectorFuente = document.getElementById("ajuste-fuente");
+  ordenFuentes.forEach((clave) => {
+    const opcion = document.createElement("option");
+    opcion.value = clave;
+    opcion.textContent = fuentes[clave].etiqueta;
+    selectorFuente.appendChild(opcion);
+  });
+  selectorFuente.value = emailSettings.fuente;
+  selectorFuente.addEventListener("change", () => {
+    emailSettings.fuente = selectorFuente.value;
+    renderEmail();
+  });
+
+  // texto de vista previa (preheader): solo va al HTML final, no se
+  // ve en el lienzo, así que no hace falta redibujar al escribir.
+  const campoPreheader = document.getElementById("ajuste-preheader");
+  campoPreheader.value = emailSettings.preheader;
+  campoPreheader.addEventListener("input", () => {
+    emailSettings.preheader = campoPreheader.value;
+  });
 }
 
 /* ============================================================

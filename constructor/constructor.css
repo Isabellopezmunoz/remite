@@ -413,6 +413,32 @@ code {
   font-size: 14px;
   font-family: inherit;
   color: var(--tinta);
+  transition: border-color 0.15s ease;
+}
+
+/* El <select> se quita la apariencia nativa del navegador y se le
+   pinta una flecha SVG propia (chevron en lavanda) como fondo. El
+   menú desplegado sigue siendo el del sistema: eso no lo controla
+   el CSS, pero la caja cerrada queda integrada con la paleta. */
+.campo-editor select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: var(--blanco);
+  /* hueco a la derecha para que el texto no pise la flecha */
+  padding-right: 34px;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238b76c4' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+/* Hover en todos los campos del editor: el borde se tiñe de lavanda,
+   para que inputs, textarea y select se comporten igual. */
+.campo-editor input[type="text"]:hover,
+.campo-editor input[type="url"]:hover,
+.campo-editor textarea:hover,
+.campo-editor select:hover {
+  border-color: var(--lavanda-fuerte);
 }
 
 .campo-editor textarea {
@@ -455,6 +481,13 @@ code {
   font-size: 13px;
   color: var(--tinta);
   text-transform: lowercase;
+  transition: border-color 0.15s ease;
+}
+
+/* Hover: borde lavanda, igual que los campos del editor de bloque.
+   No aplica si el hex es inválido (ese conserva su borde rojo). */
+.hex-texto:not(.invalido):hover {
+  border-color: var(--lavanda-fuerte);
 }
 
 .hex-texto:focus {

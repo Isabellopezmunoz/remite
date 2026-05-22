@@ -23,6 +23,19 @@ Recordatorio global vigente: nombres de variables siempre palabras completas,
 nunca de una sola letra ni abreviaturas crípticas (`event`, no `e`; `index`,
 no `i`).
 
+## Mantener PROYECTO.md al día
+
+Cada vez que se haga una implementación nueva o un cambio relevante
+(bloque nuevo, archivo nuevo, decisión de arquitectura, funcionalidad
+añadida), actualizar `PROYECTO.md` en el mismo trabajo, sin preguntar.
+
+- Hacerlo siempre, como parte de terminar la tarea — no es opcional ni
+  hay que pedir permiso para ello.
+- Tocar la sección que corresponda: árbol de archivos, lista de bloques
+  del constructor, decisiones de diseño, estado actual, etc.
+- No registrar cambios triviales (un ajuste de CSS, renombrar una
+  variable): solo lo que cambia QUÉ hace el proyecto o CÓMO está montado.
+
 ## Estructura del constructor
 
 `constructor/`
