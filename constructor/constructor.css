@@ -37,16 +37,57 @@ code {
   font-size: 0.88em;
 }
 
-/* ---------- Cabecera de la app ---------- */
-.cabecera-app {
-  background: linear-gradient(135deg, var(--lavanda-claro) 0%, var(--melocoton-claro) 100%);
+/* ---------- Cabecera del sitio (igual que la portada y los bloques) ---------- */
+.cabecera {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(250, 248, 253, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--borde);
-  padding: 24px 28px;
+  padding: 20px 0;
 }
 
-.cabecera-app-interno {
+.cabecera-interno {
   max-width: 1320px;
   margin: 0 auto;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo-icono {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.logo-texto {
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+/* ---------- Título de la herramienta (ahora dentro del main) ---------- */
+.titulo-herramienta {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 28px 28px 0;
+}
+
+/* Fila con el título y el botón "Ver el código": el botón queda
+   centrado a la altura del h1, no de las migas de arriba. */
+.titulo-fila {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -60,6 +101,9 @@ code {
 }
 
 .migas a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   color: var(--lavanda-fuerte);
   text-decoration: none;
   font-weight: 600;
@@ -67,8 +111,23 @@ code {
 
 .migas a:hover { text-decoration: underline; }
 
-.cabecera-app h1 {
-  margin: 0 0 4px;
+/* Flecha de la miga: SVG pequeño que hereda el color del enlace.
+   .izquierda voltea la flecha para que apunte hacia atrás. */
+.icono-miga {
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+
+.icono-miga.izquierda { transform: scaleX(-1); }
+
+.migas a:hover .icono-miga.izquierda {
+  transform: scaleX(-1) translateX(-3px);
+}
+
+.titulo-fila { margin-bottom: 4px; }
+
+.titulo-herramienta h1 {
+  margin: 0;
   font-size: 26px;
   font-weight: 700;
   letter-spacing: -0.3px;
@@ -145,7 +204,7 @@ code {
 .espacio-trabajo {
   max-width: 1320px;
   margin: 0 auto;
-  padding: 24px 28px 56px;
+  padding: 20px 28px 56px;
   display: grid;
   grid-template-columns: 240px 1fr 300px;
   gap: 20px;
@@ -315,8 +374,6 @@ code {
   border-radius: 5px;
   background: var(--tinta);
   color: var(--blanco);
-  font-size: 13px;
-  line-height: 1;
   cursor: pointer;
   display: flex;
   align-items: center;

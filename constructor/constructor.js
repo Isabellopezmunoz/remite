@@ -5,21 +5,23 @@
    generar el HTML del email para copiar.
 
    Cómo está organizado:
-   · tiposDeBloque  → define los 7 bloques: campos editables,
+   · blockTypes     → define los 7 bloques: campos editables,
                       valores por defecto y cómo se dibujan.
-   · emailEnConstruccion → el array con los bloques que la
-                      usuaria ha ido añadiendo. Es la "fuente de
-                      la verdad": todo se redibuja a partir de él.
+   · emailBlocks    → el array con los bloques que la usuaria ha
+                      ido añadiendo. Es la "fuente de la verdad":
+                      todo se redibuja a partir de él.
    · render*()      → funciones que pintan cada parte de la app.
-   · generarHtmlEmail() → arma el .html final del email.
+   · generateEmailHtml() → arma el .html final del email.
    ============================================================ */
+
+import { icons, actionIcons } from "./icons/index.js";
 
 /* ------------------------------------------------------------
    Utilidad: escapar texto para que sea seguro meterlo en HTML.
    Evita que un "<" escrito por la usuaria rompa el email.
    ------------------------------------------------------------ */
-function escaparHtml(texto) {
-  return String(texto)
+function escapeHtml(text) {
+  return String(text)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
@@ -31,8 +33,8 @@ function escaparHtml(texto) {
    (#rrggbb). En email solo se usan los de 6 dígitos: los de 3
    no son fiables en todos los clientes (ver Bloque 03 de la doc).
    ------------------------------------------------------------ */
-function esHexValido(texto) {
-  return /^#[0-9a-fA-F]{6}$/.test(texto);
+function isValidHex(text) {
+  return /^#[0-9a-fA-F]{6}$/.test(text);
 }
 
 /* ------------------------------------------------------------
@@ -40,39 +42,39 @@ function esHexValido(texto) {
    campo de texto de hex editable. Quedan sincronizados en los
    dos sentidos: cambiar uno actualiza el otro.
 
-   · selectorColor / campoHex → los dos <input> del DOM
-   · alCambiar(valor) → se llama con el hex cuando hay un color
-                        válido nuevo (para aplicarlo y redibujar)
+   · colorPicker / hexField → los dos <input> del DOM
+   · onChange(value) → se llama con el hex cuando hay un color
+                       válido nuevo (para aplicarlo y redibujar)
 
    Si el texto escrito no es un hex válido, el campo se marca en
-   rojo y NO se llama a alCambiar: no se aplica nada.
+   rojo y NO se llama a onChange: no se aplica nada.
    ------------------------------------------------------------ */
-function conectarCampoColor(selectorColor, campoHex, alCambiar) {
+function connectColorField(colorPicker, hexField, onChange) {
   // el selector de color: actualiza el texto y aplica
-  selectorColor.addEventListener("input", () => {
-    campoHex.value = selectorColor.value;
-    campoHex.classList.remove("invalido");
-    alCambiar(selectorColor.value);
+  colorPicker.addEventListener("input", () => {
+    hexField.value = colorPicker.value;
+    hexField.classList.remove("invalido");
+    onChange(colorPicker.value);
   });
 
   // el campo de texto: valida lo escrito antes de aplicar
-  campoHex.addEventListener("input", () => {
-    const texto = campoHex.value.trim().toLowerCase();
-    if (esHexValido(texto)) {
-      campoHex.classList.remove("invalido");
-      selectorColor.value = texto;
-      alCambiar(texto);
+  hexField.addEventListener("input", () => {
+    const text = hexField.value.trim().toLowerCase();
+    if (isValidHex(text)) {
+      hexField.classList.remove("invalido");
+      colorPicker.value = text;
+      onChange(text);
     } else {
-      campoHex.classList.add("invalido");
+      hexField.classList.add("invalido");
     }
   });
 
   // al salir del campo, si quedó algo inválido, se recupera el
   // color válido actual del selector (no se queda texto roto).
-  campoHex.addEventListener("blur", () => {
-    if (!esHexValido(campoHex.value.trim().toLowerCase())) {
-      campoHex.value = selectorColor.value;
-      campoHex.classList.remove("invalido");
+  hexField.addEventListener("blur", () => {
+    if (!isValidHex(hexField.value.trim().toLowerCase())) {
+      hexField.value = colorPicker.value;
+      hexField.classList.remove("invalido");
     }
   });
 }
@@ -80,44 +82,13 @@ function conectarCampoColor(selectorColor, campoHex, alCambiar) {
 /* ------------------------------------------------------------
    Paleta del proyecto: valores por defecto de los bloques.
    ------------------------------------------------------------ */
-const colores = {
+const colors = {
   lavandaFuerte: "#8b76c4",
   lavandaClaro: "#f3f0fb",
   melocotonFuerte: "#e0916a",
   tinta: "#3a3550",
   tintaSuave: "#6b6580",
   blanco: "#ffffff",
-};
-
-/* ------------------------------------------------------------
-   Iconos SVG de línea para los botones de bloque.
-   Son SVG inline (van solo en la INTERFAZ, no en el email).
-   crearIcono() envuelve el contenido del trazo con los
-   atributos comunes del <svg>.
-   ------------------------------------------------------------ */
-function crearIcono(trazo) {
-  return (
-    `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" ` +
-    `stroke="currentColor" stroke-width="1.8" stroke-linecap="round" ` +
-    `stroke-linejoin="round" aria-hidden="true">${trazo}</svg>`
-  );
-}
-
-const iconos = {
-  // cabecera: una franja superior sobre un panel
-  cabecera: crearIcono('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/>'),
-  // texto: tres líneas de párrafo
-  texto: crearIcono('<path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h10"/>'),
-  // botón: un rectángulo redondeado pequeño centrado
-  boton: crearIcono('<rect x="3" y="8" width="18" height="8" rx="4"/><path d="M9 12h6"/>'),
-  // imagen: marco con sol y montaña
-  imagen: crearIcono('<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.6"/><path d="M21 16l-5-5L5 21"/>'),
-  // columnas: dos paneles lado a lado
-  columnas: crearIcono('<rect x="3" y="4" width="8" height="16" rx="1.5"/><rect x="13" y="4" width="8" height="16" rx="1.5"/>'),
-  // separador: una línea horizontal
-  separador: crearIcono('<path d="M4 12h16"/>'),
-  // pie: una franja inferior sobre un panel
-  pie: crearIcono('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 15h18"/>'),
 };
 
 /* ============================================================
@@ -131,11 +102,11 @@ const iconos = {
    · dibujar(contenido) → devuelve el HTML del bloque para el
                   email final (las filas <tr> de la tabla).
    ============================================================ */
-const tiposDeBloque = {
+const blockTypes = {
 
   cabecera: {
     etiqueta: "Cabecera con logo",
-    icono: iconos.cabecera,
+    icono: icons.cabecera,
     campos: [
       { clave: "titulo", etiqueta: "Texto del logo", tipo: "text" },
       { clave: "colorFondo", etiqueta: "Color de fondo", tipo: "color" },
@@ -143,14 +114,14 @@ const tiposDeBloque = {
     ],
     porDefecto: {
       titulo: "Mi Empresa",
-      colorFondo: colores.lavandaFuerte,
-      colorTexto: colores.blanco,
+      colorFondo: colors.lavandaFuerte,
+      colorTexto: colors.blanco,
     },
     dibujar(contenido) {
       return `      <tr>
         <td align="center" style="background-color:${contenido.colorFondo}; padding:26px 32px;">
           <span style="font-family:Georgia, 'Times New Roman', serif; font-size:24px; font-weight:bold; color:${contenido.colorTexto};">
-            ${escaparHtml(contenido.titulo)}
+            ${escapeHtml(contenido.titulo)}
           </span>
         </td>
       </tr>`;
@@ -159,7 +130,7 @@ const tiposDeBloque = {
 
   texto: {
     etiqueta: "Texto",
-    icono: iconos.texto,
+    icono: icons.texto,
     campos: [
       { clave: "contenido", etiqueta: "Texto del párrafo", tipo: "textarea" },
       {
@@ -175,7 +146,7 @@ const tiposDeBloque = {
     porDefecto: {
       contenido: "Escribe aquí el texto de tu email.",
       tamano: "normal",
-      colorTexto: colores.tinta,
+      colorTexto: colors.tinta,
     },
     dibujar(contenido) {
       const medidas = {
@@ -186,7 +157,7 @@ const tiposDeBloque = {
       const estilo = medidas[contenido.tamano] || medidas.normal;
       return `      <tr>
         <td style="padding:16px 32px; font-family:Arial, Helvetica, sans-serif; color:${contenido.colorTexto}; ${estilo}">
-          ${escaparHtml(contenido.contenido)}
+          ${escapeHtml(contenido.contenido)}
         </td>
       </tr>`;
     },
@@ -194,7 +165,7 @@ const tiposDeBloque = {
 
   boton: {
     etiqueta: "Botón",
-    icono: iconos.boton,
+    icono: icons.boton,
     campos: [
       { clave: "texto", etiqueta: "Texto del botón", tipo: "text" },
       { clave: "enlace", etiqueta: "Enlace (URL)", tipo: "url" },
@@ -204,13 +175,13 @@ const tiposDeBloque = {
     porDefecto: {
       texto: "Ver más",
       enlace: "https://ejemplo.com",
-      colorFondo: colores.lavandaFuerte,
-      colorTexto: colores.blanco,
+      colorFondo: colors.lavandaFuerte,
+      colorTexto: colors.blanco,
     },
     dibujar(contenido) {
       // Botón "bulletproof": rama [if mso] para Outlook + enlace normal.
-      const enlace = escaparHtml(contenido.enlace);
-      const texto = escaparHtml(contenido.texto);
+      const enlace = escapeHtml(contenido.enlace);
+      const texto = escapeHtml(contenido.texto);
       return `      <tr>
         <td align="center" style="padding:24px 32px;">
           <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center">
@@ -236,7 +207,7 @@ const tiposDeBloque = {
 
   imagen: {
     etiqueta: "Imagen",
-    icono: iconos.imagen,
+    icono: icons.imagen,
     campos: [
       { clave: "url", etiqueta: "URL de la imagen", tipo: "url" },
       { clave: "alt", etiqueta: "Texto alternativo (alt)", tipo: "text" },
@@ -248,10 +219,10 @@ const tiposDeBloque = {
       ancho: "536",
     },
     dibujar(contenido) {
-      const ancho = escaparHtml(contenido.ancho);
+      const ancho = escapeHtml(contenido.ancho);
       return `      <tr>
         <td style="padding:16px 32px;">
-          <img src="${escaparHtml(contenido.url)}" width="${ancho}" alt="${escaparHtml(contenido.alt)}" style="display:block; width:100%; max-width:${ancho}px; height:auto; border:0; border-radius:8px;" />
+          <img src="${escapeHtml(contenido.url)}" width="${ancho}" alt="${escapeHtml(contenido.alt)}" style="display:block; width:100%; max-width:${ancho}px; height:auto; border:0; border-radius:8px;" />
         </td>
       </tr>`;
     },
@@ -259,7 +230,7 @@ const tiposDeBloque = {
 
   columnas: {
     etiqueta: "Dos columnas",
-    icono: iconos.columnas,
+    icono: icons.columnas,
     campos: [
       { clave: "textoIzquierda", etiqueta: "Texto columna izquierda", tipo: "textarea" },
       { clave: "textoDerecha", etiqueta: "Texto columna derecha", tipo: "textarea" },
@@ -268,7 +239,7 @@ const tiposDeBloque = {
     porDefecto: {
       textoIzquierda: "Texto de la primera columna.",
       textoDerecha: "Texto de la segunda columna.",
-      colorTexto: colores.tinta,
+      colorTexto: colors.tinta,
     },
     dibujar(contenido) {
       // La clase "columna-movil" se apila en móvil (media query del email).
@@ -277,11 +248,11 @@ const tiposDeBloque = {
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
             <tr>
               <td class="columna-movil" width="260" valign="top" style="width:260px; font-family:Arial, Helvetica, sans-serif; font-size:15px; line-height:23px; color:${contenido.colorTexto};">
-                ${escaparHtml(contenido.textoIzquierda)}
+                ${escapeHtml(contenido.textoIzquierda)}
               </td>
               <td width="16" style="width:16px; font-size:0; line-height:0;">&nbsp;</td>
               <td class="columna-movil" width="260" valign="top" style="width:260px; font-family:Arial, Helvetica, sans-serif; font-size:15px; line-height:23px; color:${contenido.colorTexto};">
-                ${escaparHtml(contenido.textoDerecha)}
+                ${escapeHtml(contenido.textoDerecha)}
               </td>
             </tr>
           </table>
@@ -292,7 +263,7 @@ const tiposDeBloque = {
 
   separador: {
     etiqueta: "Separador",
-    icono: iconos.separador,
+    icono: icons.separador,
     campos: [
       {
         clave: "estilo", etiqueta: "Tipo", tipo: "select",
@@ -334,7 +305,7 @@ const tiposDeBloque = {
 
   pie: {
     etiqueta: "Pie",
-    icono: iconos.pie,
+    icono: icons.pie,
     campos: [
       { clave: "datos", etiqueta: "Datos del remitente", tipo: "textarea" },
       { clave: "textoBaja", etiqueta: "Texto del enlace de baja", tipo: "text" },
@@ -347,12 +318,12 @@ const tiposDeBloque = {
     },
     dibujar(contenido) {
       return `      <tr>
-        <td align="center" style="background-color:${colores.lavandaClaro}; padding:26px 32px;">
-          <p style="margin:0 0 10px 0; font-family:Arial, Helvetica, sans-serif; font-size:13px; line-height:20px; color:${colores.tintaSuave};">
-            ${escaparHtml(contenido.datos)}
+        <td align="center" style="background-color:${colors.lavandaClaro}; padding:26px 32px;">
+          <p style="margin:0 0 10px 0; font-family:Arial, Helvetica, sans-serif; font-size:13px; line-height:20px; color:${colors.tintaSuave};">
+            ${escapeHtml(contenido.datos)}
           </p>
           <p style="margin:0; font-family:Arial, Helvetica, sans-serif; font-size:13px; line-height:20px;">
-            <a href="${escaparHtml(contenido.enlaceBaja)}" style="color:${colores.lavandaFuerte}; text-decoration:underline;">${escaparHtml(contenido.textoBaja)}</a>
+            <a href="${escapeHtml(contenido.enlaceBaja)}" style="color:${colors.lavandaFuerte}; text-decoration:underline;">${escapeHtml(contenido.textoBaja)}</a>
           </p>
         </td>
       </tr>`;
@@ -362,22 +333,22 @@ const tiposDeBloque = {
 };
 
 /* El orden en que se muestran los bloques en la columna izquierda. */
-const ordenBloques = ["cabecera", "texto", "boton", "imagen", "columnas", "separador", "pie"];
+const blockOrder = ["cabecera", "texto", "boton", "imagen", "columnas", "separador", "pie"];
 
 /* ============================================================
    ESTADO DE LA APP
    ------------------------------------------------------------
-   emailEnConstruccion: lista de bloques que la usuaria añadió.
+   emailBlocks: lista de bloques que la usuaria añadió.
    Cada elemento es { id, tipo, contenido }.
-   idSeleccionado: el id del bloque que se está editando.
-   contadorId: para dar un id único a cada bloque nuevo.
-   ajustesEmail: colores generales del email (marco y fondo).
+   selectedId: el id del bloque que se está editando.
+   idCounter: para dar un id único a cada bloque nuevo.
+   emailSettings: colores generales del email (marco y fondo).
    ============================================================ */
-let emailEnConstruccion = [];
-let idSeleccionado = null;
-let contadorId = 0;
+let emailBlocks = [];
+let selectedId = null;
+let idCounter = 0;
 
-const ajustesEmail = {
+const emailSettings = {
   // color del marco exterior (lo que rodea al email de 600px)
   colorMarco: "#d8cef0",
   // color de fondo del email en sí (la zona de 600px con el contenido)
@@ -385,80 +356,80 @@ const ajustesEmail = {
 };
 
 /* Referencias a los elementos del DOM que se usan a menudo. */
-const listaBloquesDisponibles = document.getElementById("lista-bloques-disponibles");
-const lienzoMail = document.getElementById("lienzo-mail");
-const lienzoVacio = document.getElementById("lienzo-vacio");
-const editorBloque = document.getElementById("editor-bloque");
-const editorSinSeleccion = document.getElementById("editor-sin-seleccion");
+const availableBlocksList = document.getElementById("lista-bloques-disponibles");
+const canvasMail = document.getElementById("lienzo-mail");
+const canvasEmpty = document.getElementById("lienzo-vacio");
+const blockEditor = document.getElementById("editor-bloque");
+const editorNoSelection = document.getElementById("editor-sin-seleccion");
 
 /* ============================================================
    COLUMNA 1 — pintar la lista de bloques disponibles
    ============================================================ */
-function renderBloquesDisponibles() {
-  ordenBloques.forEach((tipo) => {
-    const definicion = tiposDeBloque[tipo];
+function renderAvailableBlocks() {
+  blockOrder.forEach((tipo) => {
+    const definicion = blockTypes[tipo];
     const boton = document.createElement("button");
     boton.type = "button";
     boton.className = "bloque-disponible";
     boton.innerHTML = `<span class="icono">${definicion.icono}</span> ${definicion.etiqueta}`;
-    boton.addEventListener("click", () => anadirBloque(tipo));
-    listaBloquesDisponibles.appendChild(boton);
+    boton.addEventListener("click", () => addBlock(tipo));
+    availableBlocksList.appendChild(boton);
   });
 }
 
 /* ============================================================
    AÑADIR / BORRAR / MOVER bloques del email
    ============================================================ */
-function anadirBloque(tipo) {
-  contadorId += 1;
-  const definicion = tiposDeBloque[tipo];
+function addBlock(tipo) {
+  idCounter += 1;
+  const definicion = blockTypes[tipo];
   const nuevoBloque = {
-    id: contadorId,
+    id: idCounter,
     tipo: tipo,
     // copia de los valores por defecto, para no compartir referencia
     contenido: Object.assign({}, definicion.porDefecto),
   };
-  emailEnConstruccion.push(nuevoBloque);
-  idSeleccionado = nuevoBloque.id;
+  emailBlocks.push(nuevoBloque);
+  selectedId = nuevoBloque.id;
   renderEmail();
   renderEditor();
 }
 
-function borrarBloque(id) {
-  emailEnConstruccion = emailEnConstruccion.filter((bloque) => bloque.id !== id);
-  if (idSeleccionado === id) {
-    idSeleccionado = null;
+function deleteBlock(id) {
+  emailBlocks = emailBlocks.filter((bloque) => bloque.id !== id);
+  if (selectedId === id) {
+    selectedId = null;
   }
   renderEmail();
   renderEditor();
 }
 
-function moverBloque(id, direccion) {
-  const posicion = emailEnConstruccion.findIndex((bloque) => bloque.id === id);
+function moveBlock(id, direccion) {
+  const posicion = emailBlocks.findIndex((bloque) => bloque.id === id);
   const posicionDestino = posicion + direccion;
-  if (posicionDestino < 0 || posicionDestino >= emailEnConstruccion.length) {
+  if (posicionDestino < 0 || posicionDestino >= emailBlocks.length) {
     return;
   }
   // intercambia el bloque con su vecino
-  const bloqueMovido = emailEnConstruccion[posicion];
-  emailEnConstruccion[posicion] = emailEnConstruccion[posicionDestino];
-  emailEnConstruccion[posicionDestino] = bloqueMovido;
+  const bloqueMovido = emailBlocks[posicion];
+  emailBlocks[posicion] = emailBlocks[posicionDestino];
+  emailBlocks[posicionDestino] = bloqueMovido;
   renderEmail();
 }
 
 /* Pide vaciar: si hay bloques, abre el modal de confirmación.
-   El vaciado real lo hace confirmarVaciado(), al pulsar "Sí". */
-function pedirVaciarEmail() {
-  if (emailEnConstruccion.length === 0) {
+   El vaciado real lo hace confirmClear(), al pulsar "Sí". */
+function requestClearEmail() {
+  if (emailBlocks.length === 0) {
     return;
   }
-  modalConfirmar.hidden = false;
+  confirmModal.hidden = false;
 }
 
-function confirmarVaciado() {
-  emailEnConstruccion = [];
-  idSeleccionado = null;
-  modalConfirmar.hidden = true;
+function confirmClear() {
+  emailBlocks = [];
+  selectedId = null;
+  confirmModal.hidden = true;
   renderEmail();
   renderEditor();
 }
@@ -467,18 +438,18 @@ function confirmarVaciado() {
    COLUMNA 2 — pintar el email montado (vista previa)
    ============================================================ */
 function renderEmail() {
-  lienzoMail.innerHTML = "";
-  lienzoVacio.hidden = emailEnConstruccion.length > 0;
+  canvasMail.innerHTML = "";
+  canvasEmpty.hidden = emailBlocks.length > 0;
 
   // el marco de la vista previa usa el color elegido en los ajustes
-  lienzoMail.style.backgroundColor = ajustesEmail.colorMarco;
+  canvasMail.style.backgroundColor = emailSettings.colorMarco;
 
-  emailEnConstruccion.forEach((bloque, indice) => {
-    const definicion = tiposDeBloque[bloque.tipo];
+  emailBlocks.forEach((bloque, indice) => {
+    const definicion = blockTypes[bloque.tipo];
 
     const contenedorBloque = document.createElement("div");
     contenedorBloque.className = "bloque-en-email";
-    if (bloque.id === idSeleccionado) {
+    if (bloque.id === selectedId) {
       contenedorBloque.classList.add("seleccionado");
     }
 
@@ -490,7 +461,7 @@ function renderEmail() {
     } else {
       vistaPrevia.innerHTML =
         `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" ` +
-        `style="background-color:${ajustesEmail.colorFondo}; border-radius:6px; overflow:hidden;">` +
+        `style="background-color:${emailSettings.colorFondo}; border-radius:6px; overflow:hidden;">` +
         definicion.dibujar(bloque.contenido) +
         `</table>`;
     }
@@ -500,11 +471,11 @@ function renderEmail() {
     const acciones = document.createElement("div");
     acciones.className = "bloque-acciones";
 
-    const botonSubir = crearBotonAccion("↑", "Subir", () => moverBloque(bloque.id, -1));
+    const botonSubir = createActionButton(actionIcons.subir, "Subir", () => moveBlock(bloque.id, -1));
     botonSubir.disabled = indice === 0;
-    const botonBajar = crearBotonAccion("↓", "Bajar", () => moverBloque(bloque.id, 1));
-    botonBajar.disabled = indice === emailEnConstruccion.length - 1;
-    const botonBorrar = crearBotonAccion("✕", "Borrar", () => borrarBloque(bloque.id));
+    const botonBajar = createActionButton(actionIcons.bajar, "Bajar", () => moveBlock(bloque.id, 1));
+    botonBajar.disabled = indice === emailBlocks.length - 1;
+    const botonBorrar = createActionButton(actionIcons.borrar, "Borrar", () => deleteBlock(bloque.id));
     botonBorrar.classList.add("borrar");
 
     acciones.appendChild(botonSubir);
@@ -518,23 +489,23 @@ function renderEmail() {
       if (evento.target.closest(".bloque-accion")) {
         return;
       }
-      idSeleccionado = bloque.id;
+      selectedId = bloque.id;
       renderEmail();
       renderEditor();
     });
 
-    lienzoMail.appendChild(contenedorBloque);
+    canvasMail.appendChild(contenedorBloque);
   });
 }
 
-function crearBotonAccion(simbolo, titulo, alPulsar) {
+function createActionButton(iconSvg, titulo, onClick) {
   const boton = document.createElement("button");
   boton.type = "button";
   boton.className = "bloque-accion";
-  boton.textContent = simbolo;
+  boton.innerHTML = iconSvg;
   boton.title = titulo;
   boton.setAttribute("aria-label", titulo);
-  boton.addEventListener("click", alPulsar);
+  boton.addEventListener("click", onClick);
   return boton;
 }
 
@@ -542,16 +513,16 @@ function crearBotonAccion(simbolo, titulo, alPulsar) {
    COLUMNA 3 — pintar el editor del bloque seleccionado
    ============================================================ */
 function renderEditor() {
-  editorBloque.innerHTML = "";
+  blockEditor.innerHTML = "";
 
-  const bloque = emailEnConstruccion.find((elemento) => elemento.id === idSeleccionado);
+  const bloque = emailBlocks.find((elemento) => elemento.id === selectedId);
   if (!bloque) {
-    editorBloque.appendChild(editorSinSeleccion);
-    editorSinSeleccion.hidden = false;
+    blockEditor.appendChild(editorNoSelection);
+    editorNoSelection.hidden = false;
     return;
   }
 
-  const definicion = tiposDeBloque[bloque.tipo];
+  const definicion = blockTypes[bloque.tipo];
 
   definicion.campos.forEach((campo) => {
     const contenedorCampo = document.createElement("div");
@@ -568,28 +539,28 @@ function renderEditor() {
       const fila = document.createElement("div");
       fila.className = "campo-color";
 
-      const selectorColor = document.createElement("input");
-      selectorColor.type = "color";
-      selectorColor.id = idCampo;
-      selectorColor.value = bloque.contenido[campo.clave];
+      const colorPicker = document.createElement("input");
+      colorPicker.type = "color";
+      colorPicker.id = idCampo;
+      colorPicker.value = bloque.contenido[campo.clave];
 
-      const campoHex = document.createElement("input");
-      campoHex.type = "text";
-      campoHex.className = "hex-texto";
-      campoHex.maxLength = 7;
-      campoHex.spellcheck = false;
-      campoHex.setAttribute("aria-label", `Hex de ${campo.etiqueta}`);
-      campoHex.value = bloque.contenido[campo.clave];
+      const hexField = document.createElement("input");
+      hexField.type = "text";
+      hexField.className = "hex-texto";
+      hexField.maxLength = 7;
+      hexField.spellcheck = false;
+      hexField.setAttribute("aria-label", `Hex de ${campo.etiqueta}`);
+      hexField.value = bloque.contenido[campo.clave];
 
-      conectarCampoColor(selectorColor, campoHex, (color) => {
+      connectColorField(colorPicker, hexField, (color) => {
         bloque.contenido[campo.clave] = color;
         renderEmail();
       });
 
-      fila.appendChild(selectorColor);
-      fila.appendChild(campoHex);
+      fila.appendChild(colorPicker);
+      fila.appendChild(hexField);
       contenedorCampo.appendChild(fila);
-      editorBloque.appendChild(contenedorCampo);
+      blockEditor.appendChild(contenedorCampo);
       return;
     }
 
@@ -620,7 +591,7 @@ function renderEditor() {
     });
 
     contenedorCampo.appendChild(control);
-    editorBloque.appendChild(contenedorCampo);
+    blockEditor.appendChild(contenedorCampo);
   });
 }
 
@@ -631,15 +602,15 @@ function renderEditor() {
    viewport, el <style> con la media query de móvil, el
    preheader oculto y las dos tablas anidadas con los bloques.
    ============================================================ */
-function generarHtmlEmail() {
+function generateEmailHtml() {
   // las filas <tr> de todos los bloques, una tras otra
-  const filasBloques = emailEnConstruccion
-    .map((bloque) => tiposDeBloque[bloque.tipo].dibujar(bloque.contenido))
+  const filasBloques = emailBlocks
+    .map((bloque) => blockTypes[bloque.tipo].dibujar(bloque.contenido))
     .join("\n");
 
   // colores del email elegidos en el panel de ajustes
-  const marco = ajustesEmail.colorMarco;
-  const fondo = ajustesEmail.colorFondo;
+  const marco = emailSettings.colorMarco;
+  const fondo = emailSettings.colorFondo;
 
   return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="es" xmlns="http://www.w3.org/1999/xhtml">
@@ -684,32 +655,32 @@ ${filasBloques}
 /* ============================================================
    MODAL DEL CÓDIGO — abrir, cerrar, copiar
    ============================================================ */
-const modalFondo = document.getElementById("modal-fondo");
-const salidaCodigo = document.getElementById("salida-codigo");
-const avisoCopiado = document.getElementById("aviso-copiado");
+const modalBackdrop = document.getElementById("modal-fondo");
+const codeOutput = document.getElementById("salida-codigo");
+const copiedNotice = document.getElementById("aviso-copiado");
 
-/* Modal de confirmación al vaciar (lo usa pedirVaciarEmail). */
-const modalConfirmar = document.getElementById("modal-confirmar");
+/* Modal de confirmación al vaciar (lo usa requestClearEmail). */
+const confirmModal = document.getElementById("modal-confirmar");
 
-function abrirModalCodigo() {
-  if (emailEnConstruccion.length === 0) {
+function openCodeModal() {
+  if (emailBlocks.length === 0) {
     window.alert("Añade al menos un bloque antes de generar el código.");
     return;
   }
-  salidaCodigo.textContent = generarHtmlEmail();
-  avisoCopiado.hidden = true;
-  modalFondo.hidden = false;
+  codeOutput.textContent = generateEmailHtml();
+  copiedNotice.hidden = true;
+  modalBackdrop.hidden = false;
 }
 
-function cerrarModalCodigo() {
-  modalFondo.hidden = true;
+function closeCodeModal() {
+  modalBackdrop.hidden = true;
 }
 
-function copiarCodigo() {
-  const codigo = salidaCodigo.textContent;
+function copyCode() {
+  const codigo = codeOutput.textContent;
   navigator.clipboard.writeText(codigo).then(
     () => {
-      avisoCopiado.hidden = false;
+      copiedNotice.hidden = false;
     },
     () => {
       window.alert("No se pudo copiar automáticamente. Selecciona el código y cópialo a mano.");
@@ -720,20 +691,20 @@ function copiarCodigo() {
 /* ============================================================
    PANEL DE AJUSTES DEL EMAIL — colores de marco y fondo
    ============================================================ */
-function conectarAjustesEmail() {
-  conectarCampoColor(
+function connectEmailSettings() {
+  connectColorField(
     document.getElementById("ajuste-marco"),
     document.getElementById("hex-marco"),
     (color) => {
-      ajustesEmail.colorMarco = color;
+      emailSettings.colorMarco = color;
       renderEmail();
     }
   );
-  conectarCampoColor(
+  connectColorField(
     document.getElementById("ajuste-fondo"),
     document.getElementById("hex-fondo"),
     (color) => {
-      ajustesEmail.colorFondo = color;
+      emailSettings.colorFondo = color;
       renderEmail();
     }
   );
@@ -742,26 +713,26 @@ function conectarAjustesEmail() {
 /* ============================================================
    ARRANQUE: conectar los eventos y pintar la app
    ============================================================ */
-document.getElementById("boton-ver-codigo").addEventListener("click", abrirModalCodigo);
-document.getElementById("boton-cerrar-modal").addEventListener("click", cerrarModalCodigo);
-document.getElementById("boton-copiar").addEventListener("click", copiarCodigo);
-document.getElementById("boton-vaciar").addEventListener("click", pedirVaciarEmail);
+document.getElementById("boton-ver-codigo").addEventListener("click", openCodeModal);
+document.getElementById("boton-cerrar-modal").addEventListener("click", closeCodeModal);
+document.getElementById("boton-copiar").addEventListener("click", copyCode);
+document.getElementById("boton-vaciar").addEventListener("click", requestClearEmail);
 
 // botones del modal de confirmación de vaciado
-document.getElementById("boton-confirmar-vaciar").addEventListener("click", confirmarVaciado);
+document.getElementById("boton-confirmar-vaciar").addEventListener("click", confirmClear);
 document.getElementById("boton-cancelar-vaciar").addEventListener("click", () => {
-  modalConfirmar.hidden = true;
+  confirmModal.hidden = true;
 });
 
 // cerrar cualquier modal al pulsar fuera de él
-modalFondo.addEventListener("click", (evento) => {
-  if (evento.target === modalFondo) {
-    cerrarModalCodigo();
+modalBackdrop.addEventListener("click", (evento) => {
+  if (evento.target === modalBackdrop) {
+    closeCodeModal();
   }
 });
-modalConfirmar.addEventListener("click", (evento) => {
-  if (evento.target === modalConfirmar) {
-    modalConfirmar.hidden = true;
+confirmModal.addEventListener("click", (evento) => {
+  if (evento.target === confirmModal) {
+    confirmModal.hidden = true;
   }
 });
 
@@ -770,15 +741,15 @@ document.addEventListener("keydown", (evento) => {
   if (evento.key !== "Escape") {
     return;
   }
-  if (!modalFondo.hidden) {
-    cerrarModalCodigo();
+  if (!modalBackdrop.hidden) {
+    closeCodeModal();
   }
-  if (!modalConfirmar.hidden) {
-    modalConfirmar.hidden = true;
+  if (!confirmModal.hidden) {
+    confirmModal.hidden = true;
   }
 });
 
-conectarAjustesEmail();
-renderBloquesDisponibles();
+connectEmailSettings();
+renderAvailableBlocks();
 renderEmail();
 renderEditor();

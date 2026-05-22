@@ -50,9 +50,15 @@ code {
 .migas {
   font-size: 14px;
   color: var(--tinta-suave);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .migas a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   color: var(--lavanda-fuerte);
   text-decoration: none;
   font-weight: 600;
@@ -60,7 +66,21 @@ code {
 
 .migas a:hover { text-decoration: underline; }
 
-.migas .separador { margin: 0 8px; color: var(--borde); }
+/* Flecha de la miga: SVG pequeño que hereda el color del enlace.
+   .izquierda voltea la flecha para que apunte hacia atrás. */
+.icono-miga {
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+
+.icono-miga.izquierda { transform: scaleX(-1); }
+
+.migas a:hover .icono-miga.izquierda {
+  transform: scaleX(-1) translateX(-3px);
+}
+
+/* Separador "·": mismo estilo que las migas de la documentación. */
+.migas .separador { margin: 0 6px; color: var(--tinta-suave); }
 
 .migas .actual { color: var(--tinta); font-weight: 700; }
 
@@ -72,7 +92,9 @@ code {
 }
 
 .boton {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: 13px;
   font-weight: 600;
   padding: 8px 14px;
@@ -85,6 +107,9 @@ code {
   font-family: inherit;
   transition: border-color 0.15s ease, background 0.15s ease;
 }
+
+/* Icono "abrir en pestaña nueva" del botón de pantalla completa. */
+.icono-externo { flex-shrink: 0; }
 
 .boton:hover { border-color: var(--lavanda-fuerte); }
 

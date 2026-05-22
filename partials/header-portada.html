@@ -1,0 +1,29 @@
+<header class="cabecera">
+  <div class="cabecera-interno">
+    <a class="logo" href="{{base}}index.html">
+      <span class="logo-icono">
+        <!-- Sobre estilizado: silueta de trazo grueso con la solapa
+             marcada. Degradado lavanda → melocotón. -->
+        <svg width="40" height="40" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="logo-grad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#8b76c4"/>
+              <stop offset="1" stop-color="#e0916a"/>
+            </linearGradient>
+          </defs>
+          <rect x="3" y="6" width="26" height="20" rx="5"
+                stroke="url(#logo-grad)" stroke-width="4"/>
+          <path d="M5 9l11 8 11-8" fill="none"
+                stroke="url(#logo-grad)" stroke-width="4"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="logo-texto">Remite</span>
+    </a>
+    <nav class="cabecera-nav">
+      <a class="nav-normal" href="{{base}}index.html#documentacion">Documentación</a>
+      <a class="nav-normal" href="{{base}}index.html#plantillas">Plantillas</a>
+      <a class="nav-destacado" href="{{base}}constructor/index.html">Constructor</a>
+    </nav>
+  </div>
+</header>

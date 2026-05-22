@@ -43,16 +43,50 @@
       font-size: 0.88em;
     }
 
-    /* ---------- Cabecera del bloque ---------- */
-    .cabecera-bloque {
-      background: linear-gradient(135deg, var(--lavanda-claro) 0%, var(--melocoton-claro) 100%);
+    /* ---------- Cabecera del sitio (igual que la portada) ---------- */
+    .cabecera {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(250, 248, 253, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--borde);
-      padding: 40px 24px 44px;
+      padding: 20px 0;
     }
 
-    .cabecera-bloque .interno {
-      max-width: 820px;
+    .cabecera-interno {
+      max-width: 1200px;
       margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .logo-icono {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .logo-texto {
+      font-size: 23px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    /* ---------- Título del bloque (ahora dentro del main) ---------- */
+    .titulo-bloque {
+      margin-bottom: 40px;
     }
 
     .migas {
@@ -61,28 +95,44 @@
       margin-bottom: 16px;
     }
 
-    .migas a { text-decoration: none; }
+    .migas a {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      text-decoration: none;
+    }
     .migas a:hover { text-decoration: underline; }
 
-    .cabecera-bloque .insignia {
+    /* Flecha de la miga: SVG pequeño que hereda el color del
+       enlace. .izquierda voltea la flecha para que apunte atrás. */
+    .icono-miga {
+      flex-shrink: 0;
+      transition: transform 0.15s ease;
+    }
+    .icono-miga.izquierda { transform: scaleX(-1); }
+    .migas a:hover .icono-miga.izquierda {
+      transform: scaleX(-1) translateX(-3px);
+    }
+
+    .titulo-bloque .insignia {
       display: inline-block;
       font-size: 12px;
       font-weight: 700;
       padding: 4px 10px;
       border-radius: 20px;
-      background: var(--blanco);
+      background: var(--lavanda-claro);
       color: var(--lavanda-fuerte);
       margin-bottom: 12px;
     }
 
-    .cabecera-bloque h1 {
+    .titulo-bloque h1 {
       margin: 0 0 10px;
       font-size: 34px;
       font-weight: 700;
       letter-spacing: -0.5px;
     }
 
-    .cabecera-bloque p {
+    .titulo-bloque .descripcion {
       margin: 0;
       font-size: 17px;
       color: var(--tinta-suave);
@@ -90,7 +140,7 @@
 
     /* ---------- Contenido ---------- */
     .contenedor {
-      max-width: 820px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 48px 24px 40px;
     }
@@ -214,7 +264,7 @@
 
     /* ---------- Navegación inferior ---------- */
     .nav-bloques {
-      max-width: 820px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 24px 24px 64px;
       display: flex;
@@ -223,7 +273,11 @@
     }
 
     .nav-bloques a {
-      flex: 1;
+      /* ancho acotado: cada tarjeta se queda a su lado (el
+         space-between del contenedor las separa) sin estirarse
+         a todo el ancho de la página. */
+      flex: 0 1 340px;
+      max-width: 340px;
       background: var(--blanco);
       border: 1px solid var(--borde);
       border-radius: 12px;
@@ -239,9 +293,27 @@
     }
 
     .nav-bloques .direccion {
+      display: flex;
+      align-items: center;
+      gap: 6px;
       font-size: 13px;
       color: var(--tinta-suave);
       font-weight: 600;
+    }
+
+    /* Icono de flecha del paginador: hereda el color del texto.
+       La variante .izquierda voltea la misma flecha para que
+       apunte hacia atrás, sin necesitar un segundo SVG. */
+    .icono-flecha-nav {
+      flex-shrink: 0;
+      transition: transform 0.15s ease;
+    }
+
+    .icono-flecha-nav.izquierda { transform: scaleX(-1); }
+
+    .nav-bloques a:hover .icono-flecha-nav { transform: translateX(3px); }
+    .nav-bloques a:hover .icono-flecha-nav.izquierda {
+      transform: scaleX(-1) translateX(3px);
     }
 
     .nav-bloques .titulo {
@@ -250,7 +322,10 @@
       margin-top: 2px;
     }
 
+    /* La tarjeta "siguiente" alinea su contenido a la derecha,
+       así la flecha queda pegada al borde exterior. */
     .nav-bloques .siguiente { text-align: right; }
+    .nav-bloques .siguiente .direccion { justify-content: flex-end; }
 
     .nav-bloques a.desactivado {
       opacity: 0.5;
@@ -268,22 +343,22 @@
 </head>
 <body>
 
-  <header class="cabecera-bloque">
-    <div class="interno">
+  <!--#include partials/header-bloque.html-->
+
+  <main class="contenedor">
+
+    <div class="titulo-bloque">
       <p class="migas">
-        <a href="../index.html">← Índice</a> · Documentación
+        <a href="../index.html"><svg class="icono-miga izquierda" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>Índice</a> · Documentación
       </p>
       <span class="insignia">Bloque 01</span>
       <h1>Fundamentos</h1>
-      <p>
+      <p class="descripcion">
         Antes de tocar una sola tabla: por qué un email HTML no es una web
         normal, qué clientes lo van a renderizar y cuál es la estructura
         mínima que necesita.
       </p>
     </div>
-  </header>
-
-  <main class="contenedor">
 
     <!-- ====================================================== -->
     <h2>1. Un email no es una página web</h2>
@@ -515,18 +590,16 @@
 
   <nav class="nav-bloques">
     <a href="../index.html">
-      <div class="direccion">←</div>
+      <div class="direccion"><svg class="icono-flecha-nav izquierda" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>Volver</div>
       <div class="titulo">Índice</div>
     </a>
     <a class="siguiente" href="../02-estructura/index.html">
-      <div class="direccion">Bloque 02 →</div>
+      <div class="direccion">Bloque 02<svg class="icono-flecha-nav" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></div>
       <div class="titulo">Estructura con tablas</div>
     </a>
   </nav>
 
-  <footer class="pie">
-    Remite · Hecho en español
-  </footer>
+  <!--#include partials/footer.html-->
 
 </body>
 </html>

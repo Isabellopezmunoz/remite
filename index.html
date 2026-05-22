@@ -168,7 +168,11 @@
     }
 
     .tarjeta {
-      display: block;
+      /* columna flex: así la flecha se puede empujar al fondo con
+         margin-top:auto y queda a la misma altura en toda la fila,
+         sin importar lo largo que sea el texto de cada tarjeta. */
+      display: flex;
+      flex-direction: column;
       background: var(--blanco);
       border: 1px solid var(--borde);
       border-radius: 14px;
@@ -185,7 +189,10 @@
     }
 
     .tarjeta .insignia {
+      /* align-self para que la píldora no se estire a todo el ancho
+         de la tarjeta flex y conserve su tamaño según el texto. */
       display: inline-block;
+      align-self: flex-start;
       font-size: 12px;
       font-weight: 700;
       padding: 4px 10px;
@@ -213,11 +220,30 @@
     }
 
     .tarjeta .flecha {
-      display: inline-block;
-      margin-top: 14px;
+      /* align-self para que el inline-flex no se estire a todo el
+         ancho; margin-top:auto la pega al fondo de la tarjeta. */
+      display: inline-flex;
+      align-self: flex-start;
+      align-items: center;
+      gap: 6px;
+      margin-top: auto;
+      padding-top: 14px;
       font-size: 14px;
       font-weight: 600;
       color: var(--lavanda-fuerte);
+    }
+
+    /* El icono de flecha hereda el color del texto (currentColor) y
+       se separa un pelín de la línea base para quedar centrado. */
+    .icono-flecha {
+      flex-shrink: 0;
+      transition: transform 0.15s ease;
+    }
+
+    /* Al pasar por la tarjeta o el destacado, la flecha avanza. */
+    .tarjeta:hover .icono-flecha,
+    .destacado:hover .icono-flecha {
+      transform: translateX(3px);
     }
 
     .tarjeta.melocoton .flecha { color: var(--melocoton-fuerte); }
@@ -286,6 +312,9 @@
     }
 
     .destacado .accion-destacado {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       background: #ffffff;
       color: var(--lavanda-texto);
       font-size: 15px;
@@ -298,35 +327,7 @@
 </head>
 <body>
 
-  <header class="cabecera">
-    <div class="cabecera-interno">
-      <a class="logo" href="index.html">
-        <span class="logo-icono">
-          <!-- Sobre estilizado: silueta de trazo grueso con la solapa
-               marcada. Degradado lavanda → melocotón. -->
-          <svg width="40" height="40" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-            <defs>
-              <linearGradient id="logo-grad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#8b76c4"/>
-                <stop offset="1" stop-color="#e0916a"/>
-              </linearGradient>
-            </defs>
-            <rect x="3" y="6" width="26" height="20" rx="5"
-                  stroke="url(#logo-grad)" stroke-width="4"/>
-            <path d="M5 9l11 8 11-8" fill="none"
-                  stroke="url(#logo-grad)" stroke-width="4"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-        <span class="logo-texto">Remite</span>
-      </a>
-      <nav class="cabecera-nav">
-        <a class="nav-normal" href="#documentacion">Documentación</a>
-        <a class="nav-normal" href="#plantillas">Plantillas</a>
-        <a class="nav-destacado" href="constructor/index.html">Constructor</a>
-      </nav>
-    </div>
-  </header>
+  <!--#include partials/header-portada.html-->
 
   <main class="contenedor">
 
@@ -348,7 +349,7 @@
           HTML listo para usar. Sin escribir una tabla a mano.
         </p>
       </div>
-      <span class="accion-destacado">Abrir constructor →</span>
+      <span class="accion-destacado">Abrir constructor<svg class="icono-flecha" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
     </a>
 
     <!-- ============ DOCUMENTACIÓN ============ -->
@@ -368,7 +369,7 @@
             Por qué un email no es una web normal: el doctype de email, la
             estructura mínima y los clientes de correo.
           </p>
-          <span class="flecha">Empezar aquí →</span>
+          <span class="flecha">Empezar aquí<svg class="icono-flecha" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
         </a>
 
         <a class="tarjeta" href="02-estructura/index.html">
@@ -378,7 +379,7 @@
             Maquetar con <code>&lt;table&gt;</code> anidadas: la tabla
             exterior, el ancho de 600px y las celdas.
           </p>
-          <span class="flecha">Ver bloque →</span>
+          <span class="flecha">Ver bloque<svg class="icono-flecha" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
         </a>
 
         <a class="tarjeta" href="03-estilos/index.html">
@@ -388,7 +389,7 @@
             CSS inline, por qué no se usan clases, fuentes web-safe, colores
             y padding en celdas.
           </p>
-          <span class="flecha">Ver bloque →</span>
+          <span class="flecha">Ver bloque<svg class="icono-flecha" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
         </a>
 
         <a class="tarjeta" href="04-botones-imagenes/index.html">
@@ -398,7 +399,7 @@
             Botones "bulletproof" que funcionan en Outlook, e imágenes con
             ruta absoluta, <code>alt</code> y adaptables.
           </p>
-          <span class="flecha">Ver bloque →</span>
+          <span class="flecha">Ver bloque<svg class="icono-flecha" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
         </a>
 
         <a class="tarjeta" href="05-dark-mode/index.html">
@@ -408,7 +409,7 @@
             Qué hace cada cliente con tus colores en modo oscuro y cómo
             evitar que el email acabe ilegible.
           </p>
-          <span class="flecha">Ver bloque →</span>
+          <span class="flecha">Ver bloque<svg class="icono-flecha" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
         </a>
 
         <a class="tarjeta" href="06-testing/index.html">
@@ -418,7 +419,7 @@
             Comprobar el email en cada cliente, las herramientas que hay y
             un checklist antes de darle a enviar.
           </p>
-          <span class="flecha">Ver bloque →</span>
+          <span class="flecha">Ver bloque<svg class="icono-flecha" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
         </a>
 
         <a class="tarjeta" href="07-preheader-accesibilidad/index.html">
@@ -428,7 +429,7 @@
             El texto de vista previa de la bandeja y cómo hacer que el email
             lo pueda leer cualquiera.
           </p>
-          <span class="flecha">Ver bloque →</span>
+          <span class="flecha">Ver bloque<svg class="icono-flecha" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
         </a>
 
       </div>
@@ -451,7 +452,7 @@
             Email de marketing: cabecera, artículos, botón de llamada a la
             acción y pie con baja.
           </p>
-          <span class="flecha">Ver preview →</span>
+          <span class="flecha">Ver preview<svg class="icono-flecha" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
         </a>
 
         <a class="tarjeta melocoton" href="plantillas/transaccional-preview.html">
@@ -461,7 +462,7 @@
             Email de sistema: confirmación, recuperar contraseña o factura.
             Sobrio y directo.
           </p>
-          <span class="flecha">Ver preview →</span>
+          <span class="flecha">Ver preview<svg class="icono-flecha" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
         </a>
 
       </div>
@@ -469,9 +470,7 @@
 
   </main>
 
-  <footer class="pie">
-    Remite · Hecho en español
-  </footer>
+  <!--#include partials/footer.html-->
 
 </body>
 </html>

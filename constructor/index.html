@@ -9,24 +9,25 @@
 </head>
 <body>
 
-  <!-- ============ Cabecera ============ -->
-  <header class="cabecera-app">
-    <div class="cabecera-app-interno">
-      <div>
-        <p class="migas">
-          <a href="../index.html">← Índice</a>
-        </p>
-        <h1>Constructor de emails</h1>
-        <p class="subtitulo">
-          Añade bloques, edítalos y copia el HTML del email para pegarlo
-          donde lo necesites.
-        </p>
-      </div>
+  <!-- ============ Cabecera del sitio ============ -->
+  <!--#include partials/header-bloque.html-->
+
+  <!-- ============ Título de la herramienta ============ -->
+  <div class="titulo-herramienta">
+    <p class="migas">
+      <a href="../index.html"><svg class="icono-miga izquierda" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>Índice</a>
+    </p>
+    <div class="titulo-fila">
+      <h1>Constructor de emails</h1>
       <button type="button" class="boton-primario" id="boton-ver-codigo">
         Ver el código &lt;/&gt;
       </button>
     </div>
-  </header>
+    <p class="subtitulo">
+      Añade bloques, edítalos y copia el HTML del email para pegarlo
+      donde lo necesites.
+    </p>
+  </div>
 
   <!-- ============ Espacio de trabajo: 3 columnas ============ -->
   <main class="espacio-trabajo">
